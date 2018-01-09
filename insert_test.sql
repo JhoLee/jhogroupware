@@ -1,0 +1,1 @@
+INSERT INTO `first board` (`id`, `title`, `author`, `password`, `written_datetime`, `editted_datetime`) VALUES (NULL, '타이틀', '저자', '암호', '2018-01-04 00:00:00.000000', '2018-01-04 00:00:00.000000')
