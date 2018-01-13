@@ -14,9 +14,9 @@
     <!-- DO NOT EDIT... -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
-    <script type="text/javascript" src="js/jquery.js"></script>
-    <script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
+    <link rel="stylesheet" href="../css/jquery.mobile-1.4.5.min.css">
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/jquery.mobile-1.4.5.min.js"></script>
     <!-- ...DO NOT EDIT -->
 
     <title> Login Page </title>

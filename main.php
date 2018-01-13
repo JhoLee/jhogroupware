@@ -33,7 +33,7 @@ if (! isset($_SESSION['member_id'])) { // Not logged in
             <li><a href="main.php#first">first</a></li>
             <li><a href="main.php#second">second</a></li>
         </ui>
-        <a data-role="button" href="logout.php" data-theme="d" data-ajax="false">logout</a>
+        <a data-role="button" href="login/logout.php" data-theme="d" data-ajax="false">logout</a>
 
     </div><!-- /panel#menu-->
 
