@@ -25,20 +25,15 @@
 <body>
 <!-- Start of the login page -->
 <div data-role="page" id="login" data-theme="c">
-    <div data-role="panel" id="loginMenu" data-display="reveal">
-        fwejfiowefj
-        wefewjoif
-
-    </div><!-- /panel -->
 
     <div data-role="header" data-theme="a" data-position="fixed" data-id="main_header">
-        <a href="#menu" data-icon="bars">menu</a>
+        <a href="sign_up.php" data-role="button" data-ajax="false">sign up</a>
         <h1>header</h1>
         <a data-rel="back" data-icon="back">back</a>
     </div><!-- /header -->
 
     <div data-role="content">
-        <form method="post" action="login_check.php">
+        <form method="post" action="login_check.php" data-ajax="false">
             <div for="id_form" class="ui-field-contain">
                 <label for="id_input">ID: </label>
                 <input name="member_id" id="id_input" value="" type="text">
@@ -47,17 +42,16 @@
                 <label for="pw_input">PW: </label>
                 <input name="member_pw" id="pw_input" value="" type="password">
             </div>
-            <input id="submit_button" type="submit" value="submit">
-            <input id="login_button" type="button" value="login">
-        </form>
+            <input id="login_button" type="submit" value="login">
+        </form><!--/form-->
+
     </div><!-- /content -->
 
     <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-id="main_footer">
         <div data-role="navbar" data-position="fixed">
             <ul>
-                <li><a href="#first" data-icon="home">main</a></li>
-                <li><a href="#second" data-icon="home">main</a></li>
-                <li><a href="#" data-icon="home">main</a></li>
+                <li><a href="sms:+82-10-3310-3784" data-icon="mail" data-ajax="false">contact admin<br>(SMS)</a></li>
+                <li><a href="https://open.kakao.com/o/sZ4VgyF" data-icon="comment" data-ajax="false">contact admin<br>(KakaoTalk)</a></li>
             </ul>
         </div>
         <h2>footer</h2>
