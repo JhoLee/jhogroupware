@@ -5,9 +5,13 @@
  * Date: 2018-01-07
  * Time: 오후 11:55
  */
-
+session_start();
+if (! isset($_SESSION['member_id'])) { // Not logged in
+    header('Location: login.php');
+}
 ?>
-<!DOCTYPE html>
+
+<!DOCTYPE html >
 <head>
     <!-- DO NOT EDIT... -->
     <meta charset="UTF-8">
@@ -15,41 +19,61 @@
     <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
-    <!-- ...DO NOT EDIT -->
+    <!-- ...DO NOT EDIT-->
 
-    <title> title </title>
+    <title> <?php $_SESSION['member_id'] ?></title>
 </head>
 
 <body>
-<!-- Start of the first page -->
+<!--Start of the first page-->
 <div data-role="page" id="first" data-theme="c">
-    <div data-role="panel" id="menu"  data-display="reveal">
-        fwejfiowefj
-        wefewjoif
+    <div data-role="panel" id="menu" data-display="reveal">
 
-    </div><!-- /panel -->
 
-    <div data-role="header" data-theme="a" data-position="fixed">
-        <a href="#menu" data-icon="bars">menu</a>
-        <h1>header</h1>
-        <a data-rel="back" data-icon="back">back</a>
-    </div><!-- /header -->
 
-    <div role="main" class="ui-content">
+        <a data-role="button" href="logout.php" data-ajax="false">logout</a>
+    </div><!-- /panel-->
+
+    <div data-role="header" data-theme="a" data-position="fixed" data-id="main_header">
+        <a href="#menu" data-icon="bars"> menu</a>
+        <h1> header</h1>
+        <a data-rel="back" data-icon="back"> back</a>
+    </div><!-- /header-->
+
+    <div data-role="content">
         content
-    </div><!-- /content -->
+        <? echo $_SESSION['member_id']; ?>
+    </div><!-- /content-->
 
-    <div data-role="footer" id="foot" data-position="fixed" data-theme="a">
+    <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-id="main_footer">
         <div data-role="navbar" data-position="fixed">
             <ul>
-                <li><a href="#" data-icon="home">main</a></li>
-                <li><a href="#" data-icon="home">main</a></li>
-                <li><a href="#" data-icon="home">main</a></li>
+                <li><a href="#first" data-icon="home"> main</a></li>
+                <li><a href="#second" data-icon="home"> main</a></li>
+                <li><a href="#" data-icon="home"> main</a></li>
             </ul>
         </div>
         <h2>footer</h2>
-    </div><!-- /footer -->
-</div><!-- /page -->
+    </div><!-- /footer-->
+</div><!-- /page-->
+
+<!--Start of the second page-->
+<div data-role="page" id="second" data-theme="c">
+    <div data-role="panel" id="menu" data-display="reveal">
+        fwejfiowefj
+        wefewjoif
+
+    </div><!-- /panel-->
+
+    <div data-role="header" data-theme="a" data-position="fixed" data-id="main_header"></div><!-- /header-->
+
+    <div data-role="content">
+        content
+    </div><!-- /content-->
+
+    <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-id="main_footer"></div>
+    <!-- /footer-->
+</div><!-- /page-->
 
 </body>
 </html>
