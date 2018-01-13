@@ -2,8 +2,11 @@
 
 session_start();
 
-session_unset();
+if (isset($_SESSION['member_id'])) {
+    unset($_SESSION['message']);
 
-session_destroy();
+    $_SESSION['message'] = "[SYSTEM] Logout Success!";
+
+}
 
 header("Location: login.php");
