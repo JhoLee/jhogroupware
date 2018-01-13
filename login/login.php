@@ -7,8 +7,13 @@
  *
  * +) File for login with session
  */
-?>
+session_start();
+if (isset($_SESSION['member_id'])) {
+    header('Location: ../main.php');
+}
 
+
+?>
 <!DOCTYPE html>
 <head>
     <!-- DO NOT EDIT... -->
@@ -18,6 +23,7 @@
     <script type="text/javascript" src="../js/jquery.js"></script>
     <script type="text/javascript" src="../js/jquery.mobile-1.4.5.min.js"></script>
     <!-- ...DO NOT EDIT -->
+
 
     <title> Login Page </title>
 </head>
@@ -33,6 +39,12 @@
     </div><!-- /header -->
 
     <div data-role="content">
+
+        <?php if (isset($_SESSION['message'])) { ?>
+             <?php echo $_SESSION['message']; ?>
+            <?php unset($_SESSION['message']);
+        } ?>
+
         <form method="post" action="login_check.php" data-ajax="false">
             <div for="id_form" class="ui-field-contain">
                 <label for="id_input">ID: </label>
@@ -51,7 +63,8 @@
         <div data-role="navbar" data-position="fixed">
             <ul>
                 <li><a href="sms:+82-10-3310-3784" data-icon="mail" data-ajax="false">contact admin<br>(SMS)</a></li>
-                <li><a href="https://open.kakao.com/o/sZ4VgyF" data-icon="comment" data-ajax="false">contact admin<br>(KakaoTalk)</a></li>
+                <li><a href="https://open.kakao.com/o/sZ4VgyF" data-icon="comment" data-ajax="false">contact admin<br>(KakaoTalk)</a>
+                </li>
             </ul>
         </div>
         <h2>footer</h2>
