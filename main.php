@@ -28,11 +28,14 @@ if (! isset($_SESSION['member_id'])) { // Not logged in
 <!--Start of the first page-->
 <div data-role="page" id="first" data-theme="c">
     <div data-role="panel" id="menu" data-display="reveal">
+        <a href="my_info.php"  data-theme="a" data-role="button" data-icon="user"><?php echo $_SESSION['member_id']; ?></a>
+        <ui data-role="listview" data-theme="a" data-inset="true">
+            <li><a href="main.php#first">first</a></li>
+            <li><a href="main.php#second">second</a></li>
+        </ui>
+        <a data-role="button" href="logout.php" data-theme="d" data-ajax="false">logout</a>
 
-
-
-        <a data-role="button" href="logout.php" data-ajax="false">logout</a>
-    </div><!-- /panel-->
+    </div><!-- /panel#menu-->
 
     <div data-role="header" data-theme="a" data-position="fixed" data-id="main_header">
         <a href="#menu" data-icon="bars"> menu</a>
@@ -42,20 +45,20 @@ if (! isset($_SESSION['member_id'])) { // Not logged in
 
     <div data-role="content">
         content
-        <? echo $_SESSION['member_id']; ?>
+        <?php echo $_SESSION['member_id']; ?>
     </div><!-- /content-->
 
     <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-id="main_footer">
         <div data-role="navbar" data-position="fixed">
             <ul>
-                <li><a href="#first" data-icon="home"> main</a></li>
-                <li><a href="#second" data-icon="home"> main</a></li>
-                <li><a href="#" data-icon="home"> main</a></li>
+                <li><a href="main.php" data-icon="home"> main</a></li>
+                <li><a href="calendar.php" data-icon="calendar">calendar</a></li>
+                <li><a href="settings.php" data-icon="gear">settings</a></li>
             </ul>
         </div>
         <h2>footer</h2>
     </div><!-- /footer-->
-</div><!-- /page-->
+</div><!-- /page#first-->
 
 <!--Start of the second page-->
 <div data-role="page" id="second" data-theme="c">
