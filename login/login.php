@@ -72,12 +72,13 @@ if (isset($_SESSION['member_id'])) {
     <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-id="main_footer">
         <div data-role="navbar" data-position="fixed">
             <ul>
-                <li><a href="sms:+82-10-3310-3784" data-icon="mail" data-ajax="false">contact admin<br>(SMS)</a></li>
                 <li><a href="https://open.kakao.com/o/sZ4VgyF" data-icon="comment" data-ajax="false">contact admin<br>(KakaoTalk)</a>
+                </li>
+                <li><a href="mail:jooho_lee@outlook.kr" data-icon="mail" data-ajax="false">contact admin<br>(e-mail)</a>
                 </li>
             </ul>
         </div>
-        <h2>footer</h2>
+        <div align="center"><a class="ui-bar" href="info.php" data-icon="info"><h6>App Info</h6></a></div>
     </div><!-- /footer -->
 </div><!-- /page -->
 
@@ -114,12 +115,14 @@ if (isset($_SESSION['member_id'])) {
     <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-id="main_footer">
         <div data-role="navbar" data-position="fixed">
             <ul>
-                <li><a href="sms:+82-10-3310-3784" data-icon="mail" data-ajax="false">contact admin<br>(SMS)</a></li>
                 <li><a href="https://open.kakao.com/o/sZ4VgyF" data-icon="comment" data-ajax="false">contact admin<br>(KakaoTalk)</a>
                 </li>
+                <li><a href="mail:jooho_lee@outlook.kr" data-icon="mail" data-ajax="false">contact admin<br>(e-mail)</a>
+                </li>
+
             </ul>
         </div>
-        <h2>footer</h2>
+        <a class="ui-bar" href="info.php" data-icon="info"><h6>App Info</h6></a>
     </div><!-- /footer -->
 </div><!-- /page -->
 
