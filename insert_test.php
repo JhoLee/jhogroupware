@@ -5,8 +5,8 @@
  * Time: 23:12
  */
 
-@include_once 'mysql.php';
-$sql = file_get_contents('insert_test.sql');
+@include_once 'data/mysql.php';
+
 
 if (!$result = $db_conn->query($sql)) {
     echo "<script type='text/javascript'>alert('Insertion Failed');</script>";
@@ -14,4 +14,3 @@ if (!$result = $db_conn->query($sql)) {
 
 }
 
-phpinfo();

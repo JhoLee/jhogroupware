@@ -2,12 +2,12 @@
 /**
  * Created by PhpStorm.
  * User: Jho
- * Date: 2018-01-07
- * Time: 오후 11:55
+ * Date: 2018-01-13
+ * Time: 18:08
  */
 session_start();
 if (! isset($_SESSION['member_id'])) { // Not logged in
-    header('Location: login/login.php');
+    header('Location: login.php');
 }
 ?>
 
@@ -26,12 +26,10 @@ if (! isset($_SESSION['member_id'])) { // Not logged in
 
 <body>
 <!--Start of the first page-->
-<div data-role="page" id="first" data-theme="c">
+<div data-role="page" id="calendar" data-theme="c">
     <div data-role="panel" id="menu" data-display="reveal">
         <a href="my_info.php"  data-theme="a" data-role="button" data-icon="user"><?php echo $_SESSION['member_id']; ?></a>
         <ui data-role="listview" data-theme="a" data-inset="true">
-            <li><a href="main.php#first">first</a></li>
-            <li><a href="main.php#second">second</a></li>
         </ui>
         <a data-role="button" href="login/logout.php" data-theme="d" data-ajax="false">logout</a>
 
@@ -59,24 +57,3 @@ if (! isset($_SESSION['member_id'])) { // Not logged in
         <h2>footer</h2>
     </div><!-- /footer-->
 </div><!-- /page#first-->
-
-<!--Start of the second page-->
-<div data-role="page" id="second" data-theme="c">
-    <div data-role="panel" id="menu" data-display="reveal">
-        fwejfiowefj
-        wefewjoif
-
-    </div><!-- /panel-->
-
-    <div data-role="header" data-theme="a" data-position="fixed" data-id="main_header"></div><!-- /header-->
-
-    <div data-role="content">
-        content
-    </div><!-- /content-->
-
-    <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-id="main_footer"></div>
-    <!-- /footer-->
-</div><!-- /page-->
-
-</body>
-</html>
