@@ -6,7 +6,7 @@
  * Time: 18:08
  */
 session_start();
-include_once('../data/mysql.php');
+include_once('../jho.php');
 
 if (!isset($_SESSION['member_id'])) { // Not logged in
     header('Location: ../login/login.php');
@@ -31,9 +31,9 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
     <!-- DO NOT EDIT... -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="../css/jquery.mobile-1.4.5.min.css">
-    <script type="text/javascript" src="../js/jquery.js"></script>
-    <script type="text/javascript" src="../js/jquery.mobile-1.4.5.min.js"></script>
+    <link rel="stylesheet" href="../resources/css/jquery.mobile-1.4.5.min.css">
+    <script type="text/javascript" src="../resources/js/jquery.js"></script>
+    <script type="text/javascript" src="../resources/js/jquery.mobile-1.4.5.min.js"></script>
     <!-- ...DO NOT EDIT-->
 
     <title>account_view(admin)</title>
@@ -68,13 +68,15 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
             </thead>
             <tbody>
             <?php
-            while ($result->num_rows > 0) {
-                $row = $result->fetch_array(MYSQLI_ASSOC);
-                echo "<tr>
+            if (isset($result)) {
+                while ( $row = $result->fetch_array(MYSQLI_ASSOC) ) {
+
+                    echo "<tr>
                     <th>" . $row['이름'] . "</th>
                     <td>" . $row['잔액'] . "</td>
                     <td>" . "18.01.??" . "</td>
                   </tr>";
+                }
             } ?>
             </tbody>
         </table>

@@ -2,9 +2,10 @@
 /**
  * Created by PhpStorm.
  * User: Jho
- * Date: 2018-01-13
- * Time: 18:08
+ * Date: 2018-01-15
+ * Time: 오전 9:26
  */
+
 session_start();
 if (!isset($_SESSION['member_id'])) { // Not logged in
     header('Location: login.php');
@@ -21,13 +22,13 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
     <script type="text/javascript" src="resources/js/jquery.mobile-1.4.5.min.js"></script>
     <!-- ...DO NOT EDIT-->
 
-    <title> <?php $_SESSION['member_id'] ?></title>
+    <title>my_info</title>
 </head>
 
 <body>
-<!--Start of the first page-->
-<div data-role="page" id="calendar" data-theme="c">
-    <div data-role="panel" id="menu" data-display="reveal">
+<!--Start of the my_info page-->
+<div data-role="page" id="my_info" data-theme="c">
+    <div data-role="panel" id="myInfo_menu" data-display="reveal">
         <a href="my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $_SESSION['member_id']; ?></a>
         <ui data-role="listview" data-theme="a" data-inset="true">
@@ -37,8 +38,8 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
     </div><!-- /panel#menu-->
 
     <div data-role="header" data-theme="a" data-position="fixed" data-id="main_header">
-        <a href="#menu" data-icon="bars"> menu</a>
-        <h1> header</h1>
+        <a href="#myInfo_menu" data-icon="bars"> menu</a>
+        <h1>My Info</h1>
         <a data-rel="back" data-icon="back"> back</a>
     </div><!-- /header-->
 

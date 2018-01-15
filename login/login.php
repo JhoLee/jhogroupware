@@ -20,9 +20,9 @@ if (isset($_SESSION['member_id'])) {
     <!-- DO NOT EDIT... -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="../css/jquery.mobile-1.4.5.min.css">
-    <script type="text/javascript" src="../js/jquery.js"></script>
-    <script type="text/javascript" src="../js/jquery.mobile-1.4.5.min.js"></script>
+    <link rel="stylesheet" href="../resources/css/jquery.mobile-1.4.5.min.css">
+    <script type="text/javascript" src="../resources/js/jquery.js"></script>
+    <script type="text/javascript" src="../resources/js/jquery.mobile-1.4.5.min.js"></script>
     <!-- ...DO NOT EDIT -->
 
     <script type="text/javascript">

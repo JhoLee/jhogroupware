@@ -22,7 +22,7 @@ if (isset($_SESSION['member_id'])) { // Already logged in
         $signUp_pw = password_hash($_POST['signUp_pw'], PASSWORD_DEFAULT, ["cost" => 12]);
 
 
-        include_once "../data/mysql.php";
+        include_once "../jho.php";
 
         $sql =
             "

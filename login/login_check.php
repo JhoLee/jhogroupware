@@ -15,7 +15,7 @@ if (isset($_SESSION['member_id'])) {
 }
 
 
-include_once '../data/mysql.php';
+include_once '../jho.php';
 
 if (isset($_POST["member_id"]) && isset($_POST["member_pw"])) {
 
