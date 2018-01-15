@@ -31,6 +31,9 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
         <a href="my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $_SESSION['member_id']; ?></a>
         <ui data-role="listview" data-theme="a" data-inset="true">
+            <?php if ( $_SESSION['member_permission'] >= 2 ) {
+                echo '<li><a href="account/account_view(admin).php" data-ajax="false">전체 조회(관리자)</a></li>';
+            } ?>
             <li><a href="#first">first</a></li>
             <li><a href="#second">second</a></li>
         </ui>
@@ -54,7 +57,7 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
         <div data-role="navbar" data-position="fixed">
             <ul>
                 <li>
-                    <button href="main.php" data-icon="home" data-theme="b"> main</button>
+                    <button data-icon="home" data-theme="b">main</button>
                 </li>
                 <li><a href="calendar.php" data-icon="calendar">calendar</a></li>
                 <li><a href="settings.php" data-icon="gear">settings</a></li>

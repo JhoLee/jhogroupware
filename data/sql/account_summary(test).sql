@@ -1,0 +1,1 @@
+SELECT m_name AS '이름', SUM(d_category * d_ammount) AS '잔액' from `deposit_history` where t_team = 'NON' GROUP BY m_name;
