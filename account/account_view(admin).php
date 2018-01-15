@@ -17,7 +17,14 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
     } else {
         $team = $_SESSION['member_team'];
 
-        $sql = "SELECT m_name AS '이름', SUM(d_category * d_ammount) AS '잔액' FROM `deposit_history` WHERE `t_team` = '$team' GROUP BY m_name";
+        $sql = "SELECT 
+                m_name AS '이름', 
+                SUM(d_category * d_ammount) AS '잔액', 
+                MAX(d_date) AS '최종 변경일' 
+                FROM `deposit_history` 
+                WHERE `t_team` = '$team' 
+                GROUP BY m_name
+            ";
         if (isset($db_conn)) {
             $result = $db_conn->query($sql);
         }
@@ -45,9 +52,15 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
     <div data-role="panel" id="menu" data-display="reveal">
         <a href="my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $_SESSION['member_id']; ?></a>
-        <ul data-role="listview" data-theme="a" data-inset="true">
-        </ul>
-        <a data-role="button" href="login/logout.php" data-theme="d" data-ajax="false">logout</a>
+        <ui data-role="listview" data-theme="a" data-inset="true">
+            <?php if ( $_SESSION['member_permission'] >= 2 ) {
+                echo '<li><a href="account/account_view(admin).php" data-ajax="false">전체 조회(관리자)</a></li>';
+            } ?>
+            <li><a href="#first">first</a></li>
+            <li><a href="#second">second</a></li>
+        </ui>
+        <a data-role="button" href="info.php" data-icon="info">App Info</a>
+        <a data-role="button" href="login/logout.php" data-theme="d" data-icon="delete" data-ajax="false">logout</a>
 
     </div><!-- /panel#menu-->
 
@@ -63,18 +76,18 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
             <tr>
                 <th data-priority="persist">이름</th>
                 <th colspan="1">잔액</th>
-                <th colspan="1">최종 수정일</th>
+                <th colspan="1">최종 변경일</th>
             </tr>
             </thead>
             <tbody>
             <?php
             if (isset($result)) {
-                while ( $row = $result->fetch_array(MYSQLI_ASSOC) ) {
+                while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
 
                     echo "<tr>
                     <th>" . $row['이름'] . "</th>
                     <td>" . $row['잔액'] . "</td>
-                    <td>" . "18.01.??" . "</td>
+                    <td>" . $row['최종 변경일'] . "</td>
                   </tr>";
                 }
             } ?>
@@ -86,10 +99,11 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
     <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-id="main_footer">
         <div data-role="navbar" data-position="fixed">
             <ul>
-                <li><a href="main.php" data-icon="home"> main</a></li>
                 <li>
-                    <button data-theme="b" href="calendar.php" data-icon="calendar">calendar</button>
+                    <button data-theme="b" href="calendar.php" data-icon="home">main</button>
                 </li>
+                <li><a href="main.php" data-icon="calendar">calendar</a></li>
+
                 <li><a href="settings.php" data-icon="gear">settings</a></li>
             </ul>
         </div>
