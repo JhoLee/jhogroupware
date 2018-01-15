@@ -36,7 +36,7 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
 
     </div><!-- /panel#menu-->
 
-    <div data-role="header" data-theme="a" data-position="fixed" data-id="main_header">
+    <div data-role="header" data-theme="a" data-position="fixed" data-id="transaction_header">
         <a href="#menu" data-icon="bars"> menu</a>
         <h1> header</h1>
         <a data-rel="back" data-icon="back"> back</a>
@@ -47,10 +47,10 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
         <?php echo $_SESSION['member_id']; ?>
     </div><!-- /content-->
 
-    <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-id="main_footer">
+    <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-id="transaction_footer">
         <div data-role="navbar" data-position="fixed">
             <ul>
-                <li><a href="main.php" data-icon="home"> main</a></li>
+                <li><a href="transaction/transaction_view(personal).php" data-icon="bullets"> transaction</a></li>
                 <li>
                     <button data-theme="b"  href="calendar.php" data-icon="calendar">calendar</button>
                 </li>

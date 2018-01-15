@@ -11,7 +11,7 @@
 session_start();
 
 if (isset($_SESSION['member_id'])) {
-    header("Location: ../main.php");
+    header("Location: ../transaction/transaction_view(personal).php");
 }
 
 
@@ -34,7 +34,7 @@ if (isset($_POST["member_id"]) && isset($_POST["member_pw"])) {
             $_SESSION['member_mobile'] = $row['m_mobile'];
             $_SESSION['member_birthday'] = $row['m_birthday'];
             $_SESSION['member_permission'] = $row['m_permission'];
-            header("Location: ../main.php");
+            header("Location: ../transaction/transaction_view(personal).php");
 
         }
     } // ID 미존재 혹은 PW 불일치

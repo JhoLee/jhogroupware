@@ -12,7 +12,7 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
     header('Location: ../login/login.php');
 } else {
     if (!isset($_SESSION['member_permission']) || $_SESSION['member_permission'] < 2) {
-        header('Location: ../main.php');
+        header('Location: transaction_view(personal).php');
 
     } else {
         $team = $_SESSION['member_team'];
@@ -53,18 +53,17 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
         <a href="../my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $_SESSION['member_id']; ?></a>
         <ui data-role="listview" data-theme="a" data-inset="true">
-            <?php if ( $_SESSION['member_permission'] >= 2 ) {
-                echo '<li><a href="account_view(admin).php" data-ajax="false">전체 조회(관리자)</a></li>';
+            <?php if ($_SESSION['member_permission'] >= 2) {
+                echo '<li><a href="transaction_view(admin).php" data-ajax="false">전체 조회(관리자)</a></li>';
             } ?>
-            <li><a href="#">first</a></li>
-            <li><a href="#">second</a></li>
+            <li><a href="transaction_view(personal).php">개별 조회</a></li>
         </ui>
         <a data-role="button" href="../info.php" data-icon="info">App Info</a>
         <a data-role="button" href="../login/logout.php" data-theme="d" data-icon="delete" data-ajax="false">logout</a>
 
     </div><!-- /panel#menu-->
 
-    <div data-role="header" data-theme="a" data-position="fixed" data-id="main_header">
+    <div data-role="header" data-theme="a" data-position="fixed" data-id="transaction_header">
         <a href="#menu" data-icon="bars"> menu</a>
         <h1>account view(admin)</h1>
         <a data-rel="back" data-icon="back"> back</a>
@@ -96,11 +95,20 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
 
     </div><!-- /content-->
 
-    <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-id="main_footer">
+    <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-id="transaction_footer">
+        <?php $sql = "
+                SELECT MAX(d_processed_date) AS 'last updated date' 
+                FROM deposit_history 
+                WHERE deposit_history.t_team = '$team'
+                ";
+        $result = $db_conn->query($sql);
+        $row = $result->fetch_assoc();
+        ?>
+        <h2>Data Last Updated at : <?php echo $row['last updated date']; ?></h2>
         <div data-role="navbar" data-position="fixed">
             <ul>
                 <li>
-                    <button data-theme="b" data-icon="home">main</button>
+                    <button data-theme="b" data-icon="bullets">transaction</button>
                 </li>
                 <li><a href="../calendar.php" data-icon="calendar">calendar</a></li>
 
