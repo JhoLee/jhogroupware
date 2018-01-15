@@ -74,7 +74,7 @@ if (isset($_SESSION['member_id'])) {
             <ul>
                 <li><a href="https://open.kakao.com/o/sZ4VgyF" data-icon="comment" data-ajax="false">contact admin<br>(KakaoTalk)</a>
                 </li>
-                <li><a href="mail:jooho_lee@outlook.kr" data-icon="mail" data-ajax="false">contact admin<br>(e-mail)</a>
+                <li><a href="mailto:jooho_lee@outlook.kr" data-icon="mail" data-ajax="false">contact admin<br>(e-mail)</a>
                 </li>
             </ul>
         </div>
@@ -117,7 +117,7 @@ if (isset($_SESSION['member_id'])) {
             <ul>
                 <li><a href="https://open.kakao.com/o/sZ4VgyF" data-icon="comment" data-ajax="false">contact admin<br>(KakaoTalk)</a>
                 </li>
-                <li><a href="mail:jooho_lee@outlook.kr" data-icon="mail" data-ajax="false">contact admin<br>(e-mail)</a>
+                <li><a href="mailto:jooho_lee@outlook.kr" data-icon="mail" data-ajax="false">contact admin<br>(e-mail)</a>
                 </li>
 
             </ul>
