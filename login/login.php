@@ -9,7 +9,7 @@
  */
 session_start();
 if (isset($_SESSION['member_id'])) {
-    header('Location: ../transaction/transaction_view(personal).php');
+    header('Location: ../index.php');
 }
 
 
