@@ -20,14 +20,24 @@ include_once('../jho.php');
     <script type="text/javascript" src="../resources/js/jquery.mobile-1.4.5.min.js"></script>
     <!-- ...DO NOT EDIT -->
 
-    <title> title </title>
+
+
+    <script type="text/javascript">
+        $(document).bind("mobileinit", function () {
+            $.mobile.ajaxLinksEnabled = false;
+            $.mobile.ajaxFormsEnabled = false;
+            $.mobile.ajaxEnabled = false;
+        });
+    </script>
+
+    <title></title>
 </head>
 
 <body>
 <!-- Start of the summary page -->
 <div data-role="page" id="summary" data-theme="c">
     <div data-role="panel" id="summary_menu" data-display="reveal">
-        <a href="../info/my_info.php" data-theme="a" data-role="button"
+        <a href="../settings/info/my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $_SESSION['member_id']; ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
             <?php if ($_SESSION['member_permission'] >= 2) {
@@ -35,8 +45,8 @@ include_once('../jho.php');
             } ?>
             <li><a href="transaction_view(personal).php">개별 조회</a></li>
         </ul>
-        <a data-role="button" href="../info/app_info.php" data-icon="info">App Info</a>
-        <a data-role="button" href="../login/logout.php" data-theme="b" data-icon="delete" data-ajax="false">logout</a>
+        <a data-role="button" href="../settings/info/app_info.php" data-icon="info">App Info</a>
+        <a data-role="button" href="../login/logout.php" data-theme="b" data-icon="delete">logout</a>
 
     </div><!-- /panel#menu-->
 
@@ -44,11 +54,11 @@ include_once('../jho.php');
         <a href="#summary_menu" data-icon="bars">menu</a>
         <h1>Personal View(summary)</h1>
         <a data-rel="back" data-icon="back">back</a>
-        <div data-role="navbar" id="accountView_navbar">
+        <div data-role="navbar" id="summary_navbar">
             <ul>
                 <li><a href="#summary">summary</a></li>
-                <li><a href="#details">details</a></li>
-                <li><a href="#expenditure">expenditure</a></li>
+                <li><a href="#details" data-ajax="false">details</a></li>
+                <li><a href="#insert">insert</a></li>
             </ul>
         </div>
     </div><!-- /header -->
@@ -117,7 +127,7 @@ include_once('../jho.php');
 
 
     <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-tab-toggle="false"
-         data-id="personal_footer">
+         data-id="transaction_footer">
         <?php $sql = "
                 SELECT MAX(d_processed_date) AS 'last updated date' 
                 FROM deposit_history 
@@ -143,7 +153,7 @@ include_once('../jho.php');
 <!-- Start of the details page -->
 <div data-role="page" id="details" data-theme="c">
     <div data-role="panel" id="details_menu" data-display="reveal">
-        <a href="../info/my_info.php" data-theme="a" data-role="button"
+        <a href="../settings/info/my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $_SESSION['member_id']; ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
             <?php if ($_SESSION['member_permission'] >= 2) {
@@ -151,7 +161,7 @@ include_once('../jho.php');
             } ?>
             <li><a href="#summary">개별 조회</a></li>
         </ul>
-        <a data-role="button" href="../info/app_info.php" data-icon="info">App Info</a>
+        <a data-role="button" href="../settings/info/app_info.php" data-icon="info">App Info</a>
         <a data-role="button" href="../login/logout.php" data-theme="d" data-icon="delete" data-ajax="false">logout</a>
 
     </div><!-- /panel#menu-->
@@ -160,16 +170,18 @@ include_once('../jho.php');
         <a href="#details_menu" data-icon="bars">menu</a>
         <h1>Personal View(details)</h1>
         <a data-rel="back" data-icon="back">back</a>
-        <div data-role="navbar" id="accountView_navbar">
+        <div data-role="navbar" id="details_navbar">
             <ul>
                 <li><a href="#summary">summary</a></li>
                 <li><a href="#details">details</a></li>
-                <li><a href="#expenditure">expenditure</a></li>
+                <li><a href="#insert">insert</a></li>
             </ul>
         </div>
     </div><!-- /header -->
 
     <div data-role="content">
+        <a href=#bottom id="top" class="ui-btn ui-shadow ui-corner-all ui-icon-arrow-d ui-btn-icon-notext"
+           data-role="button" data-icon="arrow-d"> </a>
         <table data-role="table" id="account_summary" data-mode="reflow" class="ui-responsive table-stroke">
             <thead>
             <tr>
@@ -187,6 +199,7 @@ include_once('../jho.php');
             $db_conn->query("SET @balance := 0;");
             $sql = "
             SELECT
+              ql.d_id,
               ql.비고,
               ql.구분,
               ql.금액,
@@ -197,6 +210,7 @@ include_once('../jho.php');
             
             FROM
               (SELECT
+                 d_id,
                  d_category       AS '구분',
                  d_ammount        AS '금액',
                  d_rmks           AS '비고',
@@ -204,9 +218,9 @@ include_once('../jho.php');
                  d_processed_date AS '입력일'
                FROM deposit_history
                WHERE t_team = '$team' AND m_name = '$name'
-               GROUP BY d_date, d_rmks
-               ORDER BY d_date) AS ql
-            ORDER BY ql.날짜 ASC;";
+               GROUP BY d_id, d_date
+               ORDER BY d_date, d_id) AS ql
+            ORDER BY ql.날짜, ql.d_id ASC;";
             $result = $db_conn->query($sql);
             if (isset($result)) {
                 while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
@@ -232,12 +246,129 @@ include_once('../jho.php');
             </tbody>
         </table>
         <br>
+        <a href=#top id="bottom" class="ui-btn ui-shadow ui-corner-all ui-icon-arrow-u ui-btn-icon-notext"
+           data-role="button"></a>
 
     </div><!-- /content -->
 
 
     <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-tab-toggle="false"
-         data-id="personal_footer">
+         data-id="transaction_footer">
+        <?php $sql = "
+                SELECT MAX(d_processed_date) AS 'last updated date' 
+                FROM deposit_history 
+                WHERE deposit_history.t_team = '$team'
+                ";
+        $result = $db_conn->query($sql);
+        $row = $result->fetch_assoc();
+        ?>
+        <h2>Data Last Updated at : <?php echo $row['last updated date']; ?></h2>
+        <div data-role="navbar" data-position="fixed">
+            <ul>
+                <li>
+                    <button data-theme="b" data-icon="bullets">transaction</button>
+                </li>
+                <li><a href="../calendar/calendar.php" data-icon="calendar">calendar</a></li>
+
+                <li><a href="../settings/settings.php" data-icon="gear">settings</a></li>
+            </ul>
+        </div>
+    </div><!-- /footer -->
+</div><!-- /page -->
+
+
+<!-- Start of the insert page -->
+<div data-role="page" id="insert" data-theme="c">
+    <div data-role="panel" id="insert_menu" data-display="reveal">
+        <a href="../settings/info/my_info.php" data-theme="a" data-role="button"
+           data-icon="user"><?php echo $_SESSION['member_id']; ?></a>
+        <ul data-role="listview" data-theme="a" data-inset="true">
+            <?php if ($_SESSION['member_permission'] >= 2) {
+                echo '<li><a href="transaction_view(admin).php" data-ajax="false">전체 조회(관리자)</a></li>';
+            } ?>
+            <li><a href="#summary">개별 조회</a></li>
+        </ul>
+        <a data-role="button" href="../settings/info/app_info.php" data-icon="info">App Info</a>
+        <a data-role="button" href="../login/logout.php" data-theme="d" data-icon="delete" data-ajax="false">logout</a>
+
+    </div><!-- /panel#menu-->
+
+    <div data-role="header" data-theme="a" data-position="fixed" data-tab-toggle="false" data-id="personal_header">
+        <a href="#insert_menu" data-icon="bars">menu</a>
+        <h1>Personal View(insert)</h1>
+        <a data-rel="back" data-icon="back">back</a>
+        <div data-role="navbar" id="insert_navbar">
+            <ul>
+                <li><a href="#summary">summary</a></li>
+                <li><a href="#details">details</a></li>
+                <li><a href="#insert">insert</a></li>
+            </ul>
+        </div>
+    </div><!-- /header -->
+
+    <div data-role="content">
+        <?php if (empty($_SESSION['member_permission']) || $_SESSION['member_permission'] < 2) { ?>
+
+            <img src="../resources/images/no_permission.png" width="100%">
+
+        <?php } else { ?>
+
+            <form id="insertion_form" method="POST" action="transaction_insert.php" data-ajax="false">
+                <!--Name-->
+                <div class="ui-field-contain">
+                    <label for="name_input">Name: </label>
+                    <input data-clear-btn="true" name="form_name" id="name_input" placeholder="Jho Lee" value=""
+                           type="text">
+
+                </div><!--/Name-->
+
+                <!--type-->
+                <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true" data-theme="b">
+                    <legend>type</legend>
+                    <input name="form_name" id="type_minus" value="-1" type="radio">
+                    <label for="type_minus">minus</label>
+                    <input name="form_name" id="type_zero" value="0" checked="checked" type="radio">
+                    <label for="type_zero">0</label>
+                    <input name="form_name" id="type_plus" value="1" type="radio">
+                    <label for="type_plus">plus</label>
+                </fieldset><!--type-->
+
+                <!--rmks-->
+                <div class="ui-field-contain">
+                    <label for="rmks_input">rmks: </label>
+                    <input data-clear-btn="true" name="form_rmks" id="rmks_input" placeholder="Deposit by cash" value=""
+                           type="text">
+                </div><!--rmks-->
+
+                <!--amount-->
+                <div class="ui-field-contain">
+                    <label for="amount_input">amount: </label>
+                    <input data-clear-btn="true" name="form_amount" id="amount_input" placeholder="20000" value=""
+                           type="text">
+                </div><!--amount-->
+
+                <!--date-->
+                <div class="ui-field-contain">
+                    <label for="date">date: </label>
+                    <input name="form_date" id="date" data-role="date" data-theme="a"
+                           data-inline="true"
+                           type="date">
+                </div><!--/date-->
+
+                <!--submit-->
+                <button data-role="button" type="submit" value="submit">submit</button><!--/submit-->
+
+
+            </form>
+
+        <?php } ?>
+
+
+    </div><!-- /content -->
+
+
+    <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-tab-toggle="false"
+         data-id="transaction_footer">
         <?php $sql = "
                 SELECT MAX(d_processed_date) AS 'last updated date' 
                 FROM deposit_history 

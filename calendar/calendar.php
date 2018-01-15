@@ -28,16 +28,16 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
 <!--Start of the calendar page-->
 <div data-role="page" id="calendar" data-theme="c">
     <div data-role="panel" id="menu" data-display="reveal">
-        <a href="../info/my_info.php" data-theme="a" data-role="button"
+        <a href="../settings/info/my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $_SESSION['member_id']; ?></a>
         <ui data-role="listview" data-theme="a" data-inset="true">
         </ui>
-        <a data-role="button" href="../info/app_info.php" data-icon="info">App Info</a>
+        <a data-role="button" href="../settings/info/app_info.php" data-icon="info">App Info</a>
         <a data-role="button" href="../login/logout.php" data-icon="delete" data-theme="b" data-ajax="false">logout</a>
 
     </div><!-- /panel#menu-->
 
-    <div data-role="header" data-theme="a" data-position="fixed" data-id="transaction_header">
+    <div data-role="header" data-theme="a" data-position="fixed" data-id="calendar_header">
         <a href="#menu" data-icon="bars"> menu</a>
         <h1>calendar</h1>
         <a data-rel="back" data-icon="back"> back</a>
@@ -47,7 +47,7 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
         <img src="../resources/images/under_construction.png" width="100%">
     </div><!-- /content-->
 
-    <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-id="transaction_footer">
+    <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-id="calendar_footer">
         <div data-role="navbar" data-position="fixed">
             <ul>
                 <li><a href="../transaction/transaction_view(personal).php" data-icon="bullets"> transaction</a></li>

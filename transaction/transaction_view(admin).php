@@ -50,7 +50,7 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
 <!--Start of the account_view(admin) page-->
 <div data-role="page" id="account_view(admin)" data-theme="c">
     <div data-role="panel" id="account_view(admin)_menu" data-display="reveal">
-        <a href="../info/my_info.php" data-theme="a" data-role="button"
+        <a href="../settings/info/my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $_SESSION['member_id']; ?></a>
         <ui data-role="listview" data-theme="a" data-inset="true">
             <?php if ($_SESSION['member_permission'] >= 2) {
@@ -58,7 +58,7 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
             } ?>
             <li><a href="transaction_view(personal).php">개별 조회</a></li>
         </ui>
-        <a data-role="button" href="../info/app_info.php" data-icon="info">App Info</a>
+        <a data-role="button" href="../settings/info/app_info.php" data-icon="info">App Info</a>
         <a data-role="button" href="../login/logout.php" data-theme="b" data-icon="delete" data-ajax="false">logout</a>
 
     </div><!-- /panel#menu-->
