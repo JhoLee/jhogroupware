@@ -50,17 +50,17 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
 <!--Start of the account_view(admin) page-->
 <div data-role="page" id="account_view(admin)" data-theme="c">
     <div data-role="panel" id="menu" data-display="reveal">
-        <a href="my_info.php" data-theme="a" data-role="button"
+        <a href="../my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $_SESSION['member_id']; ?></a>
         <ui data-role="listview" data-theme="a" data-inset="true">
             <?php if ( $_SESSION['member_permission'] >= 2 ) {
-                echo '<li><a href="account/account_view(admin).php" data-ajax="false">전체 조회(관리자)</a></li>';
+                echo '<li><a href="account_view(admin).php" data-ajax="false">전체 조회(관리자)</a></li>';
             } ?>
-            <li><a href="#first">first</a></li>
-            <li><a href="#second">second</a></li>
+            <li><a href="#">first</a></li>
+            <li><a href="#">second</a></li>
         </ui>
-        <a data-role="button" href="info.php" data-icon="info">App Info</a>
-        <a data-role="button" href="login/logout.php" data-theme="d" data-icon="delete" data-ajax="false">logout</a>
+        <a data-role="button" href="../info.php" data-icon="info">App Info</a>
+        <a data-role="button" href="../login/logout.php" data-theme="d" data-icon="delete" data-ajax="false">logout</a>
 
     </div><!-- /panel#menu-->
 
@@ -100,11 +100,11 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
         <div data-role="navbar" data-position="fixed">
             <ul>
                 <li>
-                    <button data-theme="b" href="calendar.php" data-icon="home">main</button>
+                    <button data-theme="b" data-icon="home">main</button>
                 </li>
-                <li><a href="main.php" data-icon="calendar">calendar</a></li>
+                <li><a href="../calendar.php" data-icon="calendar">calendar</a></li>
 
-                <li><a href="settings.php" data-icon="gear">settings</a></li>
+                <li><a href="../settings.php" data-icon="gear">settings</a></li>
             </ul>
         </div>
     </div><!-- /footer-->
