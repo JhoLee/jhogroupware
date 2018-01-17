@@ -16,9 +16,9 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
     <!-- DO NOT EDIT... -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="../../resources/css/jquery.mobile-1.4.5.min.css">
-    <script type="text/javascript" src="../../resources/js/jquery.js"></script>
-    <script type="text/javascript" src="../../resources/js/jquery.mobile-1.4.5.min.js"></script>
+    <link rel="stylesheet" href="../resources/css/jquery.mobile-1.4.5.min.css">
+    <script type="text/javascript" src="../resources/js/jquery.js"></script>
+    <script type="text/javascript" src="../resources/js/jquery.mobile-1.4.5.min.js"></script>
     <!-- ...DO NOT EDIT-->
 
     <title> <?php $_SESSION['member_id'] ?></title>
@@ -33,7 +33,7 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
         <ul data-role="listview" data-theme="a" data-inset="true">
         </ul>
         <a data-role="button" href="o.php" data-icon="info">App Info</a>
-        <a data-role="button" href="../../login/logout.php" data-theme="b" data-icon="delete" data-ajax="false">logout</a>
+        <a data-role="button" href="../login/logout.php" data-theme="b" data-icon="delete" data-ajax="false">logout</a>
     </div><!--/panel-->
 
     <div data-role="header" data-theme="a" data-position="fixed" data-id="app_info_header">
@@ -43,17 +43,17 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
     </div><!-- /header-->
 
     <div data-role="content">
-        <img src="../../resources/images/under_construction.png" width="100%">
+        <img src="../resources/images/under_construction.png" width="100%">
     </div><!-- /content-->
 
     <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-id="settings_footer">
         <div data-role="navbar" data-position="fixed">
             <ul>
-                <li><a href="../../transaction/transaction_view_personal.php" data-icon="bullets"> transaction</a></li>
+                <li><a href="../transaction/transaction_view_personal.php" data-icon="bullets"> transaction</a></li>
                 <li>
-                    <a href="../../calendar/calendar.php" data-icon="calendar">calendar</a>
+                    <a href="../calendar/calendar.php" data-icon="calendar">calendar</a>
                 </li>
-                <li><a href="../settings.php" data-theme="b" data-icon="gear">settings</a></li>
+                <li><a href="settings.php" data-theme="b" data-icon="gear">settings</a></li>
             </ul>
         </div>
     </div><!-- /footer-->

@@ -30,11 +30,11 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
 <!--Start of the index page-->
 <div data-role="page" id="index" data-theme="c">
     <div data-role="panel" id="index_menu" data-display="reveal">
-        <a href="settings/info/my_info.php" data-theme="a" data-role="button"
+        <a href="settings/my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $_SESSION['member_id']; ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
         </ul>
-        <a data-role="button" href="settings/info/app_info.php" data-icon="info">App Info</a>
+        <a data-role="button" href="settings/app_info.php" data-icon="info">App Info</a>
         <a data-role="button" href="login/logout.php" data-theme="b" data-icon="delete" data-ajax="false">logout</a>
     </div><!--/panel-->
 

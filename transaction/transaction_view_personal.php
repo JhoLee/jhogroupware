@@ -35,7 +35,7 @@ include_once('../jho.php');
 <!-- Start of the summary page -->
 <div data-role="page" id="summary" data-theme="c">
     <div data-role="panel" id="summary_menu" data-display="reveal">
-        <a href="../settings/info/my_info.php" data-theme="a" data-role="button"
+        <a href="../settings/my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $_SESSION['member_id']; ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
             <?php if ($_SESSION['member_permission'] >= 2) {
@@ -43,7 +43,7 @@ include_once('../jho.php');
             } ?>
             <li><a href="transaction_view_personal.php">개별 조회</a></li>
         </ul>
-        <a data-role="button" href="../settings/info/app_info.php" data-icon="info">App Info</a>
+        <a data-role="button" href="../settings/app_info.php" data-icon="info">App Info</a>
         <a data-role="button" href="../login/logout.php" data-theme="b" data-icon="delete">logout</a>
 
     </div><!-- /panel#menu-->
@@ -151,7 +151,7 @@ include_once('../jho.php');
 <!-- Start of the details page -->
 <div data-role="page" id="details" data-theme="c">
     <div data-role="panel" id="details_menu" data-display="reveal">
-        <a href="../settings/info/my_info.php" data-theme="a" data-role="button"
+        <a href="../settings/my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $_SESSION['member_id']; ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
             <?php if ($_SESSION['member_permission'] >= 2) {
@@ -159,7 +159,7 @@ include_once('../jho.php');
             } ?>
             <li><a href="#summary">개별 조회</a></li>
         </ul>
-        <a data-role="button" href="../settings/info/app_info.php" data-icon="info">App Info</a>
+        <a data-role="button" href="../settings/app_info.php" data-icon="info">App Info</a>
         <a data-role="button" href="../login/logout.php" data-theme="d" data-icon="delete" data-ajax="false">logout</a>
 
     </div><!-- /panel#menu-->
@@ -278,7 +278,7 @@ include_once('../jho.php');
 <!-- Start of the insert page -->
 <div data-role="page" id="insert" data-theme="c">
     <div data-role="panel" id="insert_menu" data-display="reveal">
-        <a href="../settings/info/my_info.php" data-theme="a" data-role="button"
+        <a href="../settings/my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $_SESSION['member_id']; ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
             <?php if ($_SESSION['member_permission'] >= 2) {
@@ -286,7 +286,7 @@ include_once('../jho.php');
             } ?>
             <li><a href="#summary">개별 조회</a></li>
         </ul>
-        <a data-role="button" href="../settings/info/app_info.php" data-icon="info">App Info</a>
+        <a data-role="button" href="../settings/app_info.php" data-icon="info">App Info</a>
         <a data-role="button" href="../login/logout.php" data-theme="d" data-icon="delete" data-ajax="false">logout</a>
 
     </div><!-- /panel#menu-->
