@@ -29,7 +29,7 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
 <div data-role="page" id="app_info" data-theme="c">
     <div data-role="panel" id="app_info_menu" data-display="reveal">
         <a href="my_info.php" data-theme="a" data-role="button"
-           data-icon="user"><?php echo $_SESSION['member_id']; ?></a>
+           data-icon="user"><?php echo $_SESSION['member_name']; ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
             <li><a href="my_info_update.php" data-role="button" data-theme="a" data-icon="edit" data-ajax="false">Update
                     my Info.</a></li>

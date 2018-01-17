@@ -17,19 +17,19 @@ if (isset($_SESSION['member_id'])) {
 
 include_once '../jho.php';
 
-if (isset($_POST["member_id"]) && isset($_POST["member_pw"])) {
+if (isset($_POST["member_name"]) && isset($_POST["member_pw"])) {
 
-    $member_id = $_POST['member_id'];
+    $member_name = $_POST['member_name'];
     $member_pw = $_POST["member_pw"];
 
 
-    $result = $db_conn->query("SELECT * FROM member WHERE m_name='$member_id'");
+    $result = $db_conn->query("SELECT * FROM member WHERE m_name='$member_name'");
     if ($result->num_rows > 0) { // 일치하는 ID 존재
         $row = $result->fetch_array(MYSQLI_ASSOC);
-        echo "alert(" . $row['m_pw'] . ");";
         if (password_verify($member_pw, $row['m_pw'])) { // ID & PW 일치
 
-            $_SESSION['member_id'] = $member_id;
+            $_SESSION['member_id'] = $row['m_id'];
+            $_SESSION['member_name'] = $row['m_name'];
             $_SESSION['member_team'] = $row['t_team'];
             $_SESSION['member_mobile'] = $row['m_mobile'];
             $_SESSION['member_birthday'] = $row['m_birthday'];

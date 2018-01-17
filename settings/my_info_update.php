@@ -10,8 +10,8 @@ session_start();
 if (!isset($_SESSION['member_id'])) { // Not logged in
     header('Location: ../login/login.php');
 } else {
-
-    $my_name = $_SESSION['member_id'];
+    $my_id = $_SESSION['member_id'];
+    $my_name = $_SESSION['member_name'];
     $my_team = $_SESSION['member_team'];
     $my_mobile = $_SESSION['member_mobile'];
     $my_birthday = $_SESSION['member_birthday'];
@@ -54,7 +54,7 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
     <!-- ...DO NOT EDIT-->
 
 
-    <title> <?php $_SESSION['member_id'] ?></title>
+    <title> <?php $_SESSION['member_name'] ?></title>
 </head>
 
 <body>

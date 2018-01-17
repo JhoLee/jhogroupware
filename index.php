@@ -23,7 +23,7 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
     <script type="text/javascript" src="resources/js/jquery.mobile-1.4.5.min.js"></script>
     <!-- ...DO NOT EDIT-->
 
-    <title> <?php $_SESSION['member_id'] ?></title>
+    <title> <?php $_SESSION['member_name'] ?></title>
 </head>
 
 <body>

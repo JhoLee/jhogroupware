@@ -8,11 +8,11 @@
 
 session_start();
 
-if (!isset($_SESSION['member_id'])) { // Not logged in
+if (!isset($_SESSION['member_name'])) { // Not logged in
     header('Location: ../login/login.php');
 } else {
 
-    $member_name = $_SESSION['member_id'];
+    $member_name = $_SESSION['member_name'];
     $member_team = $_SESSION['member_team'];
 
     if (!isset($_POST['current_pw'])) {
@@ -103,7 +103,7 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
     </script>
 
 
-    <title> <?php $_SESSION['member_id'] ?></title>
+    <title> <?php $_SESSION['member_name'] ?></title>
 </head>
 
 <body>
@@ -112,7 +112,7 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
 <div data-role="page" id="change_password" data-theme="c">
     <div data-role="panel" id="change_password_menu" data-display="reveal">
         <a href="#my_info" data-theme="a" data-role="button"
-           data-icon="user"><?php echo $_SESSION['member_id']; ?></a>
+           data-icon="user"><?php echo $_SESSION['member_name']; ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
             <li><a href="my_info_update.php" data-role="button" data-theme="a" data-icon="edit" data-ajax="false">Update
                     my Info.</a></li>

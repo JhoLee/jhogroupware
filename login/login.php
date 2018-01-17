@@ -57,8 +57,8 @@ if (isset($_SESSION['member_id'])) {
 
         <form method="post" action="login_check.php" data-ajax="false">
             <div for="id_form" class="ui-field-contain">
-                <label for="id_input">ID: </label>
-                <input data-clear-btn="true" name="member_id" id="id_input" value="" placeholder="Name" type="text">
+                <label for="id_input">Name: </label>
+                <input data-clear-btn="true" name="member_name" id="id_input" value="" placeholder="Name" type="text">
             </div>
             <div id="pw_form" class="ui-field-contain">
                 <label for="pw_input">PW: </label>
@@ -101,7 +101,7 @@ if (isset($_SESSION['member_id'])) {
         } ?>
 
         <form id="login_form" method="post" action="sign_up.php" data-ajax="false">
-            <div for="id_form_login" class="ui-field-contain">
+            <div id="id_form_login" class="ui-field-contain">
                 <label for="id_input">ID: </label>
                 <input name="login_id" id="id_input" value="" placeholder="Name" type="text">
             </div>
@@ -125,7 +125,7 @@ if (isset($_SESSION['member_id'])) {
 
             </ul>
         </div>
-        <a class="ui-bar" href="info.php" data-icon="info"><h6>App Info</h6></a>
+        <a class="ui-bar" href="../settings/app_info.php" data-icon="info"><h6>App Info</h6></a>
     </div><!-- /footer -->
 </div><!-- /page -->
 

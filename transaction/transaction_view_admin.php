@@ -8,7 +8,7 @@
 session_start();
 include_once('../jho.php');
 
-if (!isset($_SESSION['member_id'])) { // Not logged in
+if (!isset($_SESSION['member_name'])) { // Not logged in
     header('Location: ../login/login.php');
 } else {
     if (!isset($_SESSION['member_permission']) || $_SESSION['member_permission'] < 2) {
@@ -43,7 +43,7 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
     <script type="text/javascript" src="../resources/js/jquery.mobile-1.4.5.min.js"></script>
     <!-- ...DO NOT EDIT-->
 
-    <title>account_view(admin)</title>
+    <title></title>
 </head>
 
 <body>
@@ -51,7 +51,7 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
 <div data-role="page" id="account_view(admin)" data-theme="c">
     <div data-role="panel" id="account_view(admin)_menu" data-display="reveal">
         <a href="../settings/my_info.php" data-theme="a" data-role="button"
-           data-icon="user"><?php echo $_SESSION['member_id']; ?></a>
+           data-icon="user"><?php echo $_SESSION['member_name']; ?></a>
         <ui data-role="listview" data-theme="a" data-inset="true">
             <?php if ($_SESSION['member_permission'] >= 2) {
                 echo '<li><a href="transaction_view_admin.php" data-ajax="false">전체 조회(관리자)</a></li>';

@@ -14,7 +14,6 @@ include_once '../jho.php';
 if (!isset($_SESSION['member_id'])) {
     header('Location: ../login/login.php');
 }
-$member_name = $_SESSION['member_id'];
 $member_team = $_SESSION['member_team'];
 
 $sql = "SELECT a_writer AS '작성자',

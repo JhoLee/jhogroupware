@@ -10,7 +10,8 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
     header('Location: ../login/login.php');
 } else {
 
-    $my_name = $_SESSION['member_id'];
+    $my_id = $_SESSION['member_id'];
+    $my_name = $_SESSION['member_name'];
     $my_team = $_SESSION['member_team'];
     $my_mobile = $_SESSION['member_mobile'];
     $my_birthday = $_SESSION['member_birthday'];
@@ -52,7 +53,7 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
     <!-- ...DO NOT EDIT-->
 
 
-    <title> <?php $_SESSION['member_id'] ?></title>
+    <title> <?php $_SESSION['member_name'] ?></title>
 </head>
 
 <body>
@@ -60,7 +61,7 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
 <div data-role="page" id="my_info" data-theme="c">
     <div data-role="panel" id="my_info_menu" data-display="reveal">
         <a href="#" data-theme="a" data-role="button"
-           data-icon="user"><?php echo $_SESSION['member_id']; ?></a>
+           data-icon="user"><?php echo $_SESSION['member_name']; ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
             <li><a href="my_info_update.php" data-role="button" data-theme="a" data-icon="edit" data-ajax="false">Update
                     my Info.</a></li>

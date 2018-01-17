@@ -5,7 +5,7 @@
  * Time: 08:17
  */
 session_start();
-if (!isset($_SESSION['member_id']) || !isset($_SESSION['member_permission'])) {
+if (!isset($_SESSION['member_id'])) {
     header('Location: ../login/login.php');
 }
 include_once('../jho.php');
@@ -36,7 +36,7 @@ include_once('../jho.php');
 <div data-role="page" id="summary" data-theme="c">
     <div data-role="panel" id="summary_menu" data-display="reveal">
         <a href="../settings/my_info.php" data-theme="a" data-role="button"
-           data-icon="user"><?php echo $_SESSION['member_id']; ?></a>
+           data-icon="user"><?php echo $_SESSION['member_name']; ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
             <?php if ($_SESSION['member_permission'] >= 2) {
                 echo '<li><a href="transaction_view_admin.php" data-ajax="false">전체 조회(관리자)</a></li>';
@@ -73,7 +73,7 @@ include_once('../jho.php');
             </thead>
             <tbody>
             <?php
-            $name = $_SESSION['member_id'];
+            $name = $_SESSION['member_name'];
             $team = $_SESSION['member_team'];
             $sql = "SELECT m_name AS '이름', SUM(d_category * d_ammount) AS '잔액', MAX(d_date) AS '최종 변경일'
                     FROM deposit_history WHERE t_team='$team' AND m_name = '$name'";
@@ -152,7 +152,7 @@ include_once('../jho.php');
 <div data-role="page" id="details" data-theme="c">
     <div data-role="panel" id="details_menu" data-display="reveal">
         <a href="../settings/my_info.php" data-theme="a" data-role="button"
-           data-icon="user"><?php echo $_SESSION['member_id']; ?></a>
+           data-icon="user"><?php echo $_SESSION['member_name']; ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
             <?php if ($_SESSION['member_permission'] >= 2) {
                 echo '<li><a href="transaction_view_admin.php" data-ajax="false">전체 조회(관리자)</a></li>';
@@ -192,7 +192,8 @@ include_once('../jho.php');
             </thead>
             <tbody>
             <?php
-            $name = $_SESSION['member_id'];
+            $id = $_SESSION['member_id'];
+            $name = $_SESSION['member_name'];
             $team = $_SESSION['member_team'];
             $db_conn->query("SET @balance := 0;");
             $sql = "
@@ -223,7 +224,7 @@ include_once('../jho.php');
             if (isset($result)) {
                 while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
 
-                    echo "<tr colspan='1'>
+                    echo "<tr >
                     <th>" . $row['날짜'] . "</th>";
                     if ($row['구분'] > 0) {
                         echo "<td>" . $row['금액'] . "원</td>
@@ -279,7 +280,7 @@ include_once('../jho.php');
 <div data-role="page" id="insert" data-theme="c">
     <div data-role="panel" id="insert_menu" data-display="reveal">
         <a href="../settings/my_info.php" data-theme="a" data-role="button"
-           data-icon="user"><?php echo $_SESSION['member_id']; ?></a>
+           data-icon="user"><?php echo $_SESSION['member_name']; ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
             <?php if ($_SESSION['member_permission'] >= 2) {
                 echo '<li><a href="transaction_view_admin.php" data-ajax="false">전체 조회(관리자)</a></li>';
@@ -311,7 +312,7 @@ include_once('../jho.php');
             <?php unset($_SESSION['message']);
         } ?>
 
-        <?php if (empty($_SESSION['member_permission']) || $_SESSION['member_permission'] < 2) { ?>
+        <?php if ($_SESSION['member_permission'] < 2) { ?>
 
             <img src="../resources/images/no_permission.png" width="100%">
 

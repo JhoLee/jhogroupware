@@ -9,7 +9,7 @@ session_start();
 
 include_once '../jho.php';
 
-$writer = $_SESSION['member_id'];
+$writer = $_SESSION['member_name'];
 $team = $_SESSION['member_team'];
 
 if (isset($_POST['insert_name']) && isset($_POST['insert_type']) && isset ($_POST['insert_rmks']) && isset($_POST['insert_amount']) && isset($_POST['insert_date'])) {
