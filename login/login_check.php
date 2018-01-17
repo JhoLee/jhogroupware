@@ -17,13 +17,14 @@ if (isset($_SESSION['member_id'])) {
 
 include_once '../jho.php';
 
-if (isset($_POST["member_name"]) && isset($_POST["member_pw"])) {
+if (isset($_POST)) {
 
+    $member_team = $_POST['member_team'];
     $member_name = $_POST['member_name'];
     $member_pw = $_POST["member_pw"];
 
 
-    $result = $db_conn->query("SELECT * FROM member WHERE m_name='$member_name'");
+    $result = $db_conn->query("SELECT * FROM member WHERE m_name='$member_name' AND t_team='$member_team'");
     if ($result->num_rows > 0) { // 일치하는 ID 존재
         $row = $result->fetch_array(MYSQLI_ASSOC);
         if (password_verify($member_pw, $row['m_pw'])) { // ID & PW 일치
@@ -38,11 +39,11 @@ if (isset($_POST["member_name"]) && isset($_POST["member_pw"])) {
 
         }
     } // ID 미존재 혹은 PW 불일치
-    $_SESSION['message'] = "[ERROR] Wrong ID or PW";
+    $_SESSION['message'] = "[ERROR] Wrong... ";
     header('Location: login.php');
 
 } else {
-    $_SESSION['message'] = "[ERROR] Please enter ID & PW";
+    $_SESSION['message'] = "[ERROR] Please enter name & pw & team";
     header('Location: login.php');
 }
 

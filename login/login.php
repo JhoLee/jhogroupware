@@ -35,6 +35,37 @@ if (isset($_SESSION['member_id'])) {
         });
     </script>
 
+
+    <script type="text/javascript">
+        $('#login_form').ready(function () {
+
+            $('#login_button').click(function (event) {
+
+                var i_team = $('#team_input').val();
+                var i_name = $('#name_input').val();
+                var i_pw = $('#pw_input').val();
+
+                if (i_team == "") {
+                    $('#team_input').focus();
+                    event.preventDefault();
+
+                } else if (i_name == "") {
+                    $('#name_input').focus();
+                    event.preventDefault();
+
+                } else if (i_pw == "") {
+                    $('#pw_input').focus();
+                    event.preventDefault();
+
+                } else {
+                    $('#login_form').submit();
+                }
+
+
+            });
+        });
+    </script>
+
     <title> Login Page </title>
 </head>
 
@@ -55,13 +86,17 @@ if (isset($_SESSION['member_id'])) {
             <?php unset($_SESSION['message']);
         } ?>
 
-        <form method="post" action="login_check.php" data-ajax="false">
+        <form id="login_form" method="post" action="login_check.php" data-ajax="false">
+            <div for="team_form" class="ui-field-contain">
+                <label for="team_input">team: </label>
+                <input data-clear-btn="true" name="member_team" id="team_input" value="" placeholder="Team" type="text">
+            </div>
             <div for="id_form" class="ui-field-contain">
-                <label for="id_input">Name: </label>
-                <input data-clear-btn="true" name="member_name" id="id_input" value="" placeholder="Name" type="text">
+                <label for="name_input">name: </label>
+                <input data-clear-btn="true" name="member_name" id="name_input" value="" placeholder="Name" type="text">
             </div>
             <div id="pw_form" class="ui-field-contain">
-                <label for="pw_input">PW: </label>
+                <label for="pw_input">pw: </label>
                 <input data-clear-btn="true" name="member_pw" id="pw_input" value="" placeholder="********"
                        type="password">
             </div>
@@ -100,14 +135,14 @@ if (isset($_SESSION['member_id'])) {
             <?php unset($_SESSION['message']);
         } ?>
 
-        <form id="login_form" method="post" action="sign_up.php" data-ajax="false">
+        <form id="sign_up_form" method="post" action="sign_up.php" data-ajax="false">
             <div id="id_form_login" class="ui-field-contain">
-                <label for="id_input">ID: </label>
-                <input name="login_id" id="id_input" value="" placeholder="Name" type="text">
+                <label for="sign_up_name_input">ID: </label>
+                <input name="sign_up_name" id="sign_up_name_input" value="" placeholder="Name" type="text">
             </div>
             <div id="pw_form_login" class="ui-field-contain">
-                <label for="pw_input">PW: </label>
-                <input name="login_pw" id="pw_input" value="" placeholder="********" type="password">
+                <label for="sign_up_pw_inputt">PW: </label>
+                <input name="sign_up_pw" id="sign_up_pw_input" value="" placeholder="********" type="password">
             </div>
             <input data-theme="a" id="login_button" type="submit" data-icon="check" value="sign up">
         </form><!--/form-->
