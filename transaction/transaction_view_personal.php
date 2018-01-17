@@ -34,7 +34,7 @@ include_once('../jho.php');
 
 <body>
 <!-- Start of the summary page -->
-<div data-role="page" id="summary" data-theme="c">
+<div data-role="page" id="personal_summary" data-theme="c">
     <div data-role="panel" id="summary_menu" data-display="reveal">
         <a href="../settings/my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $_SESSION['member_name']; ?></a>
@@ -49,15 +49,15 @@ include_once('../jho.php');
 
     </div><!-- /panel#menu-->
 
-    <div data-role="header" data-theme="a" data-position="fixed" data-tab-toggle="false" data-id="personal_header">
+    <div data-role="header" data-theme="a" data-position="fixed" data-tab-toggle="false">
         <a href="#summary_menu" data-icon="bars">menu</a>
-        <h1 id="ee">Personal View(summary)</h1>
+        <h1 >Personal View(summary)</h1>
         <a data-rel="back" data-icon="back">back</a>
         <div data-role="navbar" id="summary_navbar">
             <ul>
-                <li><a href="#summary">summary</a></li>
-                <li><a href="#details">details</a></li>
-                <li><a href="transaction_insert.php">insert</a></li>
+                <li><a href="#personal_summary" data-ajax="false">summary</a></li>
+                <li><a href="#personal_details" data-ajaxa="false">details</a></li>
+                <li><a href="transaction_insert.php"data-ajaxa="false">insert</a></li>
             </ul>
         </div>
     </div><!-- /header -->
@@ -152,7 +152,7 @@ include_once('../jho.php');
 </div><!-- /page -->
 
 <!-- Start of the details page -->
-<div data-role="page" id="details" data-theme="c">
+<div data-role="page" id="personal_details" data-theme="c">
     <div data-role="panel" id="details_menu" data-display="reveal">
         <a href="../settings/my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $_SESSION['member_name']; ?></a>
@@ -160,7 +160,7 @@ include_once('../jho.php');
             <?php if ($_SESSION['member_permission'] >= 2) {
                 echo '<li><a href="transaction_view_admin.php" data-ajax="false">전체 조회(관리자)</a></li>';
             } ?>
-            <li><a href="#summary">개별 조회</a></li>
+            <li><a href="#personal_summary">개별 조회</a></li>
         </ul>
         <a data-role="button" href="../settings/app_info.php" data-icon="info">App Info</a>
         <a data-role="button" href="../login/logout.php" data-theme="d" data-icon="delete" data-ajax="false">logout</a>
@@ -173,9 +173,9 @@ include_once('../jho.php');
         <a data-rel="back" data-icon="back">back</a>
         <div data-role="navbar" id="details_navbar">
             <ul>
-                <li><a href="#summary">summary</a></li>
-                <li><a href="#details">details</a></li>
-                <li><a href="transaction_insert.php">insert</a></li>
+                <li><a href="#personal_summary" data-ajax="false">summary</a></li>
+                <li><a href="#personal_details" data-ajaxa="false">details</a></li>
+                <li><a href="transaction_insert.php"data-ajaxa="false">insert</a></li>
             </ul>
         </div>
     </div><!-- /header -->
@@ -183,7 +183,7 @@ include_once('../jho.php');
     <div data-role="content">
         <a href=#bottom id="top" class="ui-btn ui-shadow ui-corner-all ui-icon-arrow-d ui-btn-icon-notext"
            data-role="button" data-icon="arrow-d"> </a>
-        <table data-role="table" id="account_summary" data-mode="reflow" class="ui-responsive table-stroke">
+        <table data-role="table" id="transaction_details_personal_table" data-mode="reflow" class="ui-responsive table-stroke">
             <thead>
             <tr>
                 <th data-priority="persist">날짜</th>
@@ -254,7 +254,7 @@ include_once('../jho.php');
     </div><!-- /content -->
 
 
-    <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-tab-toggle="false"
+    <div data-role="footer"  data-position="fixed" data-theme="a" data-tab-toggle="false"
          data-id="transaction_footer">
         <?php $sql = "
                 SELECT MAX(d_processed_date) AS 'last updated date' 

@@ -74,7 +74,7 @@ VALUE
             <?php if ($_SESSION['member_permission'] >= 2) {
                 echo '<li><a href="transaction_view_admin.php" data-ajax="false">전체 조회(관리자)</a></li>';
             } ?>
-            <li><a href="transaction_view_personal.php">개별 조회</a></li>
+            <li><a href="transaction_view_personal.php" data-ajax="false">개별 조회</a></li>
         </ul>
         <a data-role="button" href="../settings/app_info.php" data-icon="info">App Info</a>
         <a data-role="button" href="../login/logout.php" data-theme="d" data-icon="delete" data-ajax="false">logout</a>
@@ -87,8 +87,8 @@ VALUE
         <a data-rel="back" data-icon="back">back</a>
         <div data-role="navbar" id="insert_navbar">
             <ul>
-                <li><a href="transaction_view_admin.php">admin view</a></li>
-                <li><a href="transaction_view_personal.php">personal view</a></li>
+                <li><a href="transaction_view_admin.php" data-ajax="false">admin view</a></li>
+                <li><a href="transaction_view_personal.php" data-ajax="false">personal view</a></li>
 
             </ul>
         </div>

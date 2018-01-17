@@ -183,7 +183,7 @@ if (!isset($_SESSION['member_name'])) { // Not logged in
                     <th>구분</th>
                     <th>금액</th>
                     <th>내용</th>
-                    <th>잔액</th>
+                    <th>계좌 잔액</th>
                 </tr>
                 </thead>
                 <tbody>
