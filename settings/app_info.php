@@ -28,11 +28,16 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
 <!--Start of the app_info page-->
 <div data-role="page" id="app_info" data-theme="c">
     <div data-role="panel" id="app_info_menu" data-display="reveal">
-        <a href=".php" data-theme="a" data-role="button"
+        <a href="my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $_SESSION['member_id']; ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
+            <li><a href="my_info_update.php" data-role="button" data-theme="a" data-icon="edit" data-ajax="false">Update
+                    my Info.</a></li>
+            <li><a href="change_password.php" data-theme="a" data-role="button" data-icon="recycle"
+                   data-ajax="false">Change
+                    password</a></li>
         </ul>
-        <a data-role="button" href="o.php" data-icon="info">App Info</a>
+        <a data-role="button" href="#" data-icon="info">App Info</a>
         <a data-role="button" href="../login/logout.php" data-theme="b" data-icon="delete" data-ajax="false">logout</a>
     </div><!--/panel-->
 
@@ -58,3 +63,4 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
         </div>
     </div><!-- /footer-->
 </div><!-- /page#first-->
+</body>
