@@ -100,14 +100,14 @@ if (isset($_SESSION['member_id'])) {
             <?php unset($_SESSION['message']);
         } ?>
 
-        <form id="signUp_form" method="post" action="sign_up.php" data-ajax="false">
-            <div for="id_form_signUp" class="ui-field-contain">
-                <label for="signUp_id_input">ID: </label>
-                <input name="signUp_id" id="id_input" value="" placeholder="Name" type="text">
+        <form id="login_form" method="post" action="sign_up.php" data-ajax="false">
+            <div for="id_form_login" class="ui-field-contain">
+                <label for="id_input">ID: </label>
+                <input name="login_id" id="id_input" value="" placeholder="Name" type="text">
             </div>
-            <div id="pw_form_signUp" class="ui-field-contain">
-                <label for="signUp_pw_input">PW: </label>
-                <input name="signUp_pw" id="pw_input" value="" placeholder="********" type="password">
+            <div id="pw_form_login" class="ui-field-contain">
+                <label for="pw_input">PW: </label>
+                <input name="login_pw" id="pw_input" value="" placeholder="********" type="password">
             </div>
             <input data-theme="a" id="login_button" type="submit" data-icon="check" value="sign up">
         </form><!--/form-->
