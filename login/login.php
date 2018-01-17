@@ -58,11 +58,12 @@ if (isset($_SESSION['member_id'])) {
         <form method="post" action="login_check.php" data-ajax="false">
             <div for="id_form" class="ui-field-contain">
                 <label for="id_input">ID: </label>
-                <input name="member_id" id="id_input" value="" placeholder="Name" type="text">
+                <input data-clear-btn="true" name="member_id" id="id_input" value="" placeholder="Name" type="text">
             </div>
             <div id="pw_form" class="ui-field-contain">
                 <label for="pw_input">PW: </label>
-                <input name="member_pw" id="pw_input" value="" placeholder="********" type="password">
+                <input data-clear-btn="true" name="member_pw" id="pw_input" value="" placeholder="********"
+                       type="password">
             </div>
             <input data-theme="a" id="login_button" type="submit" data-icon="check" value="login">
         </form><!--/form-->
@@ -74,7 +75,8 @@ if (isset($_SESSION['member_id'])) {
             <ul>
                 <li><a href="https://open.kakao.com/o/sZ4VgyF" data-icon="comment" data-ajax="false">contact admin<br>(KakaoTalk)</a>
                 </li>
-                <li><a href="mailto:jooho_lee@outlook.kr" data-icon="mail" data-ajax="false">contact admin<br>(e-mail)</a>
+                <li><a href="mailto:jooho_lee@outlook.kr" data-icon="mail" data-ajax="false">contact
+                        admin<br>(e-mail)</a>
                 </li>
             </ul>
         </div>
@@ -117,7 +119,8 @@ if (isset($_SESSION['member_id'])) {
             <ul>
                 <li><a href="https://open.kakao.com/o/sZ4VgyF" data-icon="comment" data-ajax="false">contact admin<br>(KakaoTalk)</a>
                 </li>
-                <li><a href="mailto:jooho_lee@outlook.kr" data-icon="mail" data-ajax="false">contact admin<br>(e-mail)</a>
+                <li><a href="mailto:jooho_lee@outlook.kr" data-icon="mail" data-ajax="false">contact
+                        admin<br>(e-mail)</a>
                 </li>
 
             </ul>

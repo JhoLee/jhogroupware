@@ -46,14 +46,14 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
     </div><!-- /header-->
 
     <div data-role="content">
-        <?php header('Location: transaction/transaction_view(personal).php'); ?>
+        <?php header('Location: transaction/transaction_view_personal.php'); ?>
         <img src="resources/images/under_construction.png" width="100%">
     </div><!-- /content-->
 
     <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-id="transaction_footer">
         <div data-role="navbar" data-position="fixed">
             <ul>
-                <li><a href="transaction/transaction_view(personal).php" data-icon="bullets"> transaction</a></li>
+                <li><a href="transaction/transaction_view_personal.php" data-icon="bullets"> transaction</a></li>
                 <li><a href="calendar/calendar.php" data-icon="calendar">calendar</a></li>
                 <li>
                     <a href="settings/settings.php" data-icon="gear">settings</a>

@@ -10,7 +10,7 @@ session_start();
 // Check login info
 if (isset($_SESSION['member_id'])) { // Already logged in
 
-    header('Location: ../transaction/transaction_view(personal).php');
+    header('Location: ../transaction/transaction_view_personal.php');
 } else {
 
     if (isset($_POST['signUp_id']) && isset($_POST['signUp_pw'])) {

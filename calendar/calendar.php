@@ -50,7 +50,7 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
     <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-id="calendar_footer">
         <div data-role="navbar" data-position="fixed">
             <ul>
-                <li><a href="../transaction/transaction_view(personal).php" data-icon="bullets"> transaction</a></li>
+                <li><a href="../transaction/transaction_view_personal.php" data-icon="bullets"> transaction</a></li>
                 <li>
                     <button data-theme="b" href="calendar.php" data-icon="calendar">calendar</button>
                 </li>

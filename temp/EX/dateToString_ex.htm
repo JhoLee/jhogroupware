@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="../../resources/js/moment-with-locales.js"></script>
+    <script type="text/javascript">
+
+        var sDate1 = "2018. 01. 16";
+        var sDate2 = "2018-01-16";
+
+
+    </script>
+    <script type="text/javascript">
+        $('#change_btn').ready(function () {
+            var month2 = moment(sDate1);
+
+            $('#test').val(month2.format('YYYY-MM-DD'));
+
+        });
+
+        $(document).onload(('#test').val('hi'));
+
+    </script>
+</head>
+<body>
+<input id="test" value="" type="text">
+<input id="test2" type="text">
+<button id="change_btn">change</button>
+</body>
+

@@ -21,7 +21,6 @@ include_once('../jho.php');
     <!-- ...DO NOT EDIT -->
 
 
-
     <script type="text/javascript">
         $(document).bind("mobileinit", function () {
             $.mobile.ajaxLinksEnabled = false;
@@ -29,7 +28,6 @@ include_once('../jho.php');
             $.mobile.ajaxEnabled = false;
         });
     </script>
-
     <title></title>
 </head>
 
@@ -41,9 +39,9 @@ include_once('../jho.php');
            data-icon="user"><?php echo $_SESSION['member_id']; ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
             <?php if ($_SESSION['member_permission'] >= 2) {
-                echo '<li><a href="transaction_view(admin).php" data-ajax="false">전체 조회(관리자)</a></li>';
+                echo '<li><a href="transaction_view_admin.php" data-ajax="false">전체 조회(관리자)</a></li>';
             } ?>
-            <li><a href="transaction_view(personal).php">개별 조회</a></li>
+            <li><a href="transaction_view_personal.php">개별 조회</a></li>
         </ul>
         <a data-role="button" href="../settings/info/app_info.php" data-icon="info">App Info</a>
         <a data-role="button" href="../login/logout.php" data-theme="b" data-icon="delete">logout</a>
@@ -52,7 +50,7 @@ include_once('../jho.php');
 
     <div data-role="header" data-theme="a" data-position="fixed" data-tab-toggle="false" data-id="personal_header">
         <a href="#summary_menu" data-icon="bars">menu</a>
-        <h1>Personal View(summary)</h1>
+        <h1 id="ee">Personal View(summary)</h1>
         <a data-rel="back" data-icon="back">back</a>
         <div data-role="navbar" id="summary_navbar">
             <ul>
@@ -157,7 +155,7 @@ include_once('../jho.php');
            data-icon="user"><?php echo $_SESSION['member_id']; ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
             <?php if ($_SESSION['member_permission'] >= 2) {
-                echo '<li><a href="transaction_view(admin).php" data-ajax="false">전체 조회(관리자)</a></li>';
+                echo '<li><a href="transaction_view_admin.php" data-ajax="false">전체 조회(관리자)</a></li>';
             } ?>
             <li><a href="#summary">개별 조회</a></li>
         </ul>
@@ -284,7 +282,7 @@ include_once('../jho.php');
            data-icon="user"><?php echo $_SESSION['member_id']; ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
             <?php if ($_SESSION['member_permission'] >= 2) {
-                echo '<li><a href="transaction_view(admin).php" data-ajax="false">전체 조회(관리자)</a></li>';
+                echo '<li><a href="transaction_view_admin.php" data-ajax="false">전체 조회(관리자)</a></li>';
             } ?>
             <li><a href="#summary">개별 조회</a></li>
         </ul>
@@ -307,6 +305,12 @@ include_once('../jho.php');
     </div><!-- /header -->
 
     <div data-role="content">
+
+        <?php if (isset($_SESSION['message'])) { ?>
+            <?php echo $_SESSION['message']; ?>
+            <?php unset($_SESSION['message']);
+        } ?>
+
         <?php if (empty($_SESSION['member_permission']) || $_SESSION['member_permission'] < 2) { ?>
 
             <img src="../resources/images/no_permission.png" width="100%">
@@ -317,7 +321,7 @@ include_once('../jho.php');
                 <!--Name-->
                 <div class="ui-field-contain">
                     <label for="name_input">Name: </label>
-                    <input data-clear-btn="true" name="form_name" id="name_input" placeholder="Jho Lee" value=""
+                    <input data-clear-btn="true" name="insert_name" id="name_input" placeholder="Jho Lee" value=""
                            type="text">
 
                 </div><!--/Name-->
@@ -325,38 +329,38 @@ include_once('../jho.php');
                 <!--type-->
                 <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true" data-theme="b">
                     <legend>type</legend>
-                    <input name="form_name" id="type_minus" value="-1" type="radio">
+                    <input name="insert_type" id="type_minus" value="-1" type="radio">
                     <label for="type_minus">minus</label>
-                    <input name="form_name" id="type_zero" value="0" checked="checked" type="radio">
+                    <input name="insert_type" id="type_zero" value="0" checked="checked" type="radio">
                     <label for="type_zero">0</label>
-                    <input name="form_name" id="type_plus" value="1" type="radio">
+                    <input name="insert_type" id="type_plus" value="1" type="radio">
                     <label for="type_plus">plus</label>
                 </fieldset><!--type-->
 
                 <!--rmks-->
                 <div class="ui-field-contain">
                     <label for="rmks_input">rmks: </label>
-                    <input data-clear-btn="true" name="form_rmks" id="rmks_input" placeholder="Deposit by cash" value=""
+                    <input data-clear-btn="true" name="insert_rmks" id="rmks_input" placeholder="Deposit by cash" value=""
                            type="text">
                 </div><!--rmks-->
 
                 <!--amount-->
                 <div class="ui-field-contain">
                     <label for="amount_input">amount: </label>
-                    <input data-clear-btn="true" name="form_amount" id="amount_input" placeholder="20000" value=""
+                    <input data-clear-btn="true" name="insert_amount" id="amount_input" placeholder="20000" value=""
                            type="text">
                 </div><!--amount-->
 
                 <!--date-->
                 <div class="ui-field-contain">
                     <label for="date">date: </label>
-                    <input name="form_date" id="date" data-role="date" data-theme="a"
+                    <input name="insert_date" id="date" data-role="date" data-theme="a"
                            data-inline="true"
                            type="date">
                 </div><!--/date-->
 
                 <!--submit-->
-                <button data-role="button" type="submit" value="submit">submit</button><!--/submit-->
+                <button data-role="button" id="submit_btn" type="submit" value="submit">submit</button><!--/submit-->
 
 
             </form>

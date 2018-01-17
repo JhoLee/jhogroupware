@@ -12,7 +12,7 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
     header('Location: ../login/login.php');
 } else {
     if (!isset($_SESSION['member_permission']) || $_SESSION['member_permission'] < 2) {
-        header('Location: transaction_view(personal).php');
+        header('Location: transaction_view_personal.php');
 
     } else {
         $team = $_SESSION['member_team'];
@@ -54,9 +54,9 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
            data-icon="user"><?php echo $_SESSION['member_id']; ?></a>
         <ui data-role="listview" data-theme="a" data-inset="true">
             <?php if ($_SESSION['member_permission'] >= 2) {
-                echo '<li><a href="transaction_view(admin).php" data-ajax="false">전체 조회(관리자)</a></li>';
+                echo '<li><a href="transaction_view_admin.php" data-ajax="false">전체 조회(관리자)</a></li>';
             } ?>
-            <li><a href="transaction_view(personal).php">개별 조회</a></li>
+            <li><a href="transaction_view_personal.php">개별 조회</a></li>
         </ui>
         <a data-role="button" href="../settings/info/app_info.php" data-icon="info">App Info</a>
         <a data-role="button" href="../login/logout.php" data-theme="b" data-icon="delete" data-ajax="false">logout</a>
