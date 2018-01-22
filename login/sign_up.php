@@ -13,7 +13,7 @@ if (isset($_SESSION['member_id'])) { // Already logged in
     header('Location: ../index.php');
 } else {
 
-    if (isset($_POST['signUp_id']) && isset($_POST['signUp_pw'])) {
+    if (isset($_POST)) {
 
         // Basic Sign Up
         // To-do: make it's details

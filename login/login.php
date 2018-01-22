@@ -135,17 +135,23 @@ if (isset($_SESSION['member_id'])) {
             <?php unset($_SESSION['message']);
         } ?>
 
-        <form id="sign_up_form" method="post" action="sign_up.php" data-ajax="false">
-            <div id="id_form_login" class="ui-field-contain">
-                <label for="sign_up_name_input">ID: </label>
-                <input name="sign_up_name" id="sign_up_name_input" value="" placeholder="Name" type="text">
-            </div>
-            <div id="pw_form_login" class="ui-field-contain">
-                <label for="sign_up_pw_inputt">PW: </label>
-                <input name="sign_up_pw" id="sign_up_pw_input" value="" placeholder="********" type="password">
-            </div>
-            <input data-theme="a" id="login_button" type="submit" data-icon="check" value="sign up">
-        </form><!--/form-->
+        <?php if (true) { ?>
+            <img src="../resources/images/under_construction.png" width="100%">
+        <?php } else { ?>
+
+            <form id="sign_up_form" method="post" action="sign_up.php" data-ajax="false">
+                <div id="id_form_login" class="ui-field-contain">
+                    <label for="sign_up_name_input">ID: </label>
+                    <input name="sign_up_name" id="sign_up_name_input" value="" placeholder="Name" type="text">
+                </div>
+                <div id="pw_form_login" class="ui-field-contain">
+                    <label for="sign_up_pw_inputt">PW: </label>
+                    <input name="sign_up_pw" id="sign_up_pw_input" value="" placeholder="********" type="password">
+                </div>
+                <input data-theme="a" id="login_button" type="submit" data-icon="check" value="sign up">
+            </form><!--/form-->
+
+        <?php } ?>
 
     </div><!-- /content -->
 
@@ -162,8 +168,10 @@ if (isset($_SESSION['member_id'])) {
         </div>
         <a class="ui-bar" href="../settings/app_info.php" data-icon="info"><h6>App Info</h6></a>
     </div><!-- /footer -->
-</div><!-- /page -->
 
+
+</div><!-- /page -->
+z
 
 </body>
 </html>

@@ -181,8 +181,29 @@ include_once('../jho.php');
     </div><!-- /header -->
 
     <div data-role="content">
-        <a href=#bottom id="top" class="ui-btn ui-shadow ui-corner-all ui-icon-arrow-d ui-btn-icon-notext"
-           data-role="button" data-icon="arrow-d"> </a>
+
+        <script language="javascript">
+
+            $(document).on("pageshow", "#dataTablesExample1", function() {
+
+                if ($.fn.DataTable.isDataTable( '#example' )) {
+                    $('#example').DataTable().columns.adjust();
+                    return;
+                }
+
+                $('#example').dataTable( {
+                    "scrollX": true,
+                    "scrollXollapse": true,
+                    "ajax": 'assets/files/demos/jquery_mobile/datatables/dt_ajax_example.json',
+                    "pagingType": "full"
+                } );
+            } );
+
+            $(document).on( "pageremove", function( event ) { $('#example').DataTable().destroy(false); } )
+
+        </script>
+
+
         <table data-role="table" id="transaction_details_personal_table" data-mode="reflow" class="ui-responsive table-stroke">
             <thead>
             <tr>
@@ -248,8 +269,6 @@ include_once('../jho.php');
             </tbody>
         </table>
         <br>
-        <a href=#top id="bottom" class="ui-btn ui-shadow ui-corner-all ui-icon-arrow-u ui-btn-icon-notext"
-           data-role="button"></a>
 
     </div><!-- /content -->
 
