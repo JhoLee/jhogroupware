@@ -8,7 +8,9 @@ session_start();
 if (!isset($_SESSION['member_id'])) {
     header('Location: ../login/login.php');
 }
-include_once('../jho.php');
+require_once('../jho.php');
+
+require_once '../resources/lang/get_lang.php';
 ?>
 <!DOCTYPE html>
 <html>
@@ -18,10 +20,6 @@ include_once('../jho.php');
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="../resources/css/jquery.mobile-1.4.5.min.css">
     <script type="text/javascript" src="../resources/js/jquery.js"></script>
-    <script type="text/javascript" src="../resources/js/jquery.mobile-1.4.5.min.js"></script>
-    <!-- ...DO NOT EDIT -->
-
-
     <script type="text/javascript">
         $(document).bind("mobileinit", function () {
             $.mobile.ajaxLinksEnabled = false;
@@ -29,6 +27,10 @@ include_once('../jho.php');
             $.mobile.ajaxEnabled = false;
         });
     </script>
+    <script type="text/javascript" src="../resources/js/jquery.mobile-1.4.5.min.js"></script>
+
+    <!-- ...DO NOT EDIT -->
+
     <title></title>
 </head>
 
@@ -40,24 +42,26 @@ include_once('../jho.php');
            data-icon="user"><?php echo $_SESSION['member_name']; ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
             <?php if ($_SESSION['member_permission'] >= 2) {
-                echo '<li><a href="transaction_view_admin.php" data-ajax="false">전체 조회(관리자)</a></li>';
+                echo '<li><a href="transaction_view_admin.php" data-ajax="false">';
+                echo $lang["TRANSACTION_VIEW_ADMIN"] . '</a></li>';
             } ?>
-            <li><a href="transaction_view_personal.php">개별 조회</a></li>
+            <li><a href="transaction_view_personal.php"><?php echo $lang['TRANSACTION_VIEW_PERSONAL'] ?></a></li>
         </ul>
-        <a data-role="button" href="../settings/app_info.php" data-icon="info">App Info</a>
-        <a data-role="button" href="../login/logout.php" data-theme="b" data-icon="delete">logout</a>
+        <a data-role="button" href="../settings/app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
+        <a data-role="button" href="../login/logout.php" data-theme="b"
+           data-icon="delete"><?php echo $lang['LOGOUT_BUTTON'] ?></a>
 
     </div><!-- /panel#menu-->
 
     <div data-role="header" data-theme="a" data-position="fixed" data-tab-toggle="false">
-        <a href="#summary_menu" data-icon="bars">menu</a>
-        <h1 >Personal View(summary)</h1>
-        <a data-rel="back" data-icon="back">back</a>
+        <a href="#summary_menu" data-icon="bars"><?php echo $lang['MENU'] ?></a>
+        <h1><?php echo $lang['TRANSACTION_VIEW_PERSONAL'] ?>(<?php echo $lang['SUMMARY'] ?>)</h1>
+        <a data-rel="back" data-icon="back"><?php echo $lang['BACK_KEY'] ?></a>
         <div data-role="navbar" id="summary_navbar">
             <ul>
-                <li><a href="#personal_summary" data-ajax="false">summary</a></li>
-                <li><a href="#personal_details" data-ajaxa="false">details</a></li>
-                <li><a href="transaction_insert.php"data-ajaxa="false">insert</a></li>
+                <li><a href="#personal_summary" data-ajax="false"><?php echo $lang['SUMMARY'] ?></a></li>
+                <li><a href="#personal_details" data-ajaxa="false"><?php echo $lang['DETAILS'] ?></a></li>
+                <li><a href="transaction_insert.php" data-ajaxa="false"><?php echo $lang['INSERT'] ?></a></li>
             </ul>
         </div>
     </div><!-- /header -->
@@ -137,15 +141,15 @@ include_once('../jho.php');
         $result = $db_conn->query($sql);
         $row = $result->fetch_assoc();
         ?>
-        <h2>Data Last Updated at : <?php echo $row['last updated date']; ?></h2>
+        <h2><?php echo $lang['LAST_UPDATE'] . ": " . $row['last updated date']; ?></h2>
         <div data-role="navbar" data-position="fixed">
             <ul>
                 <li>
-                    <button data-theme="b" data-icon="bullets">transaction</button>
+                    <button data-theme="b" data-icon="bullets"><?php echo $lang['TRANSACTION'] ?></button>
                 </li>
-                <li><a href="../calendar/calendar.php" data-icon="calendar">calendar</a></li>
+                <li><a href="../calendar/calendar.php" data-icon="calendar"><?php echo $lang['CALENDAR'] ?></a></li>
 
-                <li><a href="../settings/settings.php" data-icon="gear">settings</a></li>
+                <li><a href="../settings/settings.php" data-icon="gear"><?php echo $lang['SETTINGS'] ?></a></li>
             </ul>
         </div>
     </div><!-- /footer -->
@@ -175,7 +179,7 @@ include_once('../jho.php');
             <ul>
                 <li><a href="#personal_summary" data-ajax="false">summary</a></li>
                 <li><a href="#personal_details" data-ajaxa="false">details</a></li>
-                <li><a href="transaction_insert.php"data-ajaxa="false">insert</a></li>
+                <li><a href="transaction_insert.php" data-ajaxa="false">insert</a></li>
             </ul>
         </div>
     </div><!-- /header -->
@@ -184,27 +188,30 @@ include_once('../jho.php');
 
         <script language="javascript">
 
-            $(document).on("pageshow", "#dataTablesExample1", function() {
+            $(document).on("pageshow", "#dataTablesExample1", function () {
 
-                if ($.fn.DataTable.isDataTable( '#example' )) {
+                if ($.fn.DataTable.isDataTable('#example')) {
                     $('#example').DataTable().columns.adjust();
                     return;
                 }
 
-                $('#example').dataTable( {
+                $('#example').dataTable({
                     "scrollX": true,
                     "scrollXollapse": true,
                     "ajax": 'assets/files/demos/jquery_mobile/datatables/dt_ajax_example.json',
                     "pagingType": "full"
-                } );
-            } );
+                });
+            });
 
-            $(document).on( "pageremove", function( event ) { $('#example').DataTable().destroy(false); } )
+            $(document).on("pageremove", function (event) {
+                $('#example').DataTable().destroy(false);
+            })
 
         </script>
 
 
-        <table data-role="table" id="transaction_details_personal_table" data-mode="reflow" class="ui-responsive table-stroke">
+        <table data-role="table" id="transaction_details_personal_table" data-mode="reflow"
+               class="ui-responsive table-stroke">
             <thead>
             <tr>
                 <th data-priority="persist">날짜</th>
@@ -273,7 +280,7 @@ include_once('../jho.php');
     </div><!-- /content -->
 
 
-    <div data-role="footer"  data-position="fixed" data-theme="a" data-tab-toggle="false"
+    <div data-role="footer" data-position="fixed" data-theme="a" data-tab-toggle="false"
          data-id="transaction_footer">
         <?php $sql = "
                 SELECT MAX(d_processed_date) AS 'last updated date' 
@@ -296,9 +303,6 @@ include_once('../jho.php');
         </div>
     </div><!-- /footer -->
 </div><!-- /page -->
-
-
-
 
 
 </body>

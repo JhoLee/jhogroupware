@@ -13,6 +13,7 @@
         <h1>페이지 헤더</h1>
     </header>
     <div data-role="content" class="content">
+        <?php include '../../resources/lang/get_lang.php'; ?>
         <p>버튼 테마 예시</p>
         <button type="submit" data-theme="a" name="submit" value="1번" id="submit-button-1">알림창 열기 1</button>
         <button type="submit" data-theme="b" name="submit" value="2번" id="submit-button-2">알림창 열기 2</button>

@@ -60,6 +60,9 @@ VALUE
             $.mobile.ajaxEnabled = false;
         });
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
     <title></title>
 </head>
 

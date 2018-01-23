@@ -8,13 +8,16 @@
  * +) File for login with session
  */
 session_start();
+
+
 if (isset($_SESSION['member_id'])) {
     header('Location: ../index.php');
 }
 
-
+require_once '../resources/lang/get_lang.php';
 ?>
 <!DOCTYPE html>
+
 <html>
 <head>
     <!-- DO NOT EDIT... -->
@@ -66,7 +69,7 @@ if (isset($_SESSION['member_id'])) {
         });
     </script>
 
-    <title> Login Page </title>
+    <title><?php echo $lang['PAGE_TITLE']; ?></title>
 </head>
 
 <body>
@@ -74,9 +77,9 @@ if (isset($_SESSION['member_id'])) {
 <div data-role="page" id="login" data-theme="c">
 
     <div data-role="header" data-theme="a" data-position="fixed" data-id="main_header">
-        <a href="#signUp" data-role="button">sign up</a>
-        <h1>Login</h1>
-        <a data-rel="back" data-icon="back">back</a>
+        <a href="#signUp" data-role="button"><?php echo $lang['SIGN_UP'] ?></a>
+        <h1><?php echo $lang['LOGIN_TITLE']; ?></h1>
+        <a data-rel="back" data-icon="back">   <?php echo $lang['BACK_KEY']; ?></a>
     </div><!-- /header -->
 
     <div data-role="content">
@@ -88,19 +91,23 @@ if (isset($_SESSION['member_id'])) {
 
         <form id="login_form" method="post" action="login_check.php" data-ajax="false">
             <div for="team_form" class="ui-field-contain">
-                <label for="team_input">team: </label>
-                <input data-clear-btn="true" name="member_team" id="team_input" value="" placeholder="Team" type="text">
+                <label for="team_input"><?php echo $lang['TEAM_LABEL']; ?>: </label>
+                <input data-clear-btn="true" name="member_team" id="team_input" value=""
+                       placeholder="<?php echo $lang['TEAM_PLACEHOLDER'] ?>" type="text">
             </div>
             <div for="id_form" class="ui-field-contain">
-                <label for="name_input">name: </label>
-                <input data-clear-btn="true" name="member_name" id="name_input" value="" placeholder="Name" type="text">
+                <label for="name_input"><?php echo $lang['NAME_LABEL']; ?>: </label>
+                <input data-clear-btn="true" name="member_name" id="name_input" value=""
+                       placeholder="<?php echo $lang['NAME_PLACEHOLDER'] ?>" type="text">
             </div>
             <div id="pw_form" class="ui-field-contain">
-                <label for="pw_input">pw: </label>
-                <input data-clear-btn="true" name="member_pw" id="pw_input" value="" placeholder="********"
+                <label for="pw_input"><?php echo $lang['PW_LABEL']; ?>:</label>
+                <input data-clear-btn="true" name="member_pw" id="pw_input" value=""
+                       placeholder="<?php echo $lang['PW_PLACEHOLDER'] ?>"
                        type="password">
             </div>
-            <input data-theme="a" id="login_button" type="submit" data-icon="check" value="login">
+            <input data-theme="a" id="login_button" type="submit" data-icon="check"
+                   value="<?php echo $lang['LOGIN_BUTTON'] ?>">
         </form><!--/form-->
 
     </div><!-- /content -->
@@ -115,7 +122,8 @@ if (isset($_SESSION['member_id'])) {
                 </li>
             </ul>
         </div>
-        <div align="center"><a class="ui-bar" href="info.php" data-icon="info"><h6>App Info</h6></a></div>
+        <div align="center"><a class="ui-bar" href="info.php" data-icon="info"><h6><?php echo $lang['APP_INFO'] ?></h6>
+            </a></div>
     </div><!-- /footer -->
 </div><!-- /page -->
 
@@ -166,7 +174,7 @@ if (isset($_SESSION['member_id'])) {
 
             </ul>
         </div>
-        <a class="ui-bar" href="../settings/app_info.php" data-icon="info"><h6>App Info</h6></a>
+        <a class="ui-bar" href="../settings/app_info.php" data-icon="info"><h6><?php echo $lang['APP_INFO'] ?></h6></a>
     </div><!-- /footer -->
 
 

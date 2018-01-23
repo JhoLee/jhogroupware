@@ -8,9 +8,12 @@
 
 
 session_start();
+
 if (!isset($_SESSION['member_id'])) { // Not logged in
     header('Location: login/login.php');
 }
+
+
 ?>
 
 <!DOCTYPE html >

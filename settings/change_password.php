@@ -28,7 +28,7 @@ if (!isset($_SESSION['member_name'])) { // Not logged in
             } else {
 
 
-                include_once '../jho.php';
+                require_once '../jho.php';
 
 
                 $result = $db_conn->query("SELECT * FROM member WHERE m_name='$member_name'");
