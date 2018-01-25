@@ -113,11 +113,11 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
     <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-id="settings_footer">
         <div data-role="navbar" data-position="fixed">
             <ul>
-                <li><a href="../transaction/transaction_view_personal.php" data-icon="bullets"> transaction</a></li>
+                <li><a href="../transactionHistory" data-icon="bullets"> transaction</a></li>
                 <li>
-                    <a href="../calendar/calendar.php" data-icon="calendar">calendar</a>
+                    <a href="../calendar/index.php" data-icon="calendar">calendar</a>
                 </li>
-                <li><a href="settings.php" data-theme="b" data-icon="gear">settings</a></li>
+                <li><a href="index.php" data-theme="b" data-icon="gear">settings</a></li>
             </ul>
         </div>
     </div><!-- /footer-->

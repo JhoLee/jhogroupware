@@ -21,10 +21,10 @@ if (!isset($_SESSION['member_name'])) { // Not logged in
         $member_pw = $_POST["current_pw"];
 
         if (!isset($_POST['change_pw1']) || !isset($_POST['change_pw2'])) {
-            $_SESSION['message'] = '[ERROR] Please enter the password to change';
+            $_SESSION['alert'] = 'PLZ_ENTER';
         } else {
             if ($_POST['change_pw1'] != $_POST['change_pw2']) {
-                $_SESSION['message'] = '[ERROR] password not same error';
+                $_SESSION['alert'] = 'PW_NOT_SAME';
             } else {
 
 
@@ -34,12 +34,12 @@ if (!isset($_SESSION['member_name'])) { // Not logged in
                 $result = $db_conn->query("SELECT * FROM member WHERE m_name='$member_name'");
                 if ($result->num_rows <= 0) {
 
-                    $_SESSION['message'] = '[ERROR] unknown error...';
+                    $_SESSION['alert'] = 'UNKNOWN_ERROR';
                 } else { // 일치하는 ID 존재
                     $row = $result->fetch_array(MYSQLI_ASSOC);
                     if (!password_verify($member_pw, $row['m_pw'])) {
 
-                        $_SESSION['message'] = '[ERROR] wrong password...';
+                        $_SESSION['alert'] = 'PW_INCORRECT';
                     } else { // ID & PW 일치
 
                         $change_pw = password_hash($_POST['change_pw1'], PASSWORD_DEFAULT, ["cost" => 12]);
@@ -48,7 +48,7 @@ if (!isset($_SESSION['member_name'])) { // Not logged in
 
                         $db_conn->query($sql);
 
-                        $_SESSION['message'] = '[system] password changed! ';
+                        $_SESSION['alert'] = 'PW_CHANGE_SUCCESS';
 
                     }
                 }
@@ -57,6 +57,8 @@ if (!isset($_SESSION['member_name'])) { // Not logged in
 
     }
 }
+
+require_once '../resources/lang/get_lang.php';
 
 ?>
 
@@ -103,7 +105,7 @@ if (!isset($_SESSION['member_name'])) { // Not logged in
     </script>
 
 
-    <title> <?php $_SESSION['member_name'] ?></title>
+    <title> <?php $lang['PAGE_TITLE'] ?></title>
 </head>
 
 <body>
@@ -111,61 +113,60 @@ if (!isset($_SESSION['member_name'])) { // Not logged in
 <!--Start of the change_password page-->
 <div data-role="page" id="change_password" data-theme="c">
     <div data-role="panel" id="change_password_menu" data-display="reveal">
-        <a href="#my_info" data-theme="a" data-role="button"
+        <a href="my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $_SESSION['member_name']; ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
-            <li><a href="my_info_update.php" data-role="button" data-theme="a" data-icon="edit" data-ajax="false">Update
-                    my Info.</a></li>
+            <li><a href="my_info_update.php" data-role="button" data-theme="a" data-icon="edit"
+                   data-ajax="false"><?php echo $lang['UPDATE_MY_INFO'] ?></a></li>
             <li><a href="change_password.php" data-theme="a" data-role="button" data-icon="recycle"
-                   data-ajax="false">Change
-                    password</a></li>
+                   data-ajax="false"><?php echo $lang['CHANGE_PW'] ?></a></li>
         </ul>
-        <a data-role="button" href="app_info.php" data-icon="info">App Info</a>
-        <a data-role="button" href="../login/logout.php" data-theme="b" data-icon="delete" data-ajax="false">logout</a>
+        <a data-role="button" href="app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
+        <a data-role="button" href="../login/logout.php" data-theme="b" data-icon="delete"
+           data-ajax="false"><?php echo $lang['LOGOUT'] ?></a>
     </div><!--/panel-->
 
     <div data-role="header" data-theme="a" data-position="fixed" data-id="my_info_header">
-        <a href="#change_password_menu" data-icon="bars"> menu</a>
-        <h1>Change Password</h1>
-        <a data-rel="back" data-icon="back"> back</a>
+        <a href="#change_password_menu" data-icon="bars"><?php echo $lang['MENU'] ?></a>
+        <h1><?php echo $lang['CHANGE_PW'] ?></h1>
+        <a data-rel="back" data-icon="back"><?php echo $lang['BACK_KEY'] ?></a>
     </div><!-- /header-->
 
     <div data-role="content">
 
-        <?php if (isset($_SESSION['message'])) { ?>
-            <?php echo $_SESSION['message']; ?>
-            <?php unset($_SESSION['message']);
+        <?php if (isset($_SESSION['alert'])) { ?>
+            <?php echo $lang['ALERT'] . $lang['MESSAGE'][$_SESSION['alert']]; ?>
+            <?php unset($_SESSION['alert']);
         } ?>
 
 
         <form id="change_password_form" method="post" action="change_password.php">
 
             <div id="current_pw" class="ui-field-contain">
-                <label for="current_pw_input">current pw: </label>
-                <input name="current_pw" id="current_pw_input" value="" placeholder="Enter your current password"
+                <label for="current_pw_input"><?php echo $lang['CURRENT_PW'] ?>: </label>
+                <input name="current_pw" id="current_pw_input" value="" placeholder="<?php echo $lang['PW_EXAMPLE'] ?>"
                        type="password">
                 <br>
             </div>
 
             <div id="change_pw1" class="ui-field-contain">
-                <!-- 유효성 검사 추가해야 함-->
-                <label for="change_pw1_input">enter pw: </label>
+                <label for="change_pw1_input"><?php echo $lang['CHANGE_TO'] ?>:</label>
                 <input name="change_pw1" id="change_pw1_input" class="pw_change" value=""
-                       placeholder="At least 5 characters"
+                       placeholder="<?php echo $lang['AT_LEAST_5CHARACTERS'] ?>"
                        type="password">
             </div>
             <div id="change_pw2" class="ui-field-contain">
 
-                <label for="change_pw2_input">re-enter pw: </label>
+                <label for="change_pw2_input"><?php echo $lang['RE_ENTER'] ?>:</label>
                 <input name="change_pw2" id="change_pw2_input" class="pw_change" value=""
-                       placeholder="re-enter the same characters"
+                       placeholder="<?php echo $lang['RE_ENTER'] ?>"
                        type="password">
 
 
             </div>
 
 
-            <input data-theme="a" id="change_pw_button" type="submit" data-icon="check" value="change">
+            <input data-theme="a" id="change_pw_button" type="submit" data-icon="check" value="<?php echo $lang['CHANGE'] ?>">
 
         </form>
 
@@ -175,11 +176,12 @@ if (!isset($_SESSION['member_name'])) { // Not logged in
     <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-id="settings_footer">
         <div data-role="navbar" data-position="fixed">
             <ul>
-                <li><a href="../transaction/transaction_view_personal.php" data-icon="bullets"> transaction</a></li>
+                <li><a href="../transactionHistory/view.php"
+                       data-icon="bullets"><?php echo $lang['TRANSACTION'] ?></a></li>
                 <li>
-                    <a href="../calendar/calendar.php" data-icon="calendar">calendar</a>
+                    <a href="../calendar/index.php" data-icon="calendar"><?php echo $lang['CALENDAR'] ?></a>
                 </li>
-                <li><a href="settings.php" data-theme="b" data-icon="gear">settings</a></li>
+                <li><a href="index.php" data-theme="b" data-icon="gear"><?php echo $lang['SETTINGS'] ?></a></li>
             </ul>
         </div>
     </div><!-- /footer-->

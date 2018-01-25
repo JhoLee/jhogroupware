@@ -78,52 +78,47 @@ require_once '../resources/lang/get_lang.php';
 
     <div data-role="header" data-theme="a" data-position="fixed" data-id="main_header">
         <a href="#signUp" data-role="button"><?php echo $lang['SIGN_UP'] ?></a>
-        <h1><?php echo $lang['LOGIN_TITLE']; ?></h1>
+        <h1><?php echo $lang['LOGIN']; ?></h1>
         <a data-rel="back" data-icon="back">   <?php echo $lang['BACK_KEY']; ?></a>
     </div><!-- /header -->
 
     <div data-role="content">
 
-        <?php if (isset($_SESSION['message'])) { ?>
-            <?php echo $_SESSION['message']; ?>
-            <?php unset($_SESSION['message']);
+        <?php if (isset($_SESSION['alert'])) { ?>
+            <?php echo $lang['ALERT'] . $lang['MESSAGE'][$_SESSION['alert']]; ?>
+            <?php unset($_SESSION['alert']);
         } ?>
 
-        <form id="login_form" method="post" action="login_check.php" data-ajax="false">
+        <form id="login_form" method="post" action="../index.php" data-ajax="false">
             <div for="team_form" class="ui-field-contain">
-                <label for="team_input"><?php echo $lang['TEAM_LABEL']; ?>: </label>
+                <label for="team_input"><?php echo $lang['TEAM']; ?>: </label>
                 <input data-clear-btn="true" name="member_team" id="team_input" value=""
-                       placeholder="<?php echo $lang['TEAM_PLACEHOLDER'] ?>" type="text">
+                       placeholder="<?php echo $lang['TEAM_EXAMPLE'] ?>" type="text">
             </div>
             <div for="id_form" class="ui-field-contain">
-                <label for="name_input"><?php echo $lang['NAME_LABEL']; ?>: </label>
+                <label for="name_input"><?php echo $lang['NAME']; ?>: </label>
                 <input data-clear-btn="true" name="member_name" id="name_input" value=""
-                       placeholder="<?php echo $lang['NAME_PLACEHOLDER'] ?>" type="text">
+                       placeholder="<?php echo $lang['NAME_EXAMPLE'] ?>" type="text">
             </div>
             <div id="pw_form" class="ui-field-contain">
-                <label for="pw_input"><?php echo $lang['PW_LABEL']; ?>:</label>
+                <label for="pw_input"><?php echo $lang['PW']; ?>:</label>
                 <input data-clear-btn="true" name="member_pw" id="pw_input" value=""
-                       placeholder="<?php echo $lang['PW_PLACEHOLDER'] ?>"
+                       placeholder="<?php echo $lang['PW_EXAMPLE'] ?>"
                        type="password">
             </div>
             <input data-theme="a" id="login_button" type="submit" data-icon="check"
-                   value="<?php echo $lang['LOGIN_BUTTON'] ?>">
+                   value="<?php echo $lang['LOGIN'] ?>">
         </form><!--/form-->
 
     </div><!-- /content -->
 
-    <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-id="main_footer">
+    <div data-role="footer" id="foot" data-position="fixed" data-theme="a">
         <div data-role="navbar" data-position="fixed">
             <ul>
-                <li><a href="https://open.kakao.com/o/sZ4VgyF" data-icon="comment" data-ajax="false">contact admin<br>(KakaoTalk)</a>
-                </li>
-                <li><a href="mailto:jooho_lee@outlook.kr" data-icon="mail" data-ajax="false">contact
-                        admin<br>(e-mail)</a>
-                </li>
+                <li><a href="../settings/app_info.php" data-role="button" data-icon="info">
+                        <?php echo $lang['APP_INFO'] ?></a></li>
             </ul>
-        </div>
-        <div align="center"><a class="ui-bar" href="info.php" data-icon="info"><h6><?php echo $lang['APP_INFO'] ?></h6>
-            </a></div>
+        </div><!--/navbar-->
     </div><!-- /footer -->
 </div><!-- /page -->
 
@@ -131,16 +126,16 @@ require_once '../resources/lang/get_lang.php';
 <div data-role="page" id="signUp" data-theme="c">
 
     <div data-role="header" data-theme="a" data-position="fixed" data-id="main_header">
-        <button id="reset" data-role="button">reset</button>
-        <h1>Sign Up</h1>
-        <a data-rel="back" data-icon="back">back</a>
+        <button id="reset" data-role="button"><?php echo $lang['RESET'] ?></button>
+        <h1><?php echo $lang['SIGN_UP'] ?></h1>
+        <a data-rel="back" data-icon="back"><?php echo $lang['BACK_KEY'] ?></a>
     </div><!-- /header -->
 
     <div data-role="content">
 
-        <?php if (isset($_SESSION['message'])) { ?>
-            <?php echo $_SESSION['message']; ?>
-            <?php unset($_SESSION['message']);
+        <?php if (isset($_SESSION['alert'])) { ?>
+            <?php echo $lang['ALERT'] . $lang['MESSAGE'][$_SESSION['alert']]; ?>
+            <?php unset($_SESSION['alert']);
         } ?>
 
         <?php if (true) { ?>
@@ -179,7 +174,7 @@ require_once '../resources/lang/get_lang.php';
 
 
 </div><!-- /page -->
-z
+
 
 </body>
 </html>

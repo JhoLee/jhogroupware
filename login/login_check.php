@@ -11,7 +11,7 @@
 session_start();
 
 if (isset($_SESSION['member_id'])) {
-    header("Location: ../transaction/transaction_view_personal.php");
+    header("Location: ../index");
 }
 
 
@@ -35,15 +35,15 @@ if (isset($_POST)) {
             $_SESSION['member_mobile'] = $row['m_mobile'];
             $_SESSION['member_birthday'] = $row['m_birthday'];
             $_SESSION['member_permission'] = $row['m_permission'];
-            header("Location: ../transaction/transaction_view_personal.php");
+            header("Location: ../index.php");
 
         }
     } // ID 미존재 혹은 PW 불일치
-    $_SESSION['message'] = "[ERROR] Wrong... ";
+    $_SESSION['alert'] = "LOGIN_FAILED";
     header('Location: login.php');
 
 } else {
-    $_SESSION['message'] = "[ERROR] Please enter name & pw & team";
+    $_SESSION['alert'] = "PLZ_ENTER";
     header('Location: login.php');
 }
 

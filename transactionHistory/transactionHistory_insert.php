@@ -7,7 +7,9 @@
  */
 session_start();
 
-include_once '../jho.php';
+require_once '../jho.php';
+
+require_once '../resources/lang/get_lang.php';
 
 $writer = $_SESSION['member_name'];
 $team = $_SESSION['member_team'];
@@ -30,13 +32,14 @@ VALUE
 ('$name', '$team', '$type', '$rmks', '$amount', '$date', '$now_date', '$writer', '$writer')";
 
     if (!$result = $db_conn->query($sql)) {
-        $_SESSION['message'] = "[ERROR] Failed to save...";
+        $_SESSION['alert'] = "SAVING_FAILED";
     } else {
-        $_SESSION['message'] = "[SYSTEM] Successfully saved!";
+        $_SESSION['alert'] = "SAVING_SUCCESS";
     }
 
 
 }
+
 
 ?>
 
@@ -49,10 +52,6 @@ VALUE
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="../resources/css/jquery.mobile-1.4.5.min.css">
     <script type="text/javascript" src="../resources/js/jquery.js"></script>
-    <script type="text/javascript" src="../resources/js/jquery.mobile-1.4.5.min.js"></script>
-    <!-- ...DO NOT EDIT -->
-
-
     <script type="text/javascript">
         $(document).bind("mobileinit", function () {
             $.mobile.ajaxLinksEnabled = false;
@@ -60,8 +59,8 @@ VALUE
             $.mobile.ajaxEnabled = false;
         });
     </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script type="text/javascript" src="../resources/js/jquery.mobile-1.4.5.min.js"></script>
+    <!-- ...DO NOT EDIT -->
 
     <title></title>
 </head>
@@ -75,23 +74,30 @@ VALUE
            data-icon="user"><?php echo $_SESSION['member_name']; ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
             <?php if ($_SESSION['member_permission'] >= 2) {
-                echo '<li><a href="transaction_view_admin.php" data-ajax="false">전체 조회(관리자)</a></li>';
+                echo '<li><a href="view.php#all_summary" data-ajax="false">' . $lang['ALL_VIEW']
+                    . '</a></li>';
             } ?>
-            <li><a href="transaction_view_personal.php" data-ajax="false">개별 조회</a></li>
+            <li><a href="view.php#personal_summary"
+                   data-ajax="false"><?php echo $lang['PERSONAL_VIEW'] ?></a></li>
         </ul>
-        <a data-role="button" href="../settings/app_info.php" data-icon="info">App Info</a>
-        <a data-role="button" href="../login/logout.php" data-theme="d" data-icon="delete" data-ajax="false">logout</a>
+        <a data-role="button" href="../settings/app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
+        <a data-role="button" href="../login/logout.php" data-theme="b" data-icon="delete"
+           data-ajax="false"><?php echo $lang['LOGOUT'] ?></a>
 
     </div><!-- /panel#menu-->
 
     <div data-role="header" data-theme="a" data-position="fixed" data-tab-toggle="false" data-id="personal_header">
-        <a href="#insert_menu" data-icon="bars">menu</a>
-        <h1>transaction insert</h1>
-        <a data-rel="back" data-icon="back">back</a>
+        <a href="#insert_menu" data-icon="bars"><?php echo $lang['MENU'] ?></a>
+        <h1><?php echo $lang['TRANSACTION'] . " " . $lang['INSERT'] ?></h1>
+        <a data-rel="back" data-icon="back" data-ajax="false"><?php echo $lang['BACK_KEY'] ?></a>
         <div data-role="navbar" id="insert_navbar">
             <ul>
-                <li><a href="transaction_view_admin.php" data-ajax="false">admin view</a></li>
-                <li><a href="transaction_view_personal.php" data-ajax="false">personal view</a></li>
+                <li><a href="view.php#all_summary"
+                       data-ajax="false"><?php echo $lang['ALL_VIEW'] ?></a>
+                </li>
+                <li><a href="view.php#personal_summary"
+                       data-ajax="false"><?php echo $lang['PERSONAL_VIEW'] ?></a>
+                </li>
 
             </ul>
         </div>
@@ -99,9 +105,9 @@ VALUE
 
     <div data-role="content">
 
-        <?php if (isset($_SESSION['message'])) { ?>
-            <?php echo $_SESSION['message']; ?>
-            <?php unset($_SESSION['message']);
+        <?php if (isset($_SESSION['alert'])) { ?>
+            <?php echo $lang['ALERT'] . $lang['MESSAGE'][$_SESSION['alert']]; ?>
+            <?php unset($_SESSION['alert']);
         } ?>
 
         <?php if ($_SESSION['member_permission'] < 2) { ?>
@@ -110,10 +116,10 @@ VALUE
 
         <?php } else { ?>
 
-            <form id="insertion_form" method="POST" action="transaction_insert.php" data-ajax="false">
+            <form id="insertion_form" method="POST" action="transactionHistory_insert.php" data-ajax="false">
                 <!--Name-->
                 <div class="ui-field-contain">
-                    <label for="name_input">Name: </label>
+                    <label for="name_input"><?php echo $lang['NAME'] ?>: </label>
                     <input data-clear-btn="true" name="insert_name" id="name_input" placeholder="Jho Lee" value=""
                            type="text">
 
@@ -121,18 +127,18 @@ VALUE
 
                 <!--type-->
                 <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true" data-theme="b">
-                    <legend>type</legend>
+                    <legend><?php echo $lang['TYPE'] ?></legend>
                     <input name="insert_type" id="type_minus" value="-1" type="radio">
-                    <label for="type_minus">minus</label>
+                    <label for="type_minus"><?php echo $lang['WITHDRAWAL'] ?></label>
                     <input name="insert_type" id="type_zero" value="0" checked="checked" type="radio">
                     <label for="type_zero">0</label>
                     <input name="insert_type" id="type_plus" value="1" type="radio">
-                    <label for="type_plus">plus</label>
+                    <label for="type_plus"><?php echo $lang['DEPOSIT'] ?></label>
                 </fieldset><!--type-->
 
                 <!--rmks-->
                 <div class="ui-field-contain">
-                    <label for="rmks_input">rmks: </label>
+                    <label for="rmks_input"><?php echo $lang['RMKS'] ?>: </label>
                     <input data-clear-btn="true" name="insert_rmks" id="rmks_input" placeholder="Deposit by cash"
                            value=""
                            type="text">
@@ -140,21 +146,22 @@ VALUE
 
                 <!--amount-->
                 <div class="ui-field-contain">
-                    <label for="amount_input">amount: </label>
+                    <label for="amount_input"><?php echo $lang['AMOUNT_OF_MONEY'] ?>: </label>
                     <input data-clear-btn="true" name="insert_amount" id="amount_input" placeholder="20000" value=""
                            type="text">
                 </div><!--amount-->
 
                 <!--date-->
                 <div class="ui-field-contain">
-                    <label for="date">date: </label>
+                    <label for="date"><?php echo $lang['DATE'] ?>: </label>
                     <input name="insert_date" id="date" data-role="date" data-theme="a"
                            data-inline="true"
                            type="date">
                 </div><!--/date-->
 
                 <!--submit-->
-                <button data-role="button" id="submit_btn" type="submit" value="submit">submit</button><!--/submit-->
+                <button data-role="button" id="submit_btn" type="submit"
+                        value="submit"><?php echo $lang['SAVE'] ?></button><!--/submit-->
 
 
             </form>
@@ -175,15 +182,15 @@ VALUE
         $result = $db_conn->query($sql);
         $row = $result->fetch_assoc();
         ?>
-        <h2>Data Last Updated at : <?php echo $row['last updated date']; ?></h2>
+        <h2><?php echo $lang['LAST_UPDATE'] ?>: <?php echo $row['last updated date']; ?></h2>
         <div data-role="navbar" data-position="fixed">
             <ul>
                 <li>
-                    <button data-theme="b" data-icon="bullets">transaction</button>
+                    <button data-theme="b" data-icon="bullets"><?php echo $lang['TRANSACTION'] ?></button>
                 </li>
-                <li><a href="../calendar/calendar.php" data-icon="calendar">calendar</a></li>
+                <li><a href="../calendar/index.php" data-icon="calendar"><?php echo $lang['CALENDAR'] ?></a></li>
 
-                <li><a href="../settings/settings.php" data-icon="gear">settings</a></li>
+                <li><a href="../settings/index.php" data-icon="gear"><?php echo $lang['SETTINGS'] ?></a></li>
             </ul>
         </div>
     </div><!-- /footer -->

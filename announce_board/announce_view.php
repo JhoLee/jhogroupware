@@ -9,11 +9,16 @@
 if (!isset($_COOKIE["PHPSESSID"])) {
     session_start();
 }
-include_once '../jho.php';
+
 
 if (!isset($_SESSION['member_id'])) {
     header('Location: ../login/login.php');
 }
+
+require_once '../resources/lang/get_lang.php';
+require_once '../jho.php';
+
+
 $member_team = $_SESSION['member_team'];
 
 $sql = "SELECT a_writer AS '작성자',
@@ -34,12 +39,12 @@ if ($result->num_rows > 0) { ?>
         <?php while ($row = $result->fetch_assoc()) { ?>
 
             <div data-role="collapsible">
-                <h3> <?php echo "  " . $row['제목'] . " ( 작성: " . $row['작성자'] . ", " . $row['작성일시'] ?> ) </h3>
+                <h3> <?php echo "  " . $row['제목'] . " ( " . $row['작성자'] . ", " . $row['작성일시'] ?> ) </h3>
                 <p>
-                <h6>제목: <?php echo $row['제목'] ?>
-                    <br>작성자: <?php echo $row['작성자'] ?>
-                    <br>최초 작성일: <?php echo $row['작성일시'] ?>
-                    <br>최종 수정일: <?php echo $row['수정일시'] ?>
+                <h6><?php echo $lang['TITLE'] . ": " . $row['제목'] ?>
+                    <br><?php echo $lang['WRITER'] . ": " . $row['작성자'] ?>
+                    <br><?php echo $lang['CREATION_DATE'] . ": " . $row['작성일시'] ?>
+                    <br><?php echo $lang['LAST_MODIFIED_DATE'] . ": " . $row['수정일시'] ?>
                 </h6>
                 <br><?php echo $row['내용']; ?>
                 </p>

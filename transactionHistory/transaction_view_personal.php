@@ -11,28 +11,10 @@ if (!isset($_SESSION['member_id'])) {
 require_once('../jho.php');
 
 require_once '../resources/lang/get_lang.php';
+
+
+require_once '../resources/header.php';
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-    <!-- DO NOT EDIT... -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="../resources/css/jquery.mobile-1.4.5.min.css">
-    <script type="text/javascript" src="../resources/js/jquery.js"></script>
-    <script type="text/javascript">
-        $(document).bind("mobileinit", function () {
-            $.mobile.ajaxLinksEnabled = false;
-            $.mobile.ajaxFormsEnabled = false;
-            $.mobile.ajaxEnabled = false;
-        });
-    </script>
-    <script type="text/javascript" src="../resources/js/jquery.mobile-1.4.5.min.js"></script>
-
-    <!-- ...DO NOT EDIT -->
-
-    <title></title>
-</head>
 
 <body>
 <!-- Start of the summary page -->
@@ -61,7 +43,7 @@ require_once '../resources/lang/get_lang.php';
             <ul>
                 <li><a href="#personal_summary" data-ajax="false"><?php echo $lang['SUMMARY'] ?></a></li>
                 <li><a href="#personal_details" data-ajaxa="false"><?php echo $lang['DETAILS'] ?></a></li>
-                <li><a href="transaction_insert.php" data-ajaxa="false"><?php echo $lang['INSERT'] ?></a></li>
+                <li><a href="transactionHistory_insert.php" data-ajaxa="false"><?php echo $lang['INSERT'] ?></a></li>
             </ul>
         </div>
     </div><!-- /header -->
@@ -147,9 +129,9 @@ require_once '../resources/lang/get_lang.php';
                 <li>
                     <button data-theme="b" data-icon="bullets"><?php echo $lang['TRANSACTION'] ?></button>
                 </li>
-                <li><a href="../calendar/calendar.php" data-icon="calendar"><?php echo $lang['CALENDAR'] ?></a></li>
+                <li><a href="../calendar/index.php" data-icon="calendar"><?php echo $lang['CALENDAR'] ?></a></li>
 
-                <li><a href="../settings/settings.php" data-icon="gear"><?php echo $lang['SETTINGS'] ?></a></li>
+                <li><a href="../settings/index.php" data-icon="gear"><?php echo $lang['SETTINGS'] ?></a></li>
             </ul>
         </div>
     </div><!-- /footer -->
@@ -179,7 +161,7 @@ require_once '../resources/lang/get_lang.php';
             <ul>
                 <li><a href="#personal_summary" data-ajax="false">summary</a></li>
                 <li><a href="#personal_details" data-ajaxa="false">details</a></li>
-                <li><a href="transaction_insert.php" data-ajaxa="false">insert</a></li>
+                <li><a href="transactionHistory_insert.php" data-ajaxa="false">insert</a></li>
             </ul>
         </div>
     </div><!-- /header -->
@@ -296,9 +278,9 @@ require_once '../resources/lang/get_lang.php';
                 <li>
                     <button data-theme="b" data-icon="bullets">transaction</button>
                 </li>
-                <li><a href="../calendar/calendar.php" data-icon="calendar">calendar</a></li>
+                <li><a href="../calendar/index.php" data-icon="calendar">calendar</a></li>
 
-                <li><a href="../settings/settings.php" data-icon="gear">settings</a></li>
+                <li><a href="../settings/index.php" data-icon="gear">settings</a></li>
             </ul>
         </div>
     </div><!-- /footer -->

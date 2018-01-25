@@ -61,7 +61,7 @@ if (!isset($_SESSION['member_name'])) { // Not logged in
             <ul>
                 <li><a href="#admin_summary" data-ajax="false">summary</a></li>
                 <li><a href="#admin_details" data-ajxa="false">details</a></li>
-                <li><a href="transaction_insert.php">insert</a></li>
+                <li><a href="transactionHistory_insert.php">insert</a></li>
             </ul>
         </div>
 
@@ -129,9 +129,9 @@ if (!isset($_SESSION['member_name'])) { // Not logged in
                 <li>
                     <button data-theme="b" data-icon="bullets">transaction</button>
                 </li>
-                <li><a href="../calendar/calendar.php" data-icon="calendar">calendar</a></li>
+                <li><a href="../calendar/index.php" data-icon="calendar">calendar</a></li>
 
-                <li><a href="../settings/settings.php" data-icon="gear">settings</a></li>
+                <li><a href="../settings/index.php" data-icon="gear">settings</a></li>
             </ul>
         </div>
     </div><!-- /footer-->
@@ -161,7 +161,7 @@ if (!isset($_SESSION['member_name'])) { // Not logged in
             <ul>
                 <li><a href="#admin_summary" data-ajax="false">summary</a></li>
                 <li><a href="#admin_details" data-ajaxa="false">details</a></li>
-                <li><a href="transaction_insert.php"data-ajaxa="false">insert</a></li>
+                <li><a href="transactionHistory_insert.php" data-ajaxa="false">insert</a></li>
             </ul>
         </div>
 
