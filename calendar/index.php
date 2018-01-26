@@ -12,7 +12,7 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
 
 require_once '../resources/lang/get_lang.php';
 
-require_once '../resources/header.php';
+require_once '../resources/head.php';
 ?>
 
 <body>

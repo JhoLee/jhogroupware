@@ -23,7 +23,7 @@ if (!isset($_SESSION['member_name'])) { // Not logged in
 }
 
 
-require_once '../resources/header.php';
+require_once '../resources/head.php';
 
 ?>
 <body>
@@ -38,7 +38,7 @@ require_once '../resources/header.php';
                 echo '<li><a href="#all_summary">';
                 echo $lang["ALL_VIEW"] . '</a></li>';
             } ?>
-            <li><a href="#personal_summary"><?php echo $lang['TRANSACTION_VIEW_PERSONAL'] ?></a></li>
+            <li><a href="#personal_summary_menu"><?php echo $lang['TRANSACTION_VIEW_PERSONAL'] ?></a></li>
         </ul>
         <a data-role="button" href="../settings/app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
         <a data-role="button" href="../login/logout.php" data-theme="b"
@@ -57,7 +57,7 @@ require_once '../resources/header.php';
                 <li><a href="#personal_summary"><?php echo $lang['SUMMARY'] ?></a></li>
                 <li><a href="#personal_details"><?php echo $lang['DETAILS'] ?></a></li>
                 <?php if ($_SESSION['member_permission'] >= 2) { ?>
-                    <li><a href="transactionHistory_insert.php"><?php echo $lang['INSERT'] ?></a></li>
+                    <li><a href="insert.php"><?php echo $lang['INSERT'] ?></a></li>
                 <?PHP } ?>
             </ul>
         </div>
@@ -161,7 +161,7 @@ require_once '../resources/header.php';
                 <li><a href="#personal_summary"><?php echo $lang['SUMMARY'] ?></a></li>
                 <li><a href="#personal_details"><?php echo $lang['DETAILS'] ?></a></li>
                 <?php if ($_SESSION['member_permission'] >= 2) { ?>
-                    <li><a href="transactionHistory_insert.php"><?php echo $lang['INSERT'] ?></a></li>
+                    <li><a href="insert.php"><?php echo $lang['INSERT'] ?></a></li>
                 <?php } ?>
             </ul>
         </div>
@@ -297,7 +297,7 @@ require_once '../resources/header.php';
                 <li><a href="#all_summary"><?php echo $lang['SUMMARY'] ?></a></li>
                 <li><a href="#all_details"><?php echo $lang['DETAILS'] ?></a></li>
                 <?php if ($_SESSION['member_permission'] >= 2) { ?>
-                    <li><a href="transactionHistory_insert.php"><?php echo $lang['INSERT'] ?></a></li>
+                    <li><a href="insert.php"><?php echo $lang['INSERT'] ?></a></li>
                 <?php } ?>
             </ul>
         </div>
@@ -384,7 +384,7 @@ require_once '../resources/header.php';
                 <li><a href="#all_summary"><?php echo $lang['SUMMARY'] ?></a></li>
                 <li><a href="#all_details"><?php echo $lang['DETAILS'] ?></a></li>
                 <?php if ($_SESSION['member_permission'] >= 2) { ?>
-                    <li><a href="transactionHistory_insert.php"><?php echo $lang['INSERT'] ?></a></li>
+                    <li><a href="insert.php"><?php echo $lang['INSERT'] ?></a></li>
                 <?php } ?>
             </ul>
         </div>

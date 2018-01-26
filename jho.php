@@ -7,8 +7,8 @@
  */
 
 $db_host = "localhost";
-$db_user = "root";
-$db_password = "root1234";
+$db_user = "jho_groupware";
+$db_password = "jhogroupware1234!!";
 $db_name = "jho_groupware";
 
 

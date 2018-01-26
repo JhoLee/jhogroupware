@@ -13,7 +13,7 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
 
 require_once '../resources/lang/get_lang.php';
 
-require_once '../resources/header.php';
+require_once '../resources/head.php';
 ?>
     <body>
     <!--Start of the change_lang page-->
@@ -73,7 +73,7 @@ require_once '../resources/header.php';
 
                     <li><a data-role="button" href="../login/login.php" data-icon="check"
                            data-ajax="false">
-                            <?php echo $lang['LOGIN'] ?></a></li>
+                            <?php echo $lang['GO_SIGN_IN'] ?></a></li>
                     <?php } else { ?>
                         <div data-role="navbar" data-position="fixed">
                             <ul>

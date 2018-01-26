@@ -116,7 +116,7 @@ VALUE
 
         <?php } else { ?>
 
-            <form id="insertion_form" method="POST" action="transactionHistory_insert.php" data-ajax="false">
+            <form id="insertion_form" method="POST" action="insert.php" data-ajax="false">
                 <!--Name-->
                 <div class="ui-field-contain">
                     <label for="name_input"><?php echo $lang['NAME'] ?>: </label>

@@ -61,7 +61,7 @@ if (!isset($_SESSION['member_name'])) { // Not logged in
             <ul>
                 <li><a href="#admin_summary" data-ajax="false">summary</a></li>
                 <li><a href="#admin_details" data-ajxa="false">details</a></li>
-                <li><a href="transactionHistory_insert.php">insert</a></li>
+                <li><a href="insert.php">insert</a></li>
             </ul>
         </div>
 
@@ -161,7 +161,7 @@ if (!isset($_SESSION['member_name'])) { // Not logged in
             <ul>
                 <li><a href="#admin_summary" data-ajax="false">summary</a></li>
                 <li><a href="#admin_details" data-ajaxa="false">details</a></li>
-                <li><a href="transactionHistory_insert.php" data-ajaxa="false">insert</a></li>
+                <li><a href="insert.php" data-ajaxa="false">insert</a></li>
             </ul>
         </div>
 

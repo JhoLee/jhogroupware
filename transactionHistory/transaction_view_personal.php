@@ -13,7 +13,7 @@ require_once('../jho.php');
 require_once '../resources/lang/get_lang.php';
 
 
-require_once '../resources/header.php';
+require_once '../resources/head.php';
 ?>
 
 <body>
@@ -43,7 +43,7 @@ require_once '../resources/header.php';
             <ul>
                 <li><a href="#personal_summary" data-ajax="false"><?php echo $lang['SUMMARY'] ?></a></li>
                 <li><a href="#personal_details" data-ajaxa="false"><?php echo $lang['DETAILS'] ?></a></li>
-                <li><a href="transactionHistory_insert.php" data-ajaxa="false"><?php echo $lang['INSERT'] ?></a></li>
+                <li><a href="insert.php" data-ajaxa="false"><?php echo $lang['INSERT'] ?></a></li>
             </ul>
         </div>
     </div><!-- /header -->
@@ -161,7 +161,7 @@ require_once '../resources/header.php';
             <ul>
                 <li><a href="#personal_summary" data-ajax="false">summary</a></li>
                 <li><a href="#personal_details" data-ajaxa="false">details</a></li>
-                <li><a href="transactionHistory_insert.php" data-ajaxa="false">insert</a></li>
+                <li><a href="insert.php" data-ajaxa="false">insert</a></li>
             </ul>
         </div>
     </div><!-- /header -->

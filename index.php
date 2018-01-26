@@ -14,7 +14,7 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
 
     require_once 'jho.php';
 
-    if (isset($_POST)) {
+    if (isset($_POST['member_team']) and isset($_POST['member_name']) and isset($_POST['member_pw'])) {
 
         $member_team = $_POST['member_team'];
         $member_name = $_POST['member_name'];
@@ -46,7 +46,7 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
 }
 
 
-require_once 'resources/header.php';
+require_once 'resources/head.php';
 
 ?>
 

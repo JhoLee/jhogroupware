@@ -12,7 +12,7 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
 
 require_once '../resources/lang/get_lang.php';
 
-require_once '../resources/header.php';
+require_once '../resources/head.php';
 ?>
 
 
@@ -27,7 +27,7 @@ require_once '../resources/header.php';
                 <a data-role="button" href="app_info.php" data-theme="a"
                    data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
                 <a data-role="button" href="../login/login.php" data-theme="b" data-icon="check" data-ajax="false">
-                    <?php echo $lang['LOGIN'] ?></a>
+                    <?php echo $lang['GO_SIGN_IN'] ?></a>
             <?php } else { ?>
                 <a href="my_info.php" data-theme="a" data-role="button"
                    data-icon="user"><?php echo $_SESSION['member_name']; ?></a>
@@ -70,7 +70,7 @@ require_once '../resources/header.php';
 
                     <li><a data-role="button" href="../login/login.php" data-icon="check"
                            data-ajax="false">
-                            <?php echo $lang['LOGIN'] ?></a></li>
+                            <?php echo $lang['GO_TO_LOGIN'] ?></a></li>
                     <?php } else { ?>
                         <div data-role="navbar" data-position="fixed">
                             <ul>

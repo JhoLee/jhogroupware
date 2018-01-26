@@ -1,6 +1,6 @@
 <?php
 /**
- * @?: 'header.php' is a file that include 'head contents' for " / * / *.php "
+ * @?: 'head.php' is a file that include 'head contents' for " / * / *.php "
  * @Date: 18.01.23
  * @Author: Jho
  *

@@ -117,6 +117,8 @@ require_once '../resources/lang/get_lang.php';
             <ul>
                 <li><a href="../settings/app_info.php" data-role="button" data-icon="info">
                         <?php echo $lang['APP_INFO'] ?></a></li>
+                <li><a href="../settings/change_lang.php" data-role="button" data-theme="a"
+                       data-icon="eye">Language</a></li>
             </ul>
         </div><!--/navbar-->
     </div><!-- /footer -->
@@ -148,7 +150,7 @@ require_once '../resources/lang/get_lang.php';
                     <input name="sign_up_name" id="sign_up_name_input" value="" placeholder="Name" type="text">
                 </div>
                 <div id="pw_form_login" class="ui-field-contain">
-                    <label for="sign_up_pw_inputt">PW: </label>
+                    <label for="sign_up_pw_input">PW: </label>
                     <input name="sign_up_pw" id="sign_up_pw_input" value="" placeholder="********" type="password">
                 </div>
                 <input data-theme="a" id="login_button" type="submit" data-icon="check" value="sign up">
