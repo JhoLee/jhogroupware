@@ -22,3 +22,4 @@ if ($db_conn->connect_errno) {
     $db_conn->query('set session character_set_client = utf8;');
 }
 
+

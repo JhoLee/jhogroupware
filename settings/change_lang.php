@@ -6,14 +6,19 @@
  * Time: 17:33
  */
 session_start();
-if (!isset($_SESSION['member_id'])) { // Not logged in
-    $_SESSION['member_id'] = 'guest';
+
+require_once '../resources/lang/get_lang.php';
+require_once '../resources/php/classes/Member/Member.php';
+require_once '../resources/head.php';
+
+if (empty($_SESSION['member'])) { // Not logged in
+    $_SESSION['member'] = 'guest';
+} else {
+    $member = unserialize($_SESSION['member']);
+    $name = $member->getName();
 }
 
 
-require_once '../resources/lang/get_lang.php';
-
-require_once '../resources/head.php';
 ?>
     <body>
     <!--Start of the change_lang page-->
@@ -21,29 +26,31 @@ require_once '../resources/head.php';
 
         <div data-role="panel" id="change_lang_menu" data-display="reveal">
 
-            <?php if ($_SESSION['member_id'] == guest) { ?>
+            <?php if ($_SESSION['member'] == 'guest') { ?>
 
                 <a href="change_lang.php" data-role="button" data-theme="a"
                    data-icon="eye"><?php echo $lang['CHANGE_LANG'] ?></a>
-                <a data-role="button" href="app_info.php" data-theme="a" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
+                <a data-role="button" href="app_info.php" data-theme="a"
+                   data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
                 <a data-role="button" href="../login/login.php" data-theme="b" data-icon="check" data-ajax="false">
                     <?php echo $lang['LOGIN'] ?></a>
             <?php } else { ?>
 
                 <a href="my_info.php" data-theme="a" data-role="button"
-                   data-icon="user"><?php echo $_SESSION['member_name']; ?></a>
+                   data-icon="user"><?php echo $name ?></a>
                 <ul data-role="listview" data-theme="a" data-inset="true">
-                    <li><a href="#change_lang" data-role="button" data-theme="a"
+                    <li><a href="change_lang.php" data-role="button" data-theme="a"
                            data-icon="eye"><?php echo $lang['CHANGE_LANG'] ?></a></li>
 
                     <li><a href="my_info_update.php" data-role="button" data-theme="a" data-icon="edit"
-                           data-ajax="false"><?php echo $lang['UPDATE_MY_INFO'] ?></a></li>
+                           data-ajax="false">
+                            <?php echo $lang['UPDATE_MY_INFO'] ?></a></li>
                     <li><a href="change_password.php" data-theme="a" data-role="button" data-icon="recycle"
                            data-ajax="false"><?php echo $lang['CHANGE_PW'] ?></a></li>
                 </ul>
                 <a data-role="button" href="app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
-                <a data-role="button" href="../login/logout.php" data-theme="b" data-icon="delete"
-                   data-ajax="false"><?php echo $lang['LOGOUT'] ?></a>
+                <a data-role="button" href="../login/logout.php" data-theme="b" data-icon="delete" data-ajax="false">
+                    <?php echo $lang['LOGOUT'] ?></a>
 
             <?php } ?>
 
@@ -67,7 +74,7 @@ require_once '../resources/head.php';
         </div><!-- /content-->
 
         <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-id="settings_footer">
-            <?php if ($_SESSION['member_id'] == 'guest') { ?>
+            <?php if ($_SESSION['member'] == 'guest') { ?>
             <div data-role="navbar" data-position="fixed">
                 <ul>
 
@@ -95,4 +102,4 @@ require_once '../resources/head.php';
     </body>
     </html>
 
-<?php if ($_SESSION['member_id'] == 'guest') unset($_SESSION['member_id']) ?>
+<?php if ($_SESSION['member'] == 'guest') unset($_SESSION['member']) ?>

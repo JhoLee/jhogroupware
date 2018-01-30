@@ -11,30 +11,46 @@
  */
 session_start();
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+require_once '../resources/php/classes/Member/Member.php';
 require_once '../resources/lang/get_lang.php';
 require_once '../jho.php';
-
-if (!isset($_SESSION['member_name'])) { // Not logged in
+/*
+ *
+ if (!isset($_SESSION['member'])) { // Not logged in
+    $_SESSION['message'] = "Not Logged in 'view'";
     header('Location: ../login/login.php');
+    exit();
+} else */
+
+if (empty($_SESSION['member'])) { // Not logged in
+    header('Location: ../login/login.php');
+    exit();
+
 } else {
 
-    $team = $_SESSION['member_team'];
-
+    $member = unserialize($_SESSION['member']);
+    $team = $member->getTeam();
+    $name = $member->getName();
+    $permission = $member->getPermission();
 }
 
 
 require_once '../resources/head.php';
 
 ?>
+
 <body>
 <!-- Start of the personal_summary page -->
 <div data-role="page" id="personal_summary" data-theme="c">
 
     <div data-role="panel" id="personal_summary_menu" data-display="reveal">
         <a href="../settings/my_info.php" data-theme="a" data-role="button"
-           data-icon="user"><?php echo $_SESSION['member_name']; ?></a>
+           data-icon="user"><?php echo $name; ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
-            <?php if ($_SESSION['member_permission'] >= 2) {
+            <?php if ($permission >= 2) {
                 echo '<li><a href="#all_summary">';
                 echo $lang["ALL_VIEW"] . '</a></li>';
             } ?>
@@ -55,9 +71,9 @@ require_once '../resources/head.php';
         <div data-role="navbar" id="summary_navbar">
             <ul>
                 <li><a href="#personal_summary"><?php echo $lang['SUMMARY'] ?></a></li>
-                <li><a href="#personal_details"><?php echo $lang['DETAILS'] ?></a></li>
-                <?php if ($_SESSION['member_permission'] >= 2) { ?>
-                    <li><a href="insert.php"><?php echo $lang['INSERT'] ?></a></li>
+                <li><a href="#personal_details"><?php echo $lang['DETAILS']; ?>
+                        <?php if ($permission >= 2) { ?>
+                <li><a href="insert.php"><?php echo $lang['INSERT'] ?></a></li>
                 <?PHP } ?>
             </ul>
         </div>
@@ -76,8 +92,7 @@ require_once '../resources/head.php';
             </thead>
             <tbody>
             <?php
-            $name = $_SESSION['member_name'];
-            $team = $_SESSION['member_team'];
+
             $sql = "SELECT m_name AS '이름', SUM(d_category * d_ammount) AS '잔액', MAX(d_date) AS '최종 변경일'
                     FROM deposit_history WHERE t_team='$team' AND m_name = '$name'";
             $result = $db_conn->query($sql);
@@ -91,6 +106,8 @@ require_once '../resources/head.php';
                     <td>" . $row['최종 변경일'] . "</td>
                 </tr>";
                 }
+            } else {
+                echo "??";
             } ?>
             </tbody>
         </table>
@@ -136,9 +153,9 @@ require_once '../resources/head.php';
 
     <div data-role="panel" id="personal_details_menu" data-display="reveal">
         <a href="../settings/my_info.php" data-theme="a" data-role="button"
-           data-icon="user"><?php echo $_SESSION['member_name']; ?></a>
+           data-icon="user"><?php echo $name; ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
-            <?php if ($_SESSION['member_permission'] >= 2) {
+            <?php if ($permission >= 2) {
                 echo '<li><a href="#all_summary">';
                 echo $lang["ALL_VIEW"] . '</a></li>';
             } ?>
@@ -160,7 +177,7 @@ require_once '../resources/head.php';
             <ul>
                 <li><a href="#personal_summary"><?php echo $lang['SUMMARY'] ?></a></li>
                 <li><a href="#personal_details"><?php echo $lang['DETAILS'] ?></a></li>
-                <?php if ($_SESSION['member_permission'] >= 2) { ?>
+                <?php if ($permission >= 2) { ?>
                     <li><a href="insert.php"><?php echo $lang['INSERT'] ?></a></li>
                 <?php } ?>
             </ul>
@@ -170,6 +187,7 @@ require_once '../resources/head.php';
     <div data-role="content">
 
         <script language="javascript">
+            /*
 
             $(document).on("pageshow", "#dataTablesExample1", function () {
 
@@ -188,8 +206,8 @@ require_once '../resources/head.php';
 
             $(document).on("pageremove", function (event) {
                 $('#example').DataTable().destroy(false);
-            })
-
+            });
+*/
         </script>
 
 
@@ -206,9 +224,6 @@ require_once '../resources/head.php';
             </thead>
             <tbody>
             <?php
-            $id = $_SESSION['member_id'];
-            $name = $_SESSION['member_name'];
-            $team = $_SESSION['member_team'];
             $db_conn->query("SET @balance := 0;");
             $sql = "
             SELECT
@@ -272,9 +287,9 @@ require_once '../resources/head.php';
 
     <div data-role="panel" id="all_summary_menu" data-display="reveal">
         <a href="../settings/my_info.php" data-theme="a" data-role="button"
-           data-icon="user"><?php echo $_SESSION['member_name']; ?></a>
+           data-icon="user"><?php echo $name; ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
-            <?php if ($_SESSION['member_permission'] >= 2) {
+            <?php if ($permission >= 2) {
                 echo '<li><a href="#all_summary">';
                 echo $lang["ALL_VIEW"] . '</a></li>';
             } ?>
@@ -296,7 +311,7 @@ require_once '../resources/head.php';
             <ul>
                 <li><a href="#all_summary"><?php echo $lang['SUMMARY'] ?></a></li>
                 <li><a href="#all_details"><?php echo $lang['DETAILS'] ?></a></li>
-                <?php if ($_SESSION['member_permission'] >= 2) { ?>
+                <?php if ($permission >= 2) { ?>
                     <li><a href="insert.php"><?php echo $lang['INSERT'] ?></a></li>
                 <?php } ?>
             </ul>
@@ -305,7 +320,7 @@ require_once '../resources/head.php';
 
     <div data-role="content">
 
-        <?php if ($_SESSION['member_permission'] < 2) { ?>
+        <?php if ($permission < 2) { ?>
 
             <img src="../resources/images/no_permission.png" width="100%">
 
@@ -359,9 +374,9 @@ require_once '../resources/head.php';
 
     <div data-role="panel" id="all_details_menu" data-display="reveal">
         <a href="../settings/my_info.php" data-theme="a" data-role="button"
-           data-icon="user"><?php echo $_SESSION['member_name']; ?></a>
+           data-icon="user"><?php echo $name; ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
-            <?php if ($_SESSION['member_permission'] >= 2) {
+            <?php if ($permission >= 2) {
                 echo '<li><a href="#all_summary">';
                 echo $lang["ALL_VIEW"] . '</a></li>';
             } ?>
@@ -383,7 +398,7 @@ require_once '../resources/head.php';
             <ul>
                 <li><a href="#all_summary"><?php echo $lang['SUMMARY'] ?></a></li>
                 <li><a href="#all_details"><?php echo $lang['DETAILS'] ?></a></li>
-                <?php if ($_SESSION['member_permission'] >= 2) { ?>
+                <?php if ($permission >= 2) { ?>
                     <li><a href="insert.php"><?php echo $lang['INSERT'] ?></a></li>
                 <?php } ?>
             </ul>
@@ -392,7 +407,7 @@ require_once '../resources/head.php';
 
     <div data-role="content">
 
-        <?php if ($_SESSION['member_permission'] < 2) { ?>
+        <?php if ($permission < 2) { ?>
 
             <img src="../resources/images/no_permission.png" width="100%">
 
@@ -411,9 +426,6 @@ require_once '../resources/head.php';
                 </thead>
                 <tbody>
                 <?php
-                $id = $_SESSION['member_id'];
-                $name = $_SESSION['member_name'];
-                $team = $_SESSION['member_team'];
 
 
                 $db_conn->query('SET @balance := 0;');
@@ -479,3 +491,4 @@ ORDER BY ql.날짜, ql.이름, ql.입력일 ASC;
 </body>
 
 </html>
+

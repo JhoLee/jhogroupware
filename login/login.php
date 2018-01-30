@@ -8,76 +8,72 @@
  * +) File for login with session
  */
 session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 
 require_once '../resources/lang/get_lang.php';
+require_once '../resources/php/classes/Member/Member.php';
 
-
-if (isset($_SESSION['member_name'])) {
-    header('Location: ../index.php');
+if (isset($_SESSION['member'])) {
+    header('Location: ../transactionHistory/view.php');
     exit();
 } else {
     $_SESSION['message'] = " ";
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $_SESSION['message'] = $_SESSION['message'] . "0 ";
         if (empty($_POST['team'])) { // 'team' validation
-            $_SESSION['message'] = $_SESSION['message'] . "1-1 ";
             $teamMsg = $lang['MESSAGE']['ENTER_THE_TEAM'];
         } else {
-            $_SESSION['message'] = $_SESSION['message'] . "1-2 ";
             $team = $_POST['team'];
 
         } // 'team' validation end
-        $_SESSION['message'] = $_SESSION['message'] . "1- ";
 
 
         if (empty($_POST['name'])) { // 'name' validation
-            $_SESSION['message'] = $_SESSION['message'] . "2-1 ";
             $nameMsg = $lang['MESSAGE']['ENTER_THE_NAME'];
         } else {
-            $_SESSION['message'] = $_SESSION['message'] . "2-2 ";
             $name = $_POST['name'];
         } // 'name' validation end
-        $_SESSION['message'] = $_SESSION['message'] . "2- ";
 
         if (empty($_POST['pw'])) { // 'pw' validation
-            $_SESSION['message'] = $_SESSION['message'] . "3-1 ";
             $pwMsg = $lang['MESSAGE']['ENTER_THE_PW'];
         } else {
-            $_SESSION['message'] = $_SESSION['message'] . "3-2 ";
             $pw = $_POST["pw"];
         } // 'pw' validation end
-        $_SESSION['message'] = $_SESSION['message'] . "3- ";
 
         /* Login Check */
         require_once '../jho.php';
 
         $result = $db_conn->query("SELECT * FROM member WHERE m_name='$name' AND t_team='$team'");
-        $_SESSION['message'] = $_SESSION['message'] . "start checking ";
         if ($result->num_rows > 0) { // 일치하는 ID 존재
             $row = $result->fetch_assoc();
             if (password_verify($pw, $row['m_pw'])) { // ID & PW 일치
 
+                /*
                 $_SESSION['member_id'] = $row['m_id'];
                 $_SESSION['member_name'] = $row['m_name'];
                 $_SESSION['member_team'] = $row['t_team'];
                 $_SESSION['member_mobile'] = $row['m_mobile'];
                 $_SESSION['member_birthday'] = $row['m_birthday'];
                 $_SESSION['member_permission'] = $row['m_permission'];
-                $_SESSION['message'] = $_SESSION['message'] . "~~~ ";
+                */
+
+
+                $member = new Member\Member($row['m_id'], $row['m_name'], $row['t_team'], $row['m_mobile'],
+                    $row['m_birthday'], $row['m_permission']);
+                $_SESSION['member'] = serialize($member);
+
 
             }
-            $_SESSION['message'] = $_SESSION['message'] . "'wrong pw' ";
-        } else {
-            $_SESSION['message'] = $_SESSION['message'] . "wrong id ";
         }
         // ID 미존재 혹은 PW 불일치
         $_SESSION['alert'] = "LOGIN_FAILED";
         /* */
 
-    } else {
+    } else {// Not POST
         $_SESSION['message'] = "not post";
-        // Not POST
+
     }
 
 }
@@ -165,7 +161,7 @@ if (isset($_SESSION['member_name'])) {
 
         <form id="login_form" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>"
               data-ajax="false">
-            <div for="team_form" class="ui-field-contain">
+            <div id="team_form" class="ui-field-contain">
                 <label for="team_input"><?php echo $lang['TEAM']; ?>2: </label>
 
                 <input data-clear-btn="true" name="team" id="team_input" value=""
@@ -177,7 +173,7 @@ if (isset($_SESSION['member_name'])) {
                     } ?></div>
             </div>
 
-            <div for="id_form" class="ui-field-contain">
+            <div id="id_form" class="ui-field-contain">
                 <label for="name_input"><?php echo $lang['NAME']; ?>: </label>
 
                 <input data-clear-btn="true" name="name" id="name_input" value=""
@@ -238,7 +234,7 @@ if (isset($_SESSION['member_name'])) {
         } ?>
 
         <?php if (true) { ?>
-            <img src="../resources/images/under_construction.png" width="100%">
+            <img src="../resources/images/under_construction.png">
         <?php } else { ?>
 
             <form id="sign_up_form" method="post" action="sign_up.php" data-ajax="false">

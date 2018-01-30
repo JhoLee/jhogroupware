@@ -6,13 +6,22 @@
  * Time: 18:08
  */
 session_start();
-if (!isset($_SESSION['member_id'])) { // Not logged in
-    $_SESSION['member_id'] = 'guest';
-}
 
 require_once '../resources/lang/get_lang.php';
-
+require_once '../resources/php/classes/Member/Member.php';
 require_once '../resources/head.php';
+
+if (!isset($_SESSION['member'])) { // Not logged in
+    $_SESSION['member'] = 'guest';
+} else {
+
+    $member = unserialize($_SESSION['member']);
+    $team = $member->getTeam();
+    $name = $member->getName();
+    $permission = $member->getPermission();
+}
+
+
 ?>
 
 
@@ -21,7 +30,7 @@ require_once '../resources/head.php';
     <div data-role="page" id="app_info" data-theme="c">
 
         <div data-role="panel" id="app_info_menu" data-display="reveal">
-            <?php if ($_SESSION['member_id'] == guest) { ?>
+            <?php if ($_SESSION['member'] == 'guest') { ?>
                 <a href="change_lang.php" data-role="button" data-theme="a"
                    data-icon="eye"><?php echo $lang['CHANGE_LANG'] ?></a>
                 <a data-role="button" href="app_info.php" data-theme="a"
@@ -30,7 +39,7 @@ require_once '../resources/head.php';
                     <?php echo $lang['GO_SIGN_IN'] ?></a>
             <?php } else { ?>
                 <a href="my_info.php" data-theme="a" data-role="button"
-                   data-icon="user"><?php echo $_SESSION['member_name']; ?></a>
+                   data-icon="user"><?php echo $name ?></a>
                 <ul data-role="listview" data-theme="a" data-inset="true">
                     <li><a href="change_lang.php" data-role="button" data-theme="a"
                            data-icon="eye"><?php echo $lang['CHANGE_LANG'] ?></a></li>
@@ -64,7 +73,7 @@ require_once '../resources/head.php';
         </div><!-- /content-->
 
         <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-id="settings_footer">
-            <?php if ($_SESSION['member_id'] == 'guest') { ?>
+            <?php if ($_SESSION['member'] == 'guest') { ?>
             <div data-role="navbar" data-position="fixed">
                 <ul>
 
@@ -91,4 +100,4 @@ require_once '../resources/head.php';
     </body>
 
     </html>
-<?php if ($_SESSION['member_id'] == 'guest') unset($_SESSION['member_id']) ?>
+<?php if ($_SESSION['member'] == 'guest') unset($_SESSION['member']) ?>

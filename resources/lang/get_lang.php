@@ -5,7 +5,6 @@
 
 if (isset($_GET['lang'])) {
     $_lang = $_GET['lang'];
-    setcookie('_lang', $_lang, time() + 9999 * 9999, "/jhogroupware/");
 
 
 } else {
@@ -13,7 +12,6 @@ if (isset($_GET['lang'])) {
         $_lang = $_COOKIE['_lang'];
     } else {
         $_lang = 'ko-kr';
-        setcookie('_lang', $_lang, time() + 9999 * 9999, "/jhogroupware/");
 
     }
 }
@@ -26,7 +24,7 @@ $lang = array();
 $lang = $json[$_lang];
 
 
-
+setcookie(round(microtime(true) * 1000), 'get_lang', time() + 999 * 999, '/');
 
 
 

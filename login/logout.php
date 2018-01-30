@@ -2,8 +2,8 @@
 
 session_start();
 
-if (isset($_SESSION['member_id'])) {
-    unset($_SESSION['member_id']);
+if (isset($_SESSION['member'])) {
+    unset($_SESSION['member']);
 
     $_SESSION['alert'] = "LOGOUT_SUCCESS";
 
@@ -12,3 +12,4 @@ if (isset($_SESSION['member_id'])) {
 }
 
 header("Location: login.php");
+exit();

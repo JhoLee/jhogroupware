@@ -8,43 +8,21 @@
 
 
 session_start();
+require_once 'resources/php/classes/Member/Member.php';
 
-if (!isset($_SESSION['member_id'])) { // Not logged in
+if (empty($_SESSION['member'])) { // Not logged in
 
+    header('Location: ../login/login.php');
 
-    require_once 'jho.php';
+} else {
 
-    if (isset($_POST['member_team']) and isset($_POST['member_name']) and isset($_POST['member_pw'])) {
+    $member = unserialize($_SESSION['member']);
+    $team = $member->getTeam();
+    $name = $member->getName();
+    $permission = $member->getPermission();
 
-        $member_team = $_POST['member_team'];
-        $member_name = $_POST['member_name'];
-        $member_pw = $_POST["member_pw"];
-
-
-        $result = $db_conn->query("SELECT * FROM member WHERE m_name='$member_name' AND t_team='$member_team'");
-        if ($result->num_rows > 0) { // 일치하는 ID 존재
-            $row = $result->fetch_array(MYSQLI_ASSOC);
-            if (password_verify($member_pw, $row['m_pw'])) { // ID & PW 일치
-
-                $_SESSION['member_id'] = $row['m_id'];
-                $_SESSION['member_name'] = $row['m_name'];
-                $_SESSION['member_team'] = $row['t_team'];
-                $_SESSION['member_mobile'] = $row['m_mobile'];
-                $_SESSION['member_birthday'] = $row['m_birthday'];
-                $_SESSION['member_permission'] = $row['m_permission'];
-                header("Location: ../index.php");
-
-            }
-        } // ID 미존재 혹은 PW 불일치
-        $_SESSION['alert'] = "LOGIN_FAILED";
-        header('Location: login.php');
-
-    } else {
-        header('Location: login.php');
-    }
 
 }
-
 
 require_once 'resources/head.php';
 
@@ -55,7 +33,7 @@ require_once 'resources/head.php';
 <div data-role="page" id="index" data-theme="c">
     <div data-role="panel" id="index_menu" data-display="reveal">
         <a href="settings/my_info.php" data-theme="a" data-role="button"
-           data-icon="user"><?php echo $_SESSION['member_id']; ?></a>
+           data-icon="user"><?php echo $name ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
         </ul>
         <a data-role="button" href="settings/app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
@@ -72,7 +50,7 @@ require_once 'resources/head.php';
 
     <div data-role="content">
         <?php header('Location: transactionHistory/view.php'); ?>
-        <img src="resources/images/under_construction.png" width="100%">
+        <img src="resources/images/under_construction.png">
     </div><!-- /content-->
 
     <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-id="transaction_footer">

@@ -8,13 +8,22 @@
 session_start();
 
 require_once '../jho.php';
-
+require_once '../resources/php/classes/Member/Member.php';
 require_once '../resources/lang/get_lang.php';
 
-$writer = $_SESSION['member_name'];
-$team = $_SESSION['member_team'];
+if (empty($_SESSION['member'])) {
+    header('Location:../login/login.php');
+    exit();
+} else {
+    require_once '../resources/php/classes/Member/Member.php';
+    $member = unserialize($_SESSION['member']);
+    $team = $member->getTeam();
+    $name = $member->getName();
+    $permission = $member->getPermission();
+}
+$writer = $name;
 
-if (isset($_POST['insert_name']) && isset($_POST['insert_type']) && isset ($_POST['insert_rmks']) && isset($_POST['insert_amount']) && isset($_POST['insert_date'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
     $name = $_POST['insert_name'];
@@ -73,7 +82,7 @@ VALUE
         <a href="../settings/my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $_SESSION['member_name']; ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
-            <?php if ($_SESSION['member_permission'] >= 2) {
+            <?php if ($permission >= 2) {
                 echo '<li><a href="view.php#all_summary" data-ajax="false">' . $lang['ALL_VIEW']
                     . '</a></li>';
             } ?>
@@ -110,17 +119,19 @@ VALUE
             <?php unset($_SESSION['alert']);
         } ?>
 
-        <?php if ($_SESSION['member_permission'] < 2) { ?>
+        <?php if ($permission < 2) { ?>
 
-            <img src="../resources/images/no_permission.png" width="100%">
+            <img src="../resources/images/no_permission.png">
 
         <?php } else { ?>
 
-            <form id="insertion_form" method="POST" action="insert.php" data-ajax="false">
+            <form id="insertion_form" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>"
+                  data-ajax="false">
                 <!--Name-->
                 <div class="ui-field-contain">
                     <label for="name_input"><?php echo $lang['NAME'] ?>: </label>
-                    <input data-clear-btn="true" name="insert_name" id="name_input" placeholder="Jho Lee" value=""
+                    <input data-clear-btn="true" name="insert_name" id="name_input"
+                           placeholder="<?php echo $lang['NAME_EXAMPLE'] ?>" value=""
                            type="text">
 
                 </div><!--/Name-->
@@ -139,7 +150,8 @@ VALUE
                 <!--rmks-->
                 <div class="ui-field-contain">
                     <label for="rmks_input"><?php echo $lang['RMKS'] ?>: </label>
-                    <input data-clear-btn="true" name="insert_rmks" id="rmks_input" placeholder="Deposit by cash"
+                    <input data-clear-btn="true" name="insert_rmks" id="rmks_input"
+                           placeholder="<?php echo $lang['RMKS_EXAMPLE'] ?>"
                            value=""
                            type="text">
                 </div><!--rmks-->

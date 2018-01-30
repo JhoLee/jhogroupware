@@ -8,57 +8,60 @@
 
 session_start();
 
-if (!isset($_SESSION['member_name'])) { // Not logged in
+require_once '../resources/lang/get_lang.php';
+require_once '../resources/php/classes/Member/Member.php';
+require_once '../jho.php';
+
+if (empty($_SESSION['member'])) { // Not logged in
     header('Location: ../login/login.php');
+    exit();
 } else {
 
-    $member_name = $_SESSION['member_name'];
-    $member_team = $_SESSION['member_team'];
+    $member = unserialize($_SESSION['member']);
 
-    if (!isset($_POST['current_pw'])) {
+    $name = $member->getName();
+    $team = $member->getTeam();
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    $member_pw = $_POST["current_pw"];
+
+    if (!isset($_POST['change_pw1']) || !isset($_POST['change_pw2'])) {
+        $_SESSION['alert'] = 'PLZ_ENTER';
     } else {
-
-        $member_pw = $_POST["current_pw"];
-
-        if (!isset($_POST['change_pw1']) || !isset($_POST['change_pw2'])) {
-            $_SESSION['alert'] = 'PLZ_ENTER';
+        if ($_POST['change_pw1'] != $_POST['change_pw2']) {
+            $_SESSION['alert'] = 'PW_NOT_SAME';
         } else {
-            if ($_POST['change_pw1'] != $_POST['change_pw2']) {
-                $_SESSION['alert'] = 'PW_NOT_SAME';
-            } else {
 
 
-                require_once '../jho.php';
+            $result = $db_conn->query("SELECT * FROM member WHERE m_name='$name'");
+            if ($result->num_rows <= 0) {
 
+                $_SESSION['alert'] = 'UNKNOWN_ERROR';
+            } else { // 일치하는 ID 존재
+                $row = $result->fetch_array(MYSQLI_ASSOC);
+                if (!password_verify($member_pw, $row['m_pw'])) {
 
-                $result = $db_conn->query("SELECT * FROM member WHERE m_name='$member_name'");
-                if ($result->num_rows <= 0) {
+                    $_SESSION['alert'] = 'PW_INCORRECT';
+                } else { // ID & PW 일치
 
-                    $_SESSION['alert'] = 'UNKNOWN_ERROR';
-                } else { // 일치하는 ID 존재
-                    $row = $result->fetch_array(MYSQLI_ASSOC);
-                    if (!password_verify($member_pw, $row['m_pw'])) {
+                    $change_pw = password_hash($_POST['change_pw1'], PASSWORD_DEFAULT, ["cost" => 12]);
 
-                        $_SESSION['alert'] = 'PW_INCORRECT';
-                    } else { // ID & PW 일치
+                    $sql = "UPDATE member SET m_pw = '$change_pw' WHERE m_name = '$name' AND t_team = '$team'";
 
-                        $change_pw = password_hash($_POST['change_pw1'], PASSWORD_DEFAULT, ["cost" => 12]);
+                    $db_conn->query($sql);
 
-                        $sql = "UPDATE member SET m_pw = '$change_pw' WHERE m_name = '$member_name' AND t_team = '$member_team'";
+                    $_SESSION['alert'] = 'PW_CHANGE_SUCCESS';
 
-                        $db_conn->query($sql);
-
-                        $_SESSION['alert'] = 'PW_CHANGE_SUCCESS';
-
-                    }
                 }
             }
         }
-
     }
+
+
 }
 
-require_once '../resources/lang/get_lang.php';
 
 ?>
 
@@ -114,7 +117,7 @@ require_once '../resources/lang/get_lang.php';
 <div data-role="page" id="change_password" data-theme="c">
     <div data-role="panel" id="change_password_menu" data-display="reveal">
         <a href="my_info.php" data-theme="a" data-role="button"
-           data-icon="user"><?php echo $_SESSION['member_name']; ?></a>
+           data-icon="user"><?php echo $name ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
             <li><a href="my_info_update.php" data-role="button" data-theme="a" data-icon="edit"
                    data-ajax="false"><?php echo $lang['UPDATE_MY_INFO'] ?></a></li>
@@ -140,33 +143,34 @@ require_once '../resources/lang/get_lang.php';
         } ?>
 
 
-        <form id="change_password_form" method="post" action="change_password.php">
+        <form id="change_password_form" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>">
 
             <div id="current_pw" class="ui-field-contain">
                 <label for="current_pw_input"><?php echo $lang['CURRENT_PW'] ?>: </label>
                 <input name="current_pw" id="current_pw_input" value="" placeholder="<?php echo $lang['PW_EXAMPLE'] ?>"
-                       type="password">
-                <br>
+                       type="password" minlength="5" maxlength="22">
+
             </div>
 
             <div id="change_pw1" class="ui-field-contain">
                 <label for="change_pw1_input"><?php echo $lang['CHANGE_TO'] ?>:</label>
                 <input name="change_pw1" id="change_pw1_input" class="pw_change" value=""
                        placeholder="<?php echo $lang['AT_LEAST_5CHARACTERS'] ?>"
-                       type="password">
+                       type="password" minlength="5" maxlength="22">
             </div>
             <div id="change_pw2" class="ui-field-contain">
 
                 <label for="change_pw2_input"><?php echo $lang['RE_ENTER'] ?>:</label>
                 <input name="change_pw2" id="change_pw2_input" class="pw_change" value=""
                        placeholder="<?php echo $lang['RE_ENTER'] ?>"
-                       type="password">
+                       type="password" minlength="5" maxlength="22">
 
 
             </div>
 
 
-            <input data-theme="a" id="change_pw_button" type="submit" data-icon="check" value="<?php echo $lang['CHANGE'] ?>">
+            <input data-theme="a" id="change_pw_button" type="submit" data-icon="check"
+                   value="<?php echo $lang['CHANGE'] ?>">
 
         </form>
 

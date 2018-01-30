@@ -7,29 +7,38 @@
  */
 session_start();
 
-if (!isset($_SESSION['member_id'])) { // Not logged in
+require_once '../resources/lang/get_lang.php';
+require_once '../resources/php/classes/Member/Member.php';
+require_once '../resources/head.php';
+
+if (empty($_SESSION['member'])) { // Not logged in
     header('Location: ../login/login.php');
+    exit();
 } else {
-    $my_id = $_SESSION['member_id'];
-    $my_name = $_SESSION['member_name'];
-    $my_team = $_SESSION['member_team'];
-    $my_mobile = $_SESSION['member_mobile'];
-    $my_birthday = $_SESSION['member_birthday'];
-    switch ($_SESSION['member_permission']) {
+
+    $member = unserialize($_SESSION['member']);
+
+    $id = $member->getId();
+    $name = $member->getName();
+    $team = $member->getTeam();
+    $mobile = $member->mobile;
+    $birthday = $member->birthday;
+    $permission = $member->getPermission();
+    switch ($permission) {
         case 0:
-            $my_rate = "guest";
+            $rate = "guest";
             break;
         case 1:
-            $my_rate = "member";
+            $rate = "member";
             break;
         case 2:
-            $my_rate = "leader";
+            $rate = "leader";
             break;
         case 295:
-            $my_rate = "admin";
+            $rate = "admin";
             break;
         default:
-            $my_rate = "unknown";
+            $rate = "unknown";
             break;
 
 
@@ -63,7 +72,7 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
 <div data-role="page" id="my_info_update" data-theme="c">
 
     <?php if ($_SESSION['member_permission'] != 295) { ?>
-        <img src="../resources/images/under_construction.png" width="100%">
+        <img src="../resources/images/under_construction.png">
     <?php } else { ?>
     <div data-role="panel" id="my_info_update_menu" data-display="reveal">
         <a href="my_info.php" data-theme="a" data-role="button"
@@ -90,27 +99,27 @@ if (!isset($_SESSION['member_id'])) { // Not logged in
 
             <div id="my_name_info" class="ui-field-contain">
                 <label for="my_name">name (read only): </label>
-                <input name="my_name" id="my_name" value="<?php echo $my_name . " - " . $my_rate ?>"
+                <input name="my_name" id="my_name" value="<?php echo $name . " - " . $rate ?>"
                        placeholder="Input your name"
                        type="text" readonly>
             </div>
 
             <div id="my_team_info" class="ui-field-contain">
                 <label for="my_team">team (read only): </label>
-                <input name="my_team" id="my_team" value="<?php echo $my_team ?>"
+                <input name="my_team" id="my_team" value="<?php echo $team ?>"
                        placeholder="Input your team"
                        type="text" readonly>
             </div>
 
             <div id="my_mobile_info" class="ui-field-contain">
                 <label for="my_mobile">mobile: </label>
-                <input name="my_mobile" id="my_mobile" value="<?php echo $my_mobile ?>"
-                       placeholder="<?php echo $my_mobile ?>" type="tel">
+                <input name="my_mobile" id="my_mobile" value="<?php echo $mobile ?>"
+                       placeholder="<?php echo $mobile ?>" type="tel">
             </div>
 
             <div id="my_birthday_info" class="ui-field-contain">
                 <label for="my_birthday">birthday: </label>
-                <input name="my_birthday" id="my_birthday" value="<?php echo $my_birthday ?>"
+                <input name="my_birthday" id="my_birthday" value="<?php echo $birthday ?>"
                        placeholder="" type="date">
             </div>
 

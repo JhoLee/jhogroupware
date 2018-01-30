@@ -6,6 +6,7 @@
  * Time: 오전 11:38
  */
 
+namespace Member;
 
 class Member
 {
@@ -40,22 +41,22 @@ class Member
 
     }
 
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getTeam()
+    public function getTeam(): string
     {
         return $this->team;
     }
 
-    public function getPermission()
+    public function getPermission(): int
     {
         return $this->permission;
     }

@@ -6,13 +6,21 @@
  * Time: 18:08
  */
 session_start();
-if (!isset($_SESSION['member_id'])) { // Not logged in
-    header('Location: ../login/login.php');
-}
 
 require_once '../resources/lang/get_lang.php';
-
+require_once '../resources/php/classes/Member/Member.php';
 require_once '../resources/head.php';
+
+if (empty($_SESSION['member'])) { // Not logged in
+    header('Location: ../login/login.php');
+    exit();
+} else {
+
+    $member = unserialize($_SESSION['member']);
+
+    $name = $member->getName();
+    $team = $member->getTeam();
+}
 ?>
 
 <body>
@@ -22,7 +30,7 @@ require_once '../resources/head.php';
     <div data-role="panel" id="settings_menu" data-display="reveal">
 
         <a href="my_info.php" data-theme="a" data-role="button"
-           data-icon="user"><?php echo $_SESSION['member_name']; ?></a>
+           data-icon="user"><?php echo $name ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
             <li><a href="change_lang.php" data-role="button" data-theme="a"
                    data-icon="eye"><?php echo $lang['CHANGE_LANG'] ?></a></li>
