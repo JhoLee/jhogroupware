@@ -37,6 +37,25 @@ if (empty($_SESSION['member'])) { // Not logged in
     $permission = $member->getPermission();
 }
 
+$sql = "
+            SELECT
+              SUM(ql.잔액) AS '계좌 잔액'
+            FROM
+              (SELECT 
+                m_name AS '이름', 
+                SUM(d_category * d_ammount) AS '잔액', 
+                MAX(d_date) AS '최종 변경일' 
+                FROM `deposit_history` 
+                WHERE `t_team` = '$team' 
+                GROUP BY m_name) AS ql";
+$result = $db_conn->query($sql);
+if (isset($result)) {
+    $balance_sum = 0;
+    while ($row = $result->fetch_assoc()) {
+        $balance_sum = number_format($row['계좌 잔액']);
+    }
+}
+
 
 require_once '../resources/head.php';
 
@@ -47,7 +66,7 @@ require_once '../resources/head.php';
 <div data-role="page" id="personal_summary" data-theme="c">
 
     <div data-role="panel" id="personal_summary_menu" data-display="reveal">
-        <a href="../settings/my_info.php" data-theme="a" data-role="button"
+        <a href=" ../settings / my_info . php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $name; ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
             <?php if ($permission >= 2) {
@@ -92,6 +111,7 @@ require_once '../resources/head.php';
             </tr>
             </thead>
             <tbody>
+
             <?php
 
             $sql = "SELECT m_name AS '이름', SUM(d_category * d_ammount) AS '잔액', MAX(d_date) AS '최종 변경일'
@@ -103,13 +123,19 @@ require_once '../resources/head.php';
                     echo
                         "<tr>
                     <th>" . $row['이름'] . "</th>
-                    <td>" . $row['잔액'] . "</td>
+                    <td>" . number_format($row['잔액']) . "</td>
                     <td>" . $row['최종 변경일'] . "</td>
                 </tr>";
                 }
             } else {
                 echo "??";
             } ?>
+
+            <tr>
+                <th>계좌 전체</th>
+                <td><?php echo $balance_sum ?></td>
+                <td></td>
+            </tr>
             </tbody>
         </table>
         <br>
@@ -129,6 +155,7 @@ require_once '../resources/head.php';
                 </tr>
                 </thead>
                 <tbody>
+
                 <?php while ($row = $result->fetch_assoc()) {
                     echo
                         "<tr>
@@ -217,13 +244,14 @@ require_once '../resources/head.php';
             <thead>
             <tr>
                 <th data-priority="persist">날짜</th>
-                <th colspan="1">+</th>
-                <th colspan="1">-</th>
+                <th colspan="1">구분</th>
+                <th colspan="1">금액</th>
                 <th colspan="1">내용</th>
                 <th colspan="1">잔액</th>
             </tr>
             </thead>
             <tbody>
+
             <?php
             $db_conn->query("SET @balance := 0;");
             $sql = "
@@ -252,24 +280,23 @@ require_once '../resources/head.php';
             ORDER BY ql.날짜, ql.d_id ASC;";
             $result = $db_conn->query($sql);
             if (isset($result)) {
+
                 while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
 
                     echo "<tr >
-                    <th>" . $row['날짜'] . "</th>";
+                      <th>" . $row['날짜'] . "</th>";
                     if ($row['구분'] > 0) {
-                        echo "<td>" . $row['금액'] . "원</td>
-                            <td>0원</td>";
+                        echo " < td>입금 </td > ";
                     } else if ($row['구분'] < 0) {
-                        echo "<td>0원</td>
-                             <td>" . $row['금액'] . "원</td>";
+                        echo " < td>출금 </td > ";
 
                     } else {
-                        echo "<td>0원</td>
-                                <td>0원</td>";
+                        echo "<td >??</td > ";
                     }
-                    echo "<td>" . $row['비고'] . "</td>
-                    <td>" . $row['잔액'] . "원</td>
-                  </tr>";
+                    echo "<td > " . ($row['구분'] * $row['금액']) . "원 </td >
+                          <td > " . $row['비고'] . " </td >
+                          <td > " . number_format($row['잔액']) . "원 </td >
+                  </tr > ";
                 }
             } ?>
             </tbody>
@@ -287,7 +314,7 @@ require_once '../resources/head.php';
 <div data-role="page" id="all_summary" data-theme="c">
 
     <div data-role="panel" id="all_summary_menu" data-display="reveal">
-        <a href="../settings/my_info.php" data-theme="a" data-role="button"
+        <a href=" ../settings / my_info . php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $name; ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
             <?php if ($permission >= 2) {
@@ -330,6 +357,11 @@ require_once '../resources/head.php';
             </tr>
             </thead>
             <tbody>
+            <tr>
+                <th>총계</th>
+                <td><?php echo $balance_sum ?></td>
+                <td></td>
+            </tr>
             <?php
             $sql = "SELECT 
                 m_name AS '이름', 
@@ -348,7 +380,7 @@ require_once '../resources/head.php';
 
                     echo "<tr>
                     <th>" . $row['이름'] . "</th>
-                    <td>" . $row['잔액'] . "</td>
+                    <td>" . number_format($row['잔액']) . "</td>
                     <td>" . $row['최종 변경일'] . "</td>
                   </tr>";
                 }
@@ -466,7 +498,7 @@ ORDER BY ql.날짜, ql.이름, ql.입력일 ASC;
                         }
                         echo "<td> " . ($row['구분'] * $row['금액']) . "원 </td >
                           <td > " . $row['비고'] . " </td >
-                          <td > " . $row['잔액'] . "원 </td >
+                          <td > " . number_format($row['잔액']) . "원 </td >
                   </tr > ";
                     }
                 } ?>
