@@ -9,7 +9,7 @@ session_start();
 
 require_once '../resources/lang/get_lang.php';
 require_once '../resources/php/classes/Member/Member.php';
-require_once '../resources/head.php';
+
 
 if (empty($_SESSION['member'])) { // Not logged in
     header('Location: ../login/login.php');
@@ -21,6 +21,7 @@ if (empty($_SESSION['member'])) { // Not logged in
     $name = $member->getName();
     $team = $member->getTeam();
 }
+require_once '../resources/head.php';
 ?>
 
 <body>

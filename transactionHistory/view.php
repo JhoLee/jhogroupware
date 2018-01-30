@@ -71,9 +71,10 @@ require_once '../resources/head.php';
         <div data-role="navbar" id="summary_navbar">
             <ul>
                 <li><a href="#personal_summary"><?php echo $lang['SUMMARY'] ?></a></li>
-                <li><a href="#personal_details"><?php echo $lang['DETAILS']; ?>
-                        <?php if ($permission >= 2) { ?>
-                <li><a href="insert.php"><?php echo $lang['INSERT'] ?></a></li>
+                <li><a href="#personal_details"><?php echo $lang['DETAILS']; ?></a></li>
+                </a></li>
+                <?php if ($permission >= 2) { ?>
+                    <li><a href="insert.php"><?php echo $lang['INSERT'] ?></a></li>
                 <?PHP } ?>
             </ul>
         </div>
@@ -320,23 +321,17 @@ require_once '../resources/head.php';
 
     <div data-role="content">
 
-        <?php if ($permission < 2) { ?>
-
-            <img src="../resources/images/no_permission.png" width="100%">
-
-        <?php } else { ?>
-
-            <table data-role="table" id="account_summary" data-mode="reflow" class="ui-responsive table-stroke">
-                <thead>
-                <tr>
-                    <th>이름</th>
-                    <th>잔액</th>
-                    <th>최종 변경일</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php
-                $sql = "SELECT 
+        <table data-role="table" id="account_summary" data-mode="reflow" class="ui-responsive table-stroke">
+            <thead>
+            <tr>
+                <th>이름</th>
+                <th>잔액</th>
+                <th>최종 변경일</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php
+            $sql = "SELECT 
                 m_name AS '이름', 
                 SUM(d_category * d_ammount) AS '잔액', 
                 MAX(d_date) AS '최종 변경일' 
@@ -344,24 +339,23 @@ require_once '../resources/head.php';
                 WHERE `t_team` = '$team' 
                 GROUP BY m_name
             ";
-                if (isset($db_conn)) {
-                    $result = $db_conn->query($sql);
-                }
+            if (isset($db_conn)) {
+                $result = $db_conn->query($sql);
+            }
 
-                if (isset($result)) {
-                    while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+            if (isset($result)) {
+                while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
 
-                        echo "<tr>
+                    echo "<tr>
                     <th>" . $row['이름'] . "</th>
                     <td>" . $row['잔액'] . "</td>
                     <td>" . $row['최종 변경일'] . "</td>
                   </tr>";
-                    }
-                } ?>
-                </tbody>
-            </table>
+                }
+            } ?>
+            </tbody>
+        </table>
 
-        <?php } ?>
 
     </div><!-- /content-->
 

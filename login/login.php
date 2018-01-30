@@ -64,6 +64,8 @@ if (isset($_SESSION['member'])) {
                     $row['m_birthday'], $row['m_permission']);
                 $_SESSION['member'] = serialize($member);
 
+                header('Location: ../transactionHistory/view.php');
+
 
             }
         }
@@ -72,7 +74,7 @@ if (isset($_SESSION['member'])) {
         /* */
 
     } else {// Not POST
-        $_SESSION['message'] = "not post";
+        $_SESSION['message'] = "";
 
     }
 

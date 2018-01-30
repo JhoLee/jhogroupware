@@ -34,14 +34,12 @@ if ($result->num_rows > 0) { ?>
 
             <div data-role="collapsible">
                 <h3> <?php echo "  " . $row['제목'] . " ( " . $row['작성자'] . ", " . $row['작성일시'] ?> ) </h3>
-                <p>
                 <h6><?php echo $lang['TITLE'] . ": " . $row['제목'] ?>
                     <br><?php echo $lang['WRITER'] . ": " . $row['작성자'] ?>
                     <br><?php echo $lang['CREATION_DATE'] . ": " . $row['작성일시'] ?>
                     <br><?php echo $lang['LAST_MODIFIED_DATE'] . ": " . $row['수정일시'] ?>
                 </h6>
-                <br><?php echo $row['내용']; ?>
-                </p>
+                <br><?php echo nl2br($row['내용']) ?>
             </div>
 
 
