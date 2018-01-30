@@ -9,12 +9,80 @@
  */
 session_start();
 
+require_once '../resources/lang/get_lang.php';
 
-if (isset($_SESSION['member_id'])) {
+
+if (isset($_SESSION['member_name'])) {
     header('Location: ../index.php');
+    exit();
+} else {
+    $_SESSION['message'] = " ";
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $_SESSION['message'] = $_SESSION['message'] . "0 ";
+        if (empty($_POST['team'])) { // 'team' validation
+            $_SESSION['message'] = $_SESSION['message'] . "1-1 ";
+            $teamMsg = $lang['MESSAGE']['ENTER_THE_TEAM'];
+        } else {
+            $_SESSION['message'] = $_SESSION['message'] . "1-2 ";
+            $team = $_POST['team'];
+
+        } // 'team' validation end
+        $_SESSION['message'] = $_SESSION['message'] . "1- ";
+
+
+        if (empty($_POST['name'])) { // 'name' validation
+            $_SESSION['message'] = $_SESSION['message'] . "2-1 ";
+            $nameMsg = $lang['MESSAGE']['ENTER_THE_NAME'];
+        } else {
+            $_SESSION['message'] = $_SESSION['message'] . "2-2 ";
+            $name = $_POST['name'];
+        } // 'name' validation end
+        $_SESSION['message'] = $_SESSION['message'] . "2- ";
+
+        if (empty($_POST['pw'])) { // 'pw' validation
+            $_SESSION['message'] = $_SESSION['message'] . "3-1 ";
+            $pwMsg = $lang['MESSAGE']['ENTER_THE_PW'];
+        } else {
+            $_SESSION['message'] = $_SESSION['message'] . "3-2 ";
+            $pw = $_POST["pw"];
+        } // 'pw' validation end
+        $_SESSION['message'] = $_SESSION['message'] . "3- ";
+
+        /* Login Check */
+        require_once '../jho.php';
+
+        $result = $db_conn->query("SELECT * FROM member WHERE m_name='$name' AND t_team='$team'");
+        $_SESSION['message'] = $_SESSION['message'] . "start checking ";
+        if ($result->num_rows > 0) { // 일치하는 ID 존재
+            $row = $result->fetch_assoc();
+            if (password_verify($pw, $row['m_pw'])) { // ID & PW 일치
+
+                $_SESSION['member_id'] = $row['m_id'];
+                $_SESSION['member_name'] = $row['m_name'];
+                $_SESSION['member_team'] = $row['t_team'];
+                $_SESSION['member_mobile'] = $row['m_mobile'];
+                $_SESSION['member_birthday'] = $row['m_birthday'];
+                $_SESSION['member_permission'] = $row['m_permission'];
+                $_SESSION['message'] = $_SESSION['message'] . "~~~ ";
+
+            }
+            $_SESSION['message'] = $_SESSION['message'] . "'wrong pw' ";
+        } else {
+            $_SESSION['message'] = $_SESSION['message'] . "wrong id ";
+        }
+        // ID 미존재 혹은 PW 불일치
+        $_SESSION['alert'] = "LOGIN_FAILED";
+        /* */
+
+    } else {
+        $_SESSION['message'] = "not post";
+        // Not POST
+    }
+
 }
 
-require_once '../resources/lang/get_lang.php';
+
 ?>
 <!DOCTYPE html>
 
@@ -40,6 +108,7 @@ require_once '../resources/lang/get_lang.php';
 
 
     <script type="text/javascript">
+        /*
         $('#login_form').ready(function () {
 
             $('#login_button').click(function (event) {
@@ -67,6 +136,7 @@ require_once '../resources/lang/get_lang.php';
 
             });
         });
+        */
     </script>
 
     <title><?php echo $lang['PAGE_TITLE']; ?></title>
@@ -86,26 +156,53 @@ require_once '../resources/lang/get_lang.php';
 
         <?php if (isset($_SESSION['alert'])) { ?>
             <?php echo $lang['ALERT'] . $lang['MESSAGE'][$_SESSION['alert']]; ?>
-            <?php unset($_SESSION['alert']);
-        } ?>
+            <?php unset($_SESSION['alert']); ?>
+        <?php } ?>
+        <?php if (isset($_SESSION['message'])) { ?>
+            <?php echo $_SESSION['message'] ?>
+            <?php unset($_SESSION['message']) ?>
+        <?php } ?>
 
-        <form id="login_form" method="post" action="../index.php" data-ajax="false">
+        <form id="login_form" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>"
+              data-ajax="false">
             <div for="team_form" class="ui-field-contain">
-                <label for="team_input"><?php echo $lang['TEAM']; ?>: </label>
-                <input data-clear-btn="true" name="member_team" id="team_input" value=""
+                <label for="team_input"><?php echo $lang['TEAM']; ?>2: </label>
+
+                <input data-clear-btn="true" name="team" id="team_input" value=""
                        placeholder="<?php echo $lang['TEAM_EXAMPLE'] ?>" type="text">
+                <div class="alert"><?php
+                    if (isset($teamMsg)) {
+                        echo "&nbsp;&nbsp;" . $teamMsg;
+                        unset($teamMsg);
+                    } ?></div>
             </div>
+
             <div for="id_form" class="ui-field-contain">
                 <label for="name_input"><?php echo $lang['NAME']; ?>: </label>
-                <input data-clear-btn="true" name="member_name" id="name_input" value=""
+
+                <input data-clear-btn="true" name="name" id="name_input" value=""
                        placeholder="<?php echo $lang['NAME_EXAMPLE'] ?>" type="text">
+                <div class="alert"><?php
+                    if (isset($nameMsg)) {
+                        echo "&nbsp;&nbsp;" . $nameMsg;
+                        unset($nameMsg);
+                    }
+                    ?></div>
             </div>
+
             <div id="pw_form" class="ui-field-contain">
                 <label for="pw_input"><?php echo $lang['PW']; ?>:</label>
-                <input data-clear-btn="true" name="member_pw" id="pw_input" value=""
+
+                <input data-clear-btn="true" name="pw" id="pw_input" value=""
                        placeholder="<?php echo $lang['PW_EXAMPLE'] ?>"
-                       type="password">
+                       type="password" minlength="4" maxlength="15">
+                <div class="alert"><?php
+                    if (isset($pwMsg)) {
+                        echo "&nbsp;&nbsp;" . $pwMsg;
+                        unset($pwMsg);
+                    } ?></div>
             </div>
+
             <input data-theme="a" id="login_button" type="submit" data-icon="check"
                    value="<?php echo $lang['LOGIN'] ?>">
         </form><!--/form-->
@@ -115,7 +212,7 @@ require_once '../resources/lang/get_lang.php';
     <div data-role="footer" id="foot" data-position="fixed" data-theme="a">
         <div data-role="navbar" data-position="fixed">
             <ul>
-                <li><a href="../settings/app_info.php" data-role="button" data-icon="info">
+                <li><a href="../settings/app_info.php" data-role="button" data-icon="info" data-ajax="false">
                         <?php echo $lang['APP_INFO'] ?></a></li>
                 <li><a href="../settings/change_lang.php" data-role="button" data-theme="a"
                        data-icon="eye">Language</a></li>
