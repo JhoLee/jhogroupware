@@ -57,9 +57,9 @@ if (empty($_SESSION['member'])) { // Not logged in
     <!-- DO NOT EDIT... -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="../resources/css/jquery.mobile-1.4.5.min.css">
-    <script type="text/javascript" src="../resources/js/jquery.js"></script>
-    <script type="text/javascript" src="../resources/js/jquery.mobile-1.4.5.min.js"></script>
+    <link rel="stylesheet" href="../../resources/css/jquery.mobile-1.4.5.min.css">
+    <script type="text/javascript" src="../../resources/js/jquery.js"></script>
+    <script type="text/javascript" src="../../resources/js/jquery.mobile-1.4.5.min.js"></script>
     <!-- ...DO NOT EDIT-->
 
 
@@ -72,20 +72,20 @@ if (empty($_SESSION['member'])) { // Not logged in
 <div data-role="page" id="my_info_update" data-theme="c">
 
     <?php if ($_SESSION['member_permission'] != 295) { ?>
-        <img src="../resources/images/under_construction.png">
+        <img src="../../resources/images/under_construction.png">
     <?php } else { ?>
     <div data-role="panel" id="my_info_update_menu" data-display="reveal">
-        <a href="my_info.php" data-theme="a" data-role="button"
+        <a href="../info/my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $_SESSION['member_name']; ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
-            <li><a href="my_info_update.php" data-role="button" data-theme="a" data-icon="edit" data-ajax="false">Update
+            <li><a href="update_my_info.php" data-role="button" data-theme="a" data-icon="edit" data-ajax="false">Update
                     my Info.</a></li>
             <li><a href="change_password.php" data-theme="a" data-role="button" data-icon="recycle"
                    data-ajax="false">Change
                     password</a></li>
         </ul>
-        <a data-role="button" href="app_info.php" data-icon="info">App Info</a>
-        <a data-role="button" href="../login/logout.php" data-theme="b" data-icon="delete" data-ajax="false">logout</a>
+        <a data-role="button" href="../info/app_info.php" data-icon="info">App Info</a>
+        <a data-role="button" href="../../login/logout.php" data-theme="b" data-icon="delete" data-ajax="false">logout</a>
     </div><!--/panel-->
 
     <div data-role="header" data-theme="a" data-position="fixed" data-id="my_info_header">
@@ -95,7 +95,7 @@ if (empty($_SESSION['member'])) { // Not logged in
     </div><!-- /header-->
 
     <div data-role="content">
-        <form id="myInfo_form" method="post" action="my_info_update.php" data-ajax="false">
+        <form id="myInfo_form" method="post" action="update_my_info.php" data-ajax="false">
 
             <div id="my_name_info" class="ui-field-contain">
                 <label for="my_name">name (read only): </label>
@@ -133,11 +133,11 @@ if (empty($_SESSION['member'])) { // Not logged in
     <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-id="settings_footer">
         <div data-role="navbar" data-position="fixed">
             <ul>
-                <li><a href="../transactionHistory/view.php" data-icon="bullets"> transaction</a></li>
+                <li><a href="../../transactionHistory/view.php" data-icon="bullets"> transaction</a></li>
                 <li>
-                    <a href="../calendar/index.php" data-icon="calendar">calendar</a>
+                    <a href="../../calendar/index.php" data-icon="calendar">calendar</a>
                 </li>
-                <li><a href="index.php" data-theme="b" data-icon="gear">settings</a></li>
+                <li><a href="../index.php" data-theme="b" data-icon="gear">settings</a></li>
             </ul>
         </div>
     </div><!-- /footer-->

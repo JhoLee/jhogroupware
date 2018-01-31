@@ -56,9 +56,9 @@ if (empty($_SESSION['member'])) { // Not logged in
     <!-- DO NOT EDIT... -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="../resources/css/jquery.mobile-1.4.5.min.css">
-    <script type="text/javascript" src="../resources/js/jquery.js"></script>
-    <script type="text/javascript" src="../resources/js/jquery.mobile-1.4.5.min.js"></script>
+    <link rel="stylesheet" href="../../resources/css/jquery.mobile-1.4.5.min.css">
+    <script type="text/javascript" src="../../resources/js/jquery.js"></script>
+    <script type="text/javascript" src="../../resources/js/jquery.mobile-1.4.5.min.js"></script>
     <!-- ...DO NOT EDIT-->
 
 
@@ -72,16 +72,16 @@ if (empty($_SESSION['member'])) { // Not logged in
         <a href="my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $name ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
-            <li><a href="change_lang.php" data-role="button" data-theme="a"
+            <li><a href="../change/change_lang.php" data-role="button" data-theme="a"
                    data-icon="eye"><?php echo $lang['CHANGE_LANG'] ?></a></li>
 
-            <li><a href="my_info_update.php" data-role="button" data-theme="a" data-icon="edit" data-ajax="false">
+            <li><a href="../change/update_my_info.php" data-role="button" data-theme="a" data-icon="edit" data-ajax="false">
                     <?php echo $lang['UPDATE_MY_INFO'] ?></a></li>
-            <li><a href="change_password.php" data-theme="a" data-role="button" data-icon="recycle"
+            <li><a href="../change/change_password.php" data-theme="a" data-role="button" data-icon="recycle"
                    data-ajax="false"><?php echo $lang['CHANGE_PW'] ?></a></li>
         </ul>
         <a data-role="button" href="app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
-        <a data-role="button" href="../login/logout.php" data-theme="b" data-icon="delete" data-ajax="false">
+        <a data-role="button" href="../../login/logout.php" data-theme="b" data-icon="delete" data-ajax="false">
             <?php echo $lang['LOGOUT'] ?></a>
     </div><!--/panel-->
 
@@ -115,7 +115,7 @@ if (empty($_SESSION['member'])) { // Not logged in
                 </tr>
             </tobdy>
         </table>
-        <a href="my_info_update.php" data-theme="a" data-role="button" value="Update my Info."
+        <a href="../change/update_my_info.php" data-theme="a" data-role="button" value="Update my Info."
            data-icon="edit"><?php echo $lang['UPDATE_MY_INFO'] ?></a>
 
 
@@ -124,12 +124,12 @@ if (empty($_SESSION['member'])) { // Not logged in
     <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-id="settings_footer">
         <div data-role="navbar" data-position="fixed">
             <ul>
-                <li><a href="../transactionHistory" data-icon="bullets"><?php echo $lang['TRANSACTION'] ?></a>
+                <li><a href="../../transactionHistory" data-icon="bullets"><?php echo $lang['TRANSACTION'] ?></a>
                 </li>
                 <li>
-                    <a href="../calendar/index.php" data-icon="calendar"><?php echo $lang['CALENDAR'] ?></a>
+                    <a href="../../calendar/index.php" data-icon="calendar"><?php echo $lang['CALENDAR'] ?></a>
                 </li>
-                <li><a href="index.php" data-theme="b" data-icon="gear"><?php echo $lang['SETTINGS'] ?></a></li>
+                <li><a href="../index.php" data-theme="b" data-icon="gear"><?php echo $lang['SETTINGS'] ?></a></li>
             </ul>
         </div>
     </div><!-- /footer-->

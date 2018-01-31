@@ -1,7 +1,7 @@
 {
   "ko-kr": {
     "LANGUAGE": "ko-kr",
-    "PAGE_TITLE": "Groupware(ko-kr)",
+    "PAGE_TITLE": "ㄱㄹㅇㅇ",
     "ALERT": "[알림] ",
     "MESSAGE": {
       "ERROR": "에러",
@@ -64,7 +64,7 @@
     "TEAM": "소속",
     "TEAM_EXAMPLE": "Group",
     "TITLE": "제목",
-    "TRANSACTION": "거래내역",
+    "TRANSACTION": "내역",
     "TRANSACTION_VIEW_ADMIN": "전체 조회(관리자)",
     "TRANSACTION_VIEW_PERSONAL": "개인 조회",
     "TYPE": "종류",
@@ -75,7 +75,7 @@
   },
   "en-uk": {
     "LANGUAGE": "en-uk",
-    "PAGE_TITLE": "Groupware(en-uk)",
+    "PAGE_TITLE": "gw",
     "ALERT": "[ALERT] ",
     "MESSAGE": {
       "ERROR": "ERROR",

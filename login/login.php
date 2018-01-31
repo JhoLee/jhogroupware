@@ -8,9 +8,6 @@
  * +) File for login with session
  */
 session_start();
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 
 require_once '../resources/lang/get_lang.php';
 require_once '../resources/php/classes/Member/Member.php';
@@ -210,9 +207,9 @@ if (isset($_SESSION['member'])) {
     <div data-role="footer" id="foot" data-position="fixed" data-theme="a">
         <div data-role="navbar" data-position="fixed">
             <ul>
-                <li><a href="../settings/app_info.php" data-role="button" data-icon="info" data-ajax="false">
+                <li><a href="../settings/info/app_info.php" data-role="button" data-icon="info" data-ajax="false">
                         <?php echo $lang['APP_INFO'] ?></a></li>
-                <li><a href="../settings/change_lang.php" data-role="button" data-theme="a"
+                <li><a href="../settings/change/change_lang.php" data-role="button" data-theme="a"
                        data-icon="eye">Language</a></li>
             </ul>
         </div><!--/navbar-->
@@ -266,7 +263,7 @@ if (isset($_SESSION['member'])) {
 
             </ul>
         </div>
-        <a class="ui-bar" href="../settings/app_info.php" data-icon="info"><h6><?php echo $lang['APP_INFO'] ?></h6></a>
+        <a class="ui-bar" href="../settings/info/app_info.php" data-icon="info"><h6><?php echo $lang['APP_INFO'] ?></h6></a>
     </div><!-- /footer -->
 
 

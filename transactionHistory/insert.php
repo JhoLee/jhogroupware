@@ -79,7 +79,7 @@ VALUE
 <!-- Start of the insert page -->
 <div data-role="page" id="insert" data-theme="c">
     <div data-role="panel" id="insert_menu" data-display="reveal">
-        <a href="../settings/my_info.php" data-theme="a" data-role="button"
+        <a href="../settings/info/my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $_SESSION['member_name']; ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
             <?php if ($permission >= 2) {
@@ -89,7 +89,7 @@ VALUE
             <li><a href="view.php#personal_summary"
                    data-ajax="false"><?php echo $lang['PERSONAL_VIEW'] ?></a></li>
         </ul>
-        <a data-role="button" href="../settings/app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
+        <a data-role="button" href="../settings/info/app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
         <a data-role="button" href="../login/logout.php" data-theme="b" data-icon="delete"
            data-ajax="false"><?php echo $lang['LOGOUT'] ?></a>
 

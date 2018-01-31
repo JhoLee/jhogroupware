@@ -30,18 +30,18 @@ require_once '../resources/head.php';
 
     <div data-role="panel" id="settings_menu" data-display="reveal">
 
-        <a href="my_info.php" data-theme="a" data-role="button"
+        <a href="info/my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $name ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
-            <li><a href="change_lang.php" data-role="button" data-theme="a"
+            <li><a href="change/change_lang.php" data-role="button" data-theme="a"
                    data-icon="eye"><?php echo $lang['CHANGE_LANG'] ?></a></li>
 
-            <li><a href="my_info_update.php" data-role="button" data-theme="a" data-icon="edit" data-ajax="false">
+            <li><a href="change/update_my_info.php" data-role="button" data-theme="a" data-icon="edit" data-ajax="false">
                     <?php echo $lang['UPDATE_MY_INFO'] ?></a></li>
-            <li><a href="change_password.php" data-theme="a" data-role="button" data-icon="recycle"
+            <li><a href="change/change_password.php" data-theme="a" data-role="button" data-icon="recycle"
                    data-ajax="false"><?php echo $lang['CHANGE_PW'] ?></a></li>
         </ul>
-        <a data-role="button" href="app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
+        <a data-role="button" href="info/app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
         <a data-role="button" href="../login/logout.php" data-theme="b" data-icon="delete" data-ajax="false">
             <?php echo $lang['LOGOUT'] ?></a>
     </div><!--/panel-->
@@ -53,13 +53,13 @@ require_once '../resources/head.php';
     </div><!-- /header-->
 
     <div data-role="content">
-        <a href="change_lang.php" data-role="button" data-theme="a"
+        <a href="change/change_lang.php" data-role="button" data-theme="a"
            data-icon="eye"><?php echo $lang['CHANGE_LANG'] ?></a>
-        <a href="my_info.php" data-theme="a" data-role="button"
+        <a href="info/my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $lang['VIEW_MY_INFO'] ?></a>
-        <a href="my_info_update.php" data-role="button" data-theme="a" data-icon="edit" data-ajax="false">
+        <a href="change/update_my_info.php" data-role="button" data-theme="a" data-icon="edit" data-ajax="false">
             <?php echo $lang['UPDATE_MY_INFO'] ?></a>
-        <a href="change_password.php" data-theme="a" data-role="button" data-icon="recycle"
+        <a href="change/change_password.php" data-theme="a" data-role="button" data-icon="recycle"
            data-ajax="false"><?php echo $lang['CHANGE_PW'] ?></a>
         <a data-role="button" href="../login/logout.php" data-theme="b" data-icon="delete"
            data-ajax="false"><?php echo $lang['LOGOUT'] ?></a>

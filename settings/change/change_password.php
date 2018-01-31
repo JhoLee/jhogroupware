@@ -71,9 +71,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <!-- DO NOT EDIT... -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="../resources/css/jquery.mobile-1.4.5.min.css">
-    <script type="text/javascript" src="../resources/js/jquery.js"></script>
-    <script type="text/javascript" src="../resources/js/jquery.mobile-1.4.5.min.js"></script>
+    <link rel="stylesheet" href="../../resources/css/jquery.mobile-1.4.5.min.css">
+    <script type="text/javascript" src="../../resources/js/jquery.js"></script>
+    <script type="text/javascript" src="../../resources/js/jquery.mobile-1.4.5.min.js"></script>
     <!-- ...DO NOT EDIT-->
 
 
@@ -116,16 +116,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <!--Start of the change_password page-->
 <div data-role="page" id="change_password" data-theme="c">
     <div data-role="panel" id="change_password_menu" data-display="reveal">
-        <a href="my_info.php" data-theme="a" data-role="button"
+        <a href="../info/my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $name ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
-            <li><a href="my_info_update.php" data-role="button" data-theme="a" data-icon="edit"
+            <li><a href="update_my_info.php" data-role="button" data-theme="a" data-icon="edit"
                    data-ajax="false"><?php echo $lang['UPDATE_MY_INFO'] ?></a></li>
             <li><a href="change_password.php" data-theme="a" data-role="button" data-icon="recycle"
                    data-ajax="false"><?php echo $lang['CHANGE_PW'] ?></a></li>
         </ul>
-        <a data-role="button" href="app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
-        <a data-role="button" href="../login/logout.php" data-theme="b" data-icon="delete"
+        <a data-role="button" href="../info/app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
+        <a data-role="button" href="../../login/logout.php" data-theme="b" data-icon="delete"
            data-ajax="false"><?php echo $lang['LOGOUT'] ?></a>
     </div><!--/panel-->
 
@@ -180,12 +180,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-id="settings_footer">
         <div data-role="navbar" data-position="fixed">
             <ul>
-                <li><a href="../transactionHistory/view.php"
+                <li><a href="../../transactionHistory/view.php"
                        data-icon="bullets"><?php echo $lang['TRANSACTION'] ?></a></li>
                 <li>
-                    <a href="../calendar/index.php" data-icon="calendar"><?php echo $lang['CALENDAR'] ?></a>
+                    <a href="../../calendar/index.php" data-icon="calendar"><?php echo $lang['CALENDAR'] ?></a>
                 </li>
-                <li><a href="index.php" data-theme="b" data-icon="gear"><?php echo $lang['SETTINGS'] ?></a></li>
+                <li><a href="../index.php" data-theme="b" data-icon="gear"><?php echo $lang['SETTINGS'] ?></a></li>
             </ul>
         </div>
     </div><!-- /footer-->

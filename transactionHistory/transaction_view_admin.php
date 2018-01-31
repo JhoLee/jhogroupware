@@ -39,7 +39,7 @@ if (!isset($_SESSION['member_name'])) { // Not logged in
 <!--Start of the admin_summary page-->
 <div data-role="page" id="admin_summary" data-theme="c">
     <div data-role="panel" id="admin_summary_menu" data-display="reveal">
-        <a href="../settings/my_info.php" data-theme="a" data-role="button"
+        <a href="../settings/info/my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $_SESSION['member_name']; ?></a>
         <ui data-role="listview" data-theme="a" data-inset="true">
             <?php if ($_SESSION['member_permission'] >= 2) {
@@ -47,7 +47,7 @@ if (!isset($_SESSION['member_name'])) { // Not logged in
             } ?>
             <li><a href="transaction_view_personal.php">개별 조회</a></li>
         </ui>
-        <a data-role="button" href="../settings/app_info.php" data-icon="info">App Info</a>
+        <a data-role="button" href="../settings/info/app_info.php" data-icon="info">App Info</a>
         <a data-role="button" href="../login/logout.php" data-theme="b" data-icon="delete"
            data-ajax="false">logout</a>
 
@@ -140,7 +140,7 @@ if (!isset($_SESSION['member_name'])) { // Not logged in
 <!--Start of the admin_details page-->
 <div data-role="page" id="admin_details" data-theme="c">
     <div data-role="panel" id="admin_details_menu" data-display="reveal">
-        <a href="../settings/my_info.php" data-theme="a" data-role="button"
+        <a href="../settings/info/my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $_SESSION['member_name']; ?></a>
         <ui data-role="listview" data-theme="a" data-inset="true">
             <?php if ($_SESSION['member_permission'] >= 2) {
@@ -148,7 +148,7 @@ if (!isset($_SESSION['member_name'])) { // Not logged in
             } ?>
             <li><a href="transaction_view_personal.php">개별 조회</a></li>
         </ui>
-        <a data-role="button" href="../settings/app_info.php" data-icon="info">App Info</a>
+        <a data-role="button" href="../settings/info/app_info.php" data-icon="info">App Info</a>
         <a data-role="button" href="../login/logout.php" data-theme="b" data-icon="delete" data-ajax="false">logout</a>
 
     </div><!-- /panel#menu-->

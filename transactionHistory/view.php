@@ -11,9 +11,6 @@
  */
 session_start();
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 require_once '../resources/php/classes/Member/Member.php';
 require_once '../resources/lang/get_lang.php';
 require_once '../jho.php';
@@ -75,7 +72,7 @@ require_once '../resources/head.php';
             } ?>
             <li><a href="#personal_summary_menu"><?php echo $lang['TRANSACTION_VIEW_PERSONAL'] ?></a></li>
         </ul>
-        <a data-role="button" href="../settings/app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
+        <a data-role="button" href="../settings/info/app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
         <a data-role="button" href="../login/logout.php" data-theme="b"
            data-icon="delete"><?php echo $lang['LOGOUT'] ?></a>
 
@@ -180,7 +177,7 @@ require_once '../resources/head.php';
 <div data-role="page" id="personal_details" data-theme="c">
 
     <div data-role="panel" id="personal_details_menu" data-display="reveal">
-        <a href="../settings/my_info.php" data-theme="a" data-role="button"
+        <a href="../settings/info/my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $name; ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
             <?php if ($permission >= 2) {
@@ -189,7 +186,7 @@ require_once '../resources/head.php';
             } ?>
             <li><a href="#personal_summary"><?php echo $lang['PERSONAL_VIEW'] ?></a></li>
         </ul>
-        <a data-role="button" href="../settings/app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
+        <a data-role="button" href="../settings/info/app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
         <a data-role="button" href="../login/logout.php" data-theme="b"
            data-icon="delete"><?php echo $lang['LOGOUT'] ?></a>
 
@@ -323,7 +320,7 @@ require_once '../resources/head.php';
             } ?>
             <li><a href="#personal_summary"><?php echo $lang['TRANSACTION_VIEW_PERSONAL'] ?></a></li>
         </ul>
-        <a data-role="button" href="../settings/app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
+        <a data-role="button" href="../settings/info/app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
         <a data-role="button" href="../login/logout.php" data-theme="b"
            data-icon="delete"><?php echo $lang['LOGOUT'] ?></a>
 
@@ -399,7 +396,7 @@ require_once '../resources/head.php';
 <div data-role="page" id="all_details" data-theme="c">
 
     <div data-role="panel" id="all_details_menu" data-display="reveal">
-        <a href="../settings/my_info.php" data-theme="a" data-role="button"
+        <a href="../settings/info/my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $name; ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
             <?php if ($permission >= 2) {
@@ -408,7 +405,7 @@ require_once '../resources/head.php';
             } ?>
             <li><a href="#personal_summary"><?php echo $lang['TRANSACTION_VIEW_PERSONAL'] ?></a></li>
         </ul>
-        <a data-role="button" href="../settings/app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
+        <a data-role="button" href="../settings/info/app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
         <a data-role="button" href="../login/logout.php" data-theme="b"
            data-icon="delete"><?php echo $lang['LOGOUT'] ?></a>
 

@@ -32,11 +32,11 @@ require_once 'resources/head.php';
 <!--Start of the index page-->
 <div data-role="page" id="index" data-theme="c">
     <div data-role="panel" id="index_menu" data-display="reveal">
-        <a href="settings/my_info.php" data-theme="a" data-role="button"
+        <a href="settings/info/my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $name ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
         </ul>
-        <a data-role="button" href="settings/app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
+        <a data-role="button" href="settings/info/app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
         <a data-role="button" href="login/logout.php" data-theme="b"
            data-icon="delete"><?php echo $lang['LOGOUT'] ?></a>
     </div><!--/panel-->
