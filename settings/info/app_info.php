@@ -9,7 +9,7 @@ session_start();
 
 require_once '../../resources/lang/get_lang.php';
 require_once '../../resources/php/classes/Member/Member.php';
-require_once '../../resources/head.php';
+require_once '../settings_head.php';
 
 if (!isset($_SESSION['member'])) { // Not logged in
     $_SESSION['member'] = 'guest';
@@ -37,23 +37,9 @@ if (!isset($_SESSION['member'])) { // Not logged in
                    data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
                 <a data-role="button" href="../../login/login.php" data-theme="b" data-icon="check" data-ajax="false">
                     <?php echo $lang['GO_SIGN_IN'] ?></a>
-            <?php } else { ?>
-                <a href="my_info.php" data-theme="a" data-role="button"
-                   data-icon="user"><?php echo $name ?></a>
-                <ul data-role="listview" data-theme="a" data-inset="true">
-                    <li><a href="../change/change_lang.php" data-role="button" data-theme="a"
-                           data-icon="eye"><?php echo $lang['CHANGE_LANG'] ?></a></li>
-
-                    <li><a href="../change/update_my_info.php" data-role="button" data-theme="a" data-icon="edit"
-                           data-ajax="false">
-                            <?php echo $lang['UPDATE_MY_INFO'] ?></a></li>
-                    <li><a href="../change/change_password.php" data-theme="a" data-role="button" data-icon="recycle"
-                           data-ajax="false"><?php echo $lang['CHANGE_PW'] ?></a></li>
-                </ul>
-                <a data-role="button" href="app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
-                <a data-role="button" href="../../login/logout.php" data-theme="b" data-icon="delete" data-ajax="false">
-                    <?php echo $lang['LOGOUT'] ?></a>
-            <?php } ?>
+            <?php } else {
+                include_once '../settings_panel.php';
+            } ?>
         </div><!--/panel-->
 
         <div data-role="header" data-theme="a" data-position="fixed" data-id="transaction_header">
@@ -85,6 +71,8 @@ if (!isset($_SESSION['member'])) { // Not logged in
                             <ul>
                                 <li><a href="../../transactionHistory/view.php"
                                        data-icon="bullets"><?php echo $lang['TRANSACTION'] ?></a></li>
+                                <li><a href="../../contacts/index.php"
+                                       data-icon="user"></a><?php echo $lang['CONTACTS'] ?></li>
                                 <li>
                                     <a href="../../calendar/index.php"
                                        data-icon="calendar"><?php echo $lang['CALENDAR'] ?></a>

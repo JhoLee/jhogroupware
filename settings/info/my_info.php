@@ -68,21 +68,7 @@ if (empty($_SESSION['member'])) { // Not logged in
 <!--Start of the my_info page-->
 <div data-role="page" id="my_info" data-theme="c">
     <div data-role="panel" id="my_info_menu" data-display="reveal">
-        <a href="my_info.php" data-theme="a" data-role="button"
-           data-icon="user"><?php echo $name ?></a>
-        <ul data-role="listview" data-theme="a" data-inset="true">
-            <li><a href="../change/change_lang.php" data-role="button" data-theme="a"
-                   data-icon="eye"><?php echo $lang['CHANGE_LANG'] ?></a></li>
-
-            <li><a href="../change/update_my_info.php" data-role="button" data-theme="a" data-icon="edit"
-                   data-ajax="false">
-                    <?php echo $lang['UPDATE_MY_INFO'] ?></a></li>
-            <li><a href="../change/change_password.php" data-theme="a" data-role="button" data-icon="recycle"
-                   data-ajax="false"><?php echo $lang['CHANGE_PW'] ?></a></li>
-        </ul>
-        <a data-role="button" href="app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
-        <a data-role="button" href="../../login/logout.php" data-theme="b" data-icon="delete" data-ajax="false">
-            <?php echo $lang['LOGOUT'] ?></a>
+        <?php include_once '../settings_panel.php' ?>
     </div><!--/panel-->
 
     <div data-role="header" data-theme="a" data-position="fixed" data-id="my_info_header">
@@ -115,8 +101,9 @@ if (empty($_SESSION['member'])) { // Not logged in
                 </tr>
             </tobdy>
         </table>
-        <a href="../change/update_my_info.php" data-theme="a" data-role="button" value="Update my Info."
-           data-icon="edit"><?php echo $lang['UPDATE_MY_INFO'] ?></a>
+        <a href="../change/update_info.php?user_id=<?php echo $member->getId() ?>" data-theme="a" data-role="button"
+           value="Update my Info."
+           data-icon="edit" data-ajax="false"><?php echo $lang['UPDATE_MY_INFO'] ?></a>
 
 
     </div><!-- /content-->
@@ -127,6 +114,7 @@ if (empty($_SESSION['member'])) { // Not logged in
                 <li><a href="../../transactionHistory" data-icon="bullets"
                        data-ajax="false"><?php echo $lang['TRANSACTION'] ?></a>
                 </li>
+                <li><a href="../../contacts/index.php" data-icon="user"></a><?php echo $lang['CONTACTS'] ?></li>
                 <li>
                     <a href="../../calendar/index.php" data-icon="calendar"
                        data-ajax="false"><?php echo $lang['CALENDAR'] ?></a>

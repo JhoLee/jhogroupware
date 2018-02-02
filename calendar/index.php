@@ -53,6 +53,7 @@ if (!isset($_SESSION['member'])) { // Not logged in
             <ul>
                 <li><a href="../transactionHistory/view.php"
                        data-icon="bullets"><?php echo $lang['TRANSACTION'] ?></a></li>
+                <li><a href="../contacts/index.php" data-icon="user"></a><?php echo $lang['CONTACTS'] ?></li>
                 <li>
                     <a href="calendar.php" data-theme="b"
                        data-icon="calendar"><?php echo $lang['CALENDAR'] ?></a>

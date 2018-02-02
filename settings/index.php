@@ -34,10 +34,13 @@ require_once '../resources/head.php';
            data-icon="user"><?php echo $name ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
             <li><a href="change/change_lang.php" data-role="button" data-theme="a"
-                   data-icon="eye"><?php echo $lang['CHANGE_LANG'] ?></a></li>
+                   data-icon="eye" data-ajax="false"><?php echo $lang['CHANGE_LANG'] ?></a></li>
 
-            <li><a href="change/update_my_info.php" data-role="button" data-theme="a" data-icon="edit" data-ajax="false">
+            <li><a href="change/update_my_info.php" data-role="button" data-theme="a" data-icon="edit"
+                   data-ajax="false">
                     <?php echo $lang['UPDATE_MY_INFO'] ?></a></li>
+            <li><a href="../contacts/manage_members.php" data-role="button" data-theme="a" data-icon="edit"
+                   data-ajax="false"><?php echo $lang['MANAGE_MEMBERS'] ?></a></li>
             <li><a href="change/change_password.php" data-theme="a" data-role="button" data-icon="recycle"
                    data-ajax="false"><?php echo $lang['CHANGE_PW'] ?></a></li>
         </ul>
@@ -57,8 +60,8 @@ require_once '../resources/head.php';
            data-icon="eye"><?php echo $lang['CHANGE_LANG'] ?></a>
         <a href="info/my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $lang['VIEW_MY_INFO'] ?></a>
-        <a href="change/update_my_info.php" data-role="button" data-theme="a" data-icon="edit" data-ajax="false">
-            <?php echo $lang['UPDATE_MY_INFO'] ?></a>
+        <a href="../contacts/manage_members.php" data-role="button" data-theme="a" data-icon="edit" data-ajax="false">
+            <?php echo $lang['MANAGE_MEMBERS'] ?></a>
         <a href="change/change_password.php" data-theme="a" data-role="button" data-icon="recycle"
            data-ajax="false"><?php echo $lang['CHANGE_PW'] ?></a>
         <a data-role="button" href="../login/logout.php" data-theme="b" data-icon="delete"
@@ -70,6 +73,8 @@ require_once '../resources/head.php';
             <ul>
                 <li><a href="../transactionHistory/view.php"
                        data-icon="bullets"><?php echo $lang['TRANSACTION'] ?></a></li>
+                <li><a href="../contacts/index.php" data-icon="user"></a><?php echo $lang['CONTACTS'] ?></li>
+                <li>
                 <li><a href="../calendar/index.php" data-icon="calendar"><?php echo $lang['CALENDAR'] ?></a></li>
                 <li>
                     <button data-theme="b" data-icon="gear"><?php echo $lang['SETTINGS'] ?></button>

@@ -110,10 +110,13 @@ class Member
                 $this->rate = "member";
                 break;
             case 2:
+                $this->rate = "secondary manager";
+                break;
+            case 3:
                 $this->rate = "leader";
                 break;
             case 295:
-                $this->rate = "member";
+                $this->rate = "secondary-manager";
                 break;
             default:
                 $this->rate = "unknown";
@@ -135,10 +138,13 @@ class Member
                 $rate = "member";
                 break;
             case 2:
+                $rate = "secondary-manager";
+                break;
+            case 3:
                 $rate = "leader";
                 break;
             case 295:
-                $rate = "member";
+                $rate = "secondary-manager";
                 break;
             default:
                 $rate = "unknown";

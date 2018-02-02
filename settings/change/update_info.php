@@ -20,44 +20,76 @@ if (empty($_SESSION['member'])) { // Not logged in
     $db_conn = new \Mysql\MysqlInfo('jho_groupware');
 
     $member = unserialize($_SESSION['member']);
-    $member_info = $member->getAllInfo();
     foreach ($member->getAllInfo() As $k => $v) {
         $$k = $v;
     }
 
-    if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-        if ($member->getPermission() >= 2) {
-            $user_id = $_GET['user_id'];
-            $sql = "SELECT * FROM jho_groupware.member WHERE m_id = '$user_id' AND t_team = '$team'";
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+        if ($member->getPermission() < 2) {
+            $_POST['rate'] = $member->getPermission();
+        }
+
+        if (!empty($_POST['id']) and !empty($_POST['name']) and !empty($_POST['team']) and !empty($_POST['mobile']) and !empty($_POST['birthday'])) {
+            $user_id = $_POST['id'];
+            $user_name = $_POST['name'];
+            if ($user_id == '이주호')
+                $user_rate = 295;
+            else
+                $user_rate = $_POST['rate'];
+            $user_team = $_POST['team'];
+            $user_mobile = $_POST['mobile'];
+            $user_birthday = $_POST['birthday'];
+
+
+            $sql = "UPDATE member SET m_permission = '$user_rate', m_mobile = '$user_mobile', m_birthday = '$user_birthday' WHERE m_id = '$user_id' AND t_team = '$user_team' LIMIT 1";
+            $db_conn = new \Mysql\MysqlInfo('jho_groupware');
 
             $result = $db_conn->query($sql);
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
 
-                    $user = new Member\Member($row['m_id'], $row['m_name'], $row['t_team'], $row['m_mobile'],
-                        $row['m_birthday'], $row['m_permission']);
-                }
+            $_SESSION['user_id'] = $user_id;
+
+            if ($result) {
+                $_SESSION['alert'] = "EDITION_SUCCESS";
+            } else {
+                $_SESSION['alert'] = "EDITION_FAILED";
             }
 
-            if ($member->getId() == $user->getId())
-                unset($user);
-
-
         }
-        /* */
-
-
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $mobile = $_POST['mobile'];
-            $birthday = $_POST['birthday'];
-
-            require_once '../../jho.php';
-
-
+    } else if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+        if (isset($_GET['user_id'])) {
+            $_SESSION['user_id'] = $_GET['user_id'];
         }
-
-
     }
+
+    if (isset($_SESSION['user_id'])) {
+        if ($member->getPermission() >= 2) { // admin
+            $user_id = $_SESSION['user_id'];
+        } else { // not admin
+            $_SESSION['user_id'] = $member->getId();
+        }
+        $sql = "SELECT * FROM member WHERE m_id = '$user_id' AND t_team = '$team'";
+
+        $result = $db_conn->query($sql);
+        if ($result->num_rows > 0) { // Found
+            if ($row = $result->fetch_assoc()) {
+
+                $user = new \Member\Member($row['m_id'], $row['m_name'], $row['t_team'], $row['m_mobile'],
+                    $row['m_birthday'], $row['m_permission']);
+                $_SESSION['user_id'] = $user->getId();
+            }
+        } else { // Not Found
+            $_SESSION['alert'] = "NOT_FINDABLE";
+            unset($_SESSION['user_id']);
+        }
+    } else { // Not Set "$_SESSION['user_id']"
+        $user = $member;
+        $_SESSION['user'] = serialize($user);
+    }
+    /* */
+
+
 }
 
 
@@ -66,82 +98,90 @@ if (empty($_SESSION['member'])) { // Not logged in
 
 <body>
 
-<!--Start of the my_info_update page-->
-<div data-role="page" id="my_info_update" data-theme="c">
+<!--Start of the info_update page-->
+<div data-role="page" id="info_update" data-theme="c">
 
-    <div data-role="panel" id="my_info_update_menu" data-display="reveal">
-        <a href="../info/my_info.php" data-theme="a" data-role="button"
-           data-icon="user"><?php echo $name ?></a>
-        <ul data-role="listview" data-theme="a" data-inset="true">
-            <li><a href="update_my_info.php" data-role="button" data-theme="a" data-icon="edit" data-ajax="false">Update
-                    my Info.</a></li>
-            <li><a href="change_password.php" data-theme="a" data-role="button" data-icon="recycle"
-                   data-ajax="false">Change
-                    password</a></li>
-        </ul>
-        <a data-role="button" href="../info/app_info.php" data-icon="info">App Info</a>
-        <a data-role="button" href="../../login/logout.php" data-theme="b" data-icon="delete"
-           data-ajax="false">logout</a>
+    <div data-role="panel" id="info_update_menu" data-display="reveal">
+        <?php include_once '../settings_panel.php'; ?>
     </div><!--/panel-->
 
-    <div data-role="header" data-theme="a" data-position="fixed" data-id="my_info_header">
-        <a href="#my_info_update_menu" data-icon="bars"> menu</a>
-        <h1><?php echo $lang['UPDATE_MY_INFO'] ?></h1>
+    <div data-role="header" data-theme="a" data-position="fixed" data-id="info_header">
+        <a href="#info_update_menu" data-icon="bars"> menu</a>
+        <h1><?php echo $lang['UPDATE_INFO'] ?></h1>
         <a data-rel="back" data-icon="back"> back</a>
     </div><!-- /header-->
 
     <div data-role="content">
-        <form id="myInfo_form" method="post" action="update_my_info.php" data-ajax="false">
-            <div id="my_id_info" class="ui-field-contain">
-                <label for="name"><?php echo $lang['ID'] . $lang['MESSAGE']['READ_ONLY'] ?>: </label>
+
+        <?php if (isset($_SESSION['alert'])) { ?>
+            <?php echo $lang['ALERT'] . $lang['MESSAGE'][$_SESSION['alert']]; ?>
+            <?php unset($_SESSION['alert']);
+        } ?>
+
+        <form id="myInfo_form" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>"
+              data-ajax="false">
+            <div id="id_info" class="ui-field-contain">
+                <label for=id"><?php echo $lang['ID'] ?>: </label>
                 <input name="id" id="id" value="<?php echo $user->getId() ?>"
                        placeholder=""
                        type="text" readonly>
             </div>
-            <div id="my_name_info" class="ui-field-contain">
-                <label for="name"><?php echo $lang['NAME'] . $lang['MESSAGE']['READ_ONLY'] ?>: </label>
+            <div id="name_info" class="ui-field-contain">
+                <label for="name"><?php echo $lang['NAME'] ?>: </label>
                 <input name="name" id="name" value="<?php echo $user->getName() ?>"
                        placeholder=""
                        type="text" readonly>
             </div>
 
-            <?php if (!empty($user)) { ?>
-                <!--type-->
-                <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true" data-theme="b">
-                <legend><?php echo $lang['TYPE'] ?></legend>
-                <?php if ($member->getPermission() >= 2) { ?>
-                    <input name="insert_type" id="type_0" value="0"
-                           type="radio" <?php if ($user->getPermission() == 0) echo 'checked="checked"' ?>>
-                    <label for="type_0"><?php echo $member->_getRate(0) ?></label>
-                    <input name="insert_type" id="type_1" value="1"
-                           type="radio" <?php if ($user->getPermission() == 1) echo 'checked="checked"' ?>>
-                    <label for="type_1"><?php echo $member->_getRate(1) ?></label>
-                    </fieldset><!--type-->
-                <?php } ?>
 
+            <!--type-->
+            <?php if (
+                ($member->getId() != $user->getId() and $member->getPermission() >= 2 and $member->getPermission() > $user->getPermission()) or ($member->getId() == $user->getId())
+            ) { ?>
+                <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true" data-theme="b">
+                    <legend><?php echo $lang['TYPE'] ?></legend>
+
+                    <input name="rate" id="rate_0" value="0"
+                           type="radio" <?php if ($user->getPermission() == 0) { ?> checked="checked"<?php } ?>>
+                    <label for="rate_0"><?php echo $member->_getRate(0) ?></label>
+                    <input name="rate" id="rate_1" value="1"
+                           type="radio" <?php if ($user->getPermission() == 1) { ?> checked="checked"<?php } ?>>
+                    <label for="rate_1"><?php echo $member->_getRate(1) ?></label>
+                    <input name="rate" id="rate_2" value="2"
+                           type="radio" <?php if ($user->getPermission() == 2) { ?> checked="checked" <?php } ?>>
+                    <label for="rate_2"><?php echo $member->_getRate(2) ?></label>
+                    <?php if ($member->getPermission() >= 3) { ?>
+                        <input name="rate" id="rate_3" value="3"
+                               type="radio" <?php if ($user->getPermission() == 3) { ?> checked="checked" <?php } ?>>
+                        <label for="rate_3"><?php echo $member->_getRate(3) ?></label>
+                    <?php } ?>
+                </fieldset><!--type-->
             <?php } ?>
-            <div id="my_team_info" class="ui-field-contain">
-                <label for="team"><?php echo $lang['TEAM'] . $lang['MESSAGE']['READ_ONLY'] ?>: </label>
+
+            <div id="team_info" class="ui-field-contain">
+                <label for="team"><?php echo $lang['TEAM'] ?>: </label>
                 <input name="team" id="team" value="<?php echo $team ?>"
                        placeholder="Input your team"
                        type="text" readonly>
             </div>
 
-            <div id="my_mobile_info" class="ui-field-contain">
+            <div id="mobile_info" class="ui-field-contain">
                 <label for="mobile"><?php echo $lang['MOBILE'] ?>: </label>
                 <input name="mobile" id="mobile" value="<?php echo $user->getMobile() ?>"
                        placeholder="<?php echo $user->getMobile() ?>" type="tel">
             </div>
 
-            <div id="my_birthday_info" class="ui-field-contain">
+            <div id="birthday_info" class="ui-field-contain">
                 <label for="birthday"><?php echo $lang['BIRTHDAY'] ?>: </label>
-                <input name="birthday" id="my_birthday" value="<?php echo $user->getBirthday() ?>"
+                <input name="birthday" id="birthday" value="<?php echo $user->getBirthday() ?>"
                        placeholder="" type="date">
             </div>
 
             <input data-theme="a" id="edit_button" type="submit" data-icon="check" value="<?php echo $lang['EDIT'] ?>">
 
         </form><!--/form-->
+        <a href="../../contacts/manage_members.php" data-role="button" data-theme="a" data-icon="edit"
+           data-ajax="false"><?php echo $lang['MANAGE_MEMBERS'] ?></a>
 
     </div><!--/content-->
 
@@ -158,7 +198,7 @@ if (empty($_SESSION['member'])) { // Not logged in
     </div><!-- /footer-->
 
 
-</div><!--/page#my_info_update-->
+</div><!--/page#info_update-->
 
 </body>
 
