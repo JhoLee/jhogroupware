@@ -7,9 +7,9 @@
  */
 session_start();
 
-require_once '../resources/lang/get_lang.php';
-require_once '../resources/php/classes/Member/Member.php';
-require_once '../resources/head.php';
+require_once '../../resources/lang/get_lang.php';
+require_once '../../resources/php/classes/Member/Member.php';
+require_once '../../resources/head.php';
 
 if (!isset($_SESSION['member'])) { // Not logged in
     $_SESSION['member'] = 'guest';

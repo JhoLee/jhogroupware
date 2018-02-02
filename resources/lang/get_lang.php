@@ -5,7 +5,7 @@
 
 if (isset($_GET['lang'])) {
     $_lang = $_GET['lang'];
-
+    setcookie('_lang', $_lang, time() + 999 * 999, '/');
 
 } else {
     if (isset($_COOKIE['_lang'])) {
@@ -24,7 +24,7 @@ $lang = array();
 $lang = $json[$_lang];
 
 
-setcookie(round(microtime(true) * 1000), 'get_lang', time() + 999 * 999, '/');
+
 
 
 

@@ -1,7 +1,15 @@
+<?php
+
+
+require_once '../resources/php/classes/Mysql/MysqlInfo.php';
+
+
+?>
 <!--/div data-role="content"-->
 <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-tab-toggle="false"
      data-id="transaction_footer">
-    <?php $sql = "
+    <?php
+    $sql = "
                 SELECT MAX(d_processed_date) AS 'last updated date' 
                 FROM deposit_history 
                 WHERE deposit_history.t_team = '$team'

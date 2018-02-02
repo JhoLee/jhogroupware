@@ -7,9 +7,9 @@
  */
 session_start();
 
-require_once '../resources/lang/get_lang.php';
-require_once '../resources/php/classes/Member/Member.php';
-require_once '../resources/head.php';
+require_once '../../resources/lang/get_lang.php';
+require_once '../../resources/php/classes/Member/Member.php';
+
 
 if (empty($_SESSION['member'])) { // Not logged in
     $_SESSION['member'] = 'guest';
@@ -17,7 +17,7 @@ if (empty($_SESSION['member'])) { // Not logged in
     $member = unserialize($_SESSION['member']);
     $name = $member->getName();
 }
-
+require_once '../settings_head.php';
 
 ?>
     <body>

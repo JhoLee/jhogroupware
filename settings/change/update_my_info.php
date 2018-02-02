@@ -7,9 +7,9 @@
  */
 session_start();
 
-require_once '../resources/lang/get_lang.php';
-require_once '../resources/php/classes/Member/Member.php';
-require_once '../resources/head.php';
+require_once '../../resources/lang/get_lang.php';
+require_once '../../resources/php/classes/Member/Member.php';
+require_once '../settings_head.php';
 
 if (empty($_SESSION['member'])) { // Not logged in
     header('Location: ../login/login.php');
@@ -41,6 +41,15 @@ if (empty($_SESSION['member'])) { // Not logged in
             $rate = "unknown";
             break;
 
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $mobile = $_POST['mobile'];
+        $birthday = $_POST['birthday'];
+
+        require_once '../../jho.php';
+
+        $lang['UPDATE_MY_INFO'] = "아직 미지원...";
 
     }
 
@@ -51,32 +60,17 @@ if (empty($_SESSION['member'])) { // Not logged in
 ?>
 
 
-<!DOCTYPE html>
-<html>
-<head>
-    <!-- DO NOT EDIT... -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="../../resources/css/jquery.mobile-1.4.5.min.css">
-    <script type="text/javascript" src="../../resources/js/jquery.js"></script>
-    <script type="text/javascript" src="../../resources/js/jquery.mobile-1.4.5.min.js"></script>
-    <!-- ...DO NOT EDIT-->
-
-
-    <title> <?php $_SESSION['member_name'] ?></title>
-</head>
-
 <body>
 
 <!--Start of the my_info_update page-->
 <div data-role="page" id="my_info_update" data-theme="c">
 
-    <?php if ($_SESSION['member_permission'] != 295) { ?>
+    <?php if ($permission != 295) { ?>
         <img src="../../resources/images/under_construction.png">
     <?php } else { ?>
     <div data-role="panel" id="my_info_update_menu" data-display="reveal">
         <a href="../info/my_info.php" data-theme="a" data-role="button"
-           data-icon="user"><?php echo $_SESSION['member_name']; ?></a>
+           data-icon="user"><?php echo $name ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
             <li><a href="update_my_info.php" data-role="button" data-theme="a" data-icon="edit" data-ajax="false">Update
                     my Info.</a></li>
@@ -85,12 +79,13 @@ if (empty($_SESSION['member'])) { // Not logged in
                     password</a></li>
         </ul>
         <a data-role="button" href="../info/app_info.php" data-icon="info">App Info</a>
-        <a data-role="button" href="../../login/logout.php" data-theme="b" data-icon="delete" data-ajax="false">logout</a>
+        <a data-role="button" href="../../login/logout.php" data-theme="b" data-icon="delete"
+           data-ajax="false">logout</a>
     </div><!--/panel-->
 
     <div data-role="header" data-theme="a" data-position="fixed" data-id="my_info_header">
         <a href="#my_info_update_menu" data-icon="bars"> menu</a>
-        <h1>update my info</h1>
+        <h1><?php echo $lang['UPDATE_MY_INFO'] ?></h1>
         <a data-rel="back" data-icon="back"> back</a>
     </div><!-- /header-->
 
@@ -98,28 +93,28 @@ if (empty($_SESSION['member'])) { // Not logged in
         <form id="myInfo_form" method="post" action="update_my_info.php" data-ajax="false">
 
             <div id="my_name_info" class="ui-field-contain">
-                <label for="my_name">name (read only): </label>
-                <input name="my_name" id="my_name" value="<?php echo $name . " - " . $rate ?>"
+                <label for="name">name (read only): </label>
+                <input name="name" id="name" value="<?php echo $name . " - " . $rate ?>"
                        placeholder="Input your name"
                        type="text" readonly>
             </div>
 
             <div id="my_team_info" class="ui-field-contain">
-                <label for="my_team">team (read only): </label>
-                <input name="my_team" id="my_team" value="<?php echo $team ?>"
+                <label for="team">team (read only): </label>
+                <input name="team" id="team" value="<?php echo $team ?>"
                        placeholder="Input your team"
                        type="text" readonly>
             </div>
 
             <div id="my_mobile_info" class="ui-field-contain">
-                <label for="my_mobile">mobile: </label>
-                <input name="my_mobile" id="my_mobile" value="<?php echo $mobile ?>"
+                <label for="mobile">mobile: </label>
+                <input name="mobile" id="mobile" value="<?php echo $mobile ?>"
                        placeholder="<?php echo $mobile ?>" type="tel">
             </div>
 
             <div id="my_birthday_info" class="ui-field-contain">
-                <label for="my_birthday">birthday: </label>
-                <input name="my_birthday" id="my_birthday" value="<?php echo $birthday ?>"
+                <label for="birthday">birthday: </label>
+                <input name="birthday" id="my_birthday" value="<?php echo $birthday ?>"
                        placeholder="" type="date">
             </div>
 

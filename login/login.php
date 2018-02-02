@@ -19,19 +19,12 @@ if (isset($_SESSION['member'])) {
     $_SESSION['message'] = " ";
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        if (empty($_POST['team'])) { // 'team' validation
-            $teamMsg = $lang['MESSAGE']['ENTER_THE_TEAM'];
+
+        if (empty($_POST['id'])) { // 'id' validation
+            $idMsg = $lang['MESSAGE']['ENTER_THE_ID'];
         } else {
-            $team = $_POST['team'];
-
-        } // 'team' validation end
-
-
-        if (empty($_POST['name'])) { // 'name' validation
-            $nameMsg = $lang['MESSAGE']['ENTER_THE_NAME'];
-        } else {
-            $name = $_POST['name'];
-        } // 'name' validation end
+            $id = $_POST['id'];
+        } // 'id' validation end
 
         if (empty($_POST['pw'])) { // 'pw' validation
             $pwMsg = $lang['MESSAGE']['ENTER_THE_PW'];
@@ -39,36 +32,39 @@ if (isset($_SESSION['member'])) {
             $pw = $_POST["pw"];
         } // 'pw' validation end
 
-        /* Login Check */
-        require_once '../jho.php';
+        if (isset($id) and isset($pw)) {
 
-        $result = $db_conn->query("SELECT * FROM member WHERE m_name='$name' AND t_team='$team'");
-        if ($result->num_rows > 0) { // 일치하는 ID 존재
-            $row = $result->fetch_assoc();
-            if (password_verify($pw, $row['m_pw'])) { // ID & PW 일치
+            /* Login Check */
+            require_once '../jho.php';
 
-                /*
-                $_SESSION['member_id'] = $row['m_id'];
-                $_SESSION['member_name'] = $row['m_name'];
-                $_SESSION['member_team'] = $row['t_team'];
-                $_SESSION['member_mobile'] = $row['m_mobile'];
-                $_SESSION['member_birthday'] = $row['m_birthday'];
-                $_SESSION['member_permission'] = $row['m_permission'];
-                */
+            $result = $db_conn->query("SELECT * FROM member WHERE m_id='$id'");
+            if ($result->num_rows > 0) { // 일치하는 ID 존재
+                $row = $result->fetch_assoc();
+                if (password_verify($pw, $row['m_pw'])) { // ID & PW 일치
 
-
-                $member = new Member\Member($row['m_id'], $row['m_name'], $row['t_team'], $row['m_mobile'],
-                    $row['m_birthday'], $row['m_permission']);
-                $_SESSION['member'] = serialize($member);
-
-                header('Location: ../transactionHistory/view.php');
+                    /*
+                    $_SESSION['member_id'] = $row['m_id'];
+                    $_SESSION['member_name'] = $row['m_name'];
+                    $_SESSION['member_team'] = $row['t_team'];
+                    $_SESSION['member_mobile'] = $row['m_mobile'];
+                    $_SESSION['member_birthday'] = $row['m_birthday'];
+                    $_SESSION['member_permission'] = $row['m_permission'];
+                    */
 
 
+                    $member = new Member\Member($row['m_id'], $row['m_name'], $row['t_team'], $row['m_mobile'],
+                        $row['m_birthday'], $row['m_permission']);
+                    $_SESSION['member'] = serialize($member);
+
+                    header('Location: ../transactionHistory/view.php');
+
+
+                }
             }
+            // ID 미존재 혹은 PW 불일치
+            $_SESSION['alert'] = "LOGIN_FAILED";
+            /* */
         }
-        // ID 미존재 혹은 PW 불일치
-        $_SESSION['alert'] = "LOGIN_FAILED";
-        /* */
 
     } else {// Not POST
         $_SESSION['message'] = "";
@@ -103,25 +99,23 @@ if (isset($_SESSION['member'])) {
 
 
     <script type="text/javascript">
-        /*
         $('#login_form').ready(function () {
 
             $('#login_button').click(function (event) {
 
-                var i_team = $('#team_input').val();
-                var i_name = $('#name_input').val();
-                var i_pw = $('#pw_input').val();
+                let i_pw;
+                let i_id;
+                i_id = $('#name_input');
+                i_pw = $('#pw_input');
 
-                if (i_team == "") {
-                    $('#team_input').focus();
+                if (i_id.val() === "") {
+                    i_id.focus();
+                    $('#nameMsg').val(<?php echo $lang['MESSAGE']['ENTER_THE_NAME']; ?>);
                     event.preventDefault();
 
-                } else if (i_name == "") {
-                    $('#name_input').focus();
-                    event.preventDefault();
-
-                } else if (i_pw == "") {
-                    $('#pw_input').focus();
+                } else if (i_pw.val() === "") {
+                    i_pw.focus();
+                    $('#pwMsg').val(<?php echo $lang['MESSAGE']['ENTER_THE_PW']; ?>);
                     event.preventDefault();
 
                 } else {
@@ -131,7 +125,6 @@ if (isset($_SESSION['member'])) {
 
             });
         });
-        */
     </script>
 
     <title><?php echo $lang['PAGE_TITLE']; ?></title>
@@ -160,27 +153,16 @@ if (isset($_SESSION['member'])) {
 
         <form id="login_form" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>"
               data-ajax="false">
-            <div id="team_form" class="ui-field-contain">
-                <label for="team_input"><?php echo $lang['TEAM']; ?>2: </label>
-
-                <input data-clear-btn="true" name="team" id="team_input" value=""
-                       placeholder="<?php echo $lang['TEAM_EXAMPLE'] ?>" type="text">
-                <div class="alert"><?php
-                    if (isset($teamMsg)) {
-                        echo "&nbsp;&nbsp;" . $teamMsg;
-                        unset($teamMsg);
-                    } ?></div>
-            </div>
 
             <div id="id_form" class="ui-field-contain">
-                <label for="name_input"><?php echo $lang['NAME']; ?>: </label>
+                <label for="id_input"><?php echo $lang['ID']; ?>: </label>
 
-                <input data-clear-btn="true" name="name" id="name_input" value=""
+                <input data-clear-btn="true" name="id" id="id_input" value=""
                        placeholder="<?php echo $lang['NAME_EXAMPLE'] ?>" type="text">
-                <div class="alert"><?php
-                    if (isset($nameMsg)) {
-                        echo "&nbsp;&nbsp;" . $nameMsg;
-                        unset($nameMsg);
+                <div id="idMsg" class="alert"><?php
+                    if (isset($idMsg)) {
+                        echo "&nbsp;&nbsp;" . $idMsg;
+                        unset($idMsg);
                     }
                     ?></div>
             </div>
@@ -191,7 +173,7 @@ if (isset($_SESSION['member'])) {
                 <input data-clear-btn="true" name="pw" id="pw_input" value=""
                        placeholder="<?php echo $lang['PW_EXAMPLE'] ?>"
                        type="password" minlength="4" maxlength="15">
-                <div class="alert"><?php
+                <div id="pwMsg" class="alert"><?php
                     if (isset($pwMsg)) {
                         echo "&nbsp;&nbsp;" . $pwMsg;
                         unset($pwMsg);
@@ -263,7 +245,8 @@ if (isset($_SESSION['member'])) {
 
             </ul>
         </div>
-        <a class="ui-bar" href="../settings/info/app_info.php" data-icon="info"><h6><?php echo $lang['APP_INFO'] ?></h6></a>
+        <a class="ui-bar" href="../settings/info/app_info.php" data-icon="info"><h6><?php echo $lang['APP_INFO'] ?></h6>
+        </a>
     </div><!-- /footer -->
 
 

@@ -7,7 +7,11 @@
  */
 session_start();
 
-require_once '../jho.php';
+error_reporting(E_ALL);
+
+ini_set("display_errors", 1);
+
+require_once '../resources/php/classes/Mysql/MysqlInfo.php';
 require_once '../resources/php/classes/Member/Member.php';
 require_once '../resources/lang/get_lang.php';
 
@@ -15,7 +19,8 @@ if (empty($_SESSION['member'])) {
     header('Location:../login/login.php');
     exit();
 } else {
-    require_once '../resources/php/classes/Member/Member.php';
+    $db_conn = new \Mysql\mysqlInfo('jho_groupware');
+
     $member = unserialize($_SESSION['member']);
     $team = $member->getTeam();
     $name = $member->getName();
@@ -34,21 +39,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     date_default_timezone_set("Asia/Seoul");
     $now_date = date("Y-m-d H:i:s");
 
+    if (isset($name) and isset($type) and isset($rmks) and isset($amount) and isset($date)) {
 
-    $sql = "INSERT INTO deposit_history
+        $db_conn = new mysqli('jho_groupware');
+
+
+        $sql = "INSERT INTO deposit_history
 (m_name, t_team, d_category, d_rmks, d_ammount, d_date, d_processed_date, d_writer, d_editor) 
 VALUE 
 ('$name', '$team', '$type', '$rmks', '$amount', '$date', '$now_date', '$writer', '$writer')";
 
-    if (!$result = $db_conn->query($sql)) {
-        $_SESSION['alert'] = "SAVING_FAILED";
+        if ($result = $db_conn->query($sql)) {
+            $_SESSION['alert'] = "SAVING_SUCCESS";
+        } else {
+            $_SESSION['alert'] = "SAVING_FAILED";
+        }
+
+
     } else {
-        $_SESSION['alert'] = "SAVING_SUCCESS";
+        $_SESSION['alert'] = "SAVING_FAILED";
     }
-
-
 }
-
 
 ?>
 
@@ -132,7 +143,7 @@ VALUE
                     <label for="name_input"><?php echo $lang['NAME'] ?>: </label>
                     <input data-clear-btn="true" name="insert_name" id="name_input"
                            placeholder="<?php echo $lang['NAME_EXAMPLE'] ?>" value=""
-                           type="text">
+                           type="text" autofocus>
 
                 </div><!--/Name-->
 
@@ -183,29 +194,7 @@ VALUE
 
     </div><!-- /content -->
 
-
-    <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-tab-toggle="false"
-         data-id="transaction_footer">
-        <?php $sql = "
-                SELECT MAX(d_processed_date) AS 'last updated date' 
-                FROM deposit_history 
-                WHERE deposit_history.t_team = '$team'
-                ";
-        $result = $db_conn->query($sql);
-        $row = $result->fetch_assoc();
-        ?>
-        <h2><?php echo $lang['LAST_UPDATE'] ?>: <?php echo $row['last updated date']; ?></h2>
-        <div data-role="navbar" data-position="fixed">
-            <ul>
-                <li>
-                    <button data-theme="b" data-icon="bullets"><?php echo $lang['TRANSACTION'] ?></button>
-                </li>
-                <li><a href="../calendar/index.php" data-icon="calendar"><?php echo $lang['CALENDAR'] ?></a></li>
-
-                <li><a href="../settings/index.php" data-icon="gear"><?php echo $lang['SETTINGS'] ?></a></li>
-            </ul>
-        </div>
-    </div><!-- /footer -->
+    <?php include 'view_footer.php' ?>
 </div><!-- /page -->
 
 </body>

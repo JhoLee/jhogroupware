@@ -8,6 +8,7 @@
 
 namespace Member;
 
+
 class Member
 {
 
@@ -17,6 +18,7 @@ class Member
     public $mobile = '1541';
     public $birthday = '2018.01.26';
     protected $permission = -1;
+    protected $rate = 'guest';
 
     /**
      * Member constructor.
@@ -38,6 +40,7 @@ class Member
         $this->mobile = $mobile;
         $this->birthday = $birthday;
         $this->permission = $permission;
+        $this->setRate();
 
     }
 
@@ -61,5 +64,91 @@ class Member
         return $this->permission;
     }
 
+    public function getRate()
+    {
+        return $this->rate;
+    }
 
+    public function getMobile()
+    {
+        return $this->mobile;
+    }
+
+    public function getBirthday()
+    {
+        return $this->birthday;
+    }
+
+    public function getAllInfo(): array
+    {
+        $info = array('id' => $this->id, 'name' => $this->name, 'team' => $this->team, 'permission' => $this->permission, 'rate' => $this->rate, 'mobile' => $this->mobile, 'birthday' => $this->birthday);
+
+        return $info;
+    }
+
+
+    /**
+     * @param
+     * @return array {"id", "name", "team", "mobile", "birthday", "permission", "rate"}
+     */
+    public function getMemberInfo(): array
+    {
+        /* Get Members in same team */
+        $member_info = array("id" => $this->getId(), "name" => $this->getName(), "team" => $this->getTeam(), "mobile" => $this->mobile, "birthday" => $this->birthday, "permission" => $this->getPermission(), "rate" => $this->_getRate($this->getPermission()));
+
+        return $member_info;
+    }
+
+    /* */
+    public function setRate()
+    {
+        switch ($this->getPermission()) {
+            case 0:
+                $this->rate = "guest";
+                break;
+            case 1:
+                $this->rate = "member";
+                break;
+            case 2:
+                $this->rate = "leader";
+                break;
+            case 295:
+                $this->rate = "member";
+                break;
+            default:
+                $this->rate = "unknown";
+                break;
+
+        }
+
+    }
+
+
+    static function _getRate($permission): string
+    {
+        /* Get name of rate by permission */
+        switch ($permission) {
+            case 0:
+                $rate = "guest";
+                break;
+            case 1:
+                $rate = "member";
+                break;
+            case 2:
+                $rate = "leader";
+                break;
+            case 295:
+                $rate = "member";
+                break;
+            default:
+                $rate = "unknown";
+                break;
+
+
+        }
+
+        return $rate;
+    }
 }
+
+

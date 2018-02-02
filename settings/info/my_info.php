@@ -7,9 +7,8 @@
  */
 session_start();
 
-require_once '../resources/lang/get_lang.php';
-require_once '../resources/php/classes/Member/Member.php';
-require_once '../resources/head.php';
+require_once '../../resources/lang/get_lang.php';
+require_once '../../resources/php/classes/Member/Member.php';
 
 if (empty($_SESSION['member'])) { // Not logged in
     header('Location: ../login/login.php');
@@ -75,7 +74,8 @@ if (empty($_SESSION['member'])) { // Not logged in
             <li><a href="../change/change_lang.php" data-role="button" data-theme="a"
                    data-icon="eye"><?php echo $lang['CHANGE_LANG'] ?></a></li>
 
-            <li><a href="../change/update_my_info.php" data-role="button" data-theme="a" data-icon="edit" data-ajax="false">
+            <li><a href="../change/update_my_info.php" data-role="button" data-theme="a" data-icon="edit"
+                   data-ajax="false">
                     <?php echo $lang['UPDATE_MY_INFO'] ?></a></li>
             <li><a href="../change/change_password.php" data-theme="a" data-role="button" data-icon="recycle"
                    data-ajax="false"><?php echo $lang['CHANGE_PW'] ?></a></li>
@@ -124,12 +124,15 @@ if (empty($_SESSION['member'])) { // Not logged in
     <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-id="settings_footer">
         <div data-role="navbar" data-position="fixed">
             <ul>
-                <li><a href="../../transactionHistory" data-icon="bullets"><?php echo $lang['TRANSACTION'] ?></a>
+                <li><a href="../../transactionHistory" data-icon="bullets"
+                       data-ajax="false"><?php echo $lang['TRANSACTION'] ?></a>
                 </li>
                 <li>
-                    <a href="../../calendar/index.php" data-icon="calendar"><?php echo $lang['CALENDAR'] ?></a>
+                    <a href="../../calendar/index.php" data-icon="calendar"
+                       data-ajax="false"><?php echo $lang['CALENDAR'] ?></a>
                 </li>
-                <li><a href="../index.php" data-theme="b" data-icon="gear"><?php echo $lang['SETTINGS'] ?></a></li>
+                <li><a href="../index.php" data-theme="b" data-icon="gear"
+                       data-ajax="false"><?php echo $lang['SETTINGS'] ?></a></li>
             </ul>
         </div>
     </div><!-- /footer-->
