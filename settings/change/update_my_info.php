@@ -128,11 +128,13 @@ if (empty($_SESSION['member'])) { // Not logged in
     <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-id="settings_footer">
         <div data-role="navbar" data-position="fixed">
             <ul>
-                <li><a href="../../transactionHistory/view.php" data-icon="bullets"> transaction</a></li>
+                <li><a href="../../transactionHistory/view.php"
+                       data-icon="bullets"><?php echo $lang['TRANSACTION'] ?></a></li>
+                <li><a href="../../contacts/index.php" data-icon="user"><?php echo $lang['CONTACTS'] ?></a></li>
+                <li><a href="../../calendar/index.php" data-icon="calendar"><?php echo $lang['CALENDAR'] ?></a></li>
                 <li>
-                    <a href="../../calendar/index.php" data-icon="calendar">calendar</a>
+                    <button data-theme="b" data-icon="gear"><?php echo $lang['SETTINGS'] ?></button>
                 </li>
-                <li><a href="../index.php" data-theme="b" data-icon="gear">settings</a></li>
             </ul>
         </div>
     </div><!-- /footer-->

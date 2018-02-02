@@ -182,10 +182,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <ul>
                 <li><a href="../../transactionHistory/view.php"
                        data-icon="bullets"><?php echo $lang['TRANSACTION'] ?></a></li>
+                <li><a href="../../contacts/index.php" data-icon="user"><?php echo $lang['CONTACTS'] ?></a></li>
+                <li><a href="../../calendar/index.php" data-icon="calendar"><?php echo $lang['CALENDAR'] ?></a></li>
                 <li>
-                    <a href="../../calendar/index.php" data-icon="calendar"><?php echo $lang['CALENDAR'] ?></a>
+                    <button data-theme="b" data-icon="gear"><?php echo $lang['SETTINGS'] ?></button>
                 </li>
-                <li><a href="../index.php" data-theme="b" data-icon="gear"><?php echo $lang['SETTINGS'] ?></a></li>
             </ul>
         </div>
     </div><!-- /footer-->

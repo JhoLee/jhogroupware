@@ -73,8 +73,7 @@ require_once '../resources/head.php';
             <ul>
                 <li><a href="../transactionHistory/view.php"
                        data-icon="bullets"><?php echo $lang['TRANSACTION'] ?></a></li>
-                <li><a href="../contacts/index.php" data-icon="user"></a><?php echo $lang['CONTACTS'] ?></li>
-                <li>
+                <li><a href="../contacts/index.php" data-icon="user"><?php echo $lang['CONTACTS'] ?></a></li>
                 <li><a href="../calendar/index.php" data-icon="calendar"><?php echo $lang['CALENDAR'] ?></a></li>
                 <li>
                     <button data-theme="b" data-icon="gear"><?php echo $lang['SETTINGS'] ?></button>

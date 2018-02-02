@@ -386,7 +386,7 @@ require_once '../resources/head.php';
             <tbody>
             <tr>
                 <th>총계</th>
-                <td><?php echo $balance_sum ?></td>
+                <td><?php echo $lang['SYMBOL']['CURRENCY'] . $balance_sum ?></td>
                 <td></td>
             </tr>
             <?php
@@ -403,15 +403,15 @@ require_once '../resources/head.php';
             }
 
             if (isset($result)) {
-                while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+                while ($row = $result->fetch_array(MYSQLI_ASSOC)) { ?>
 
-                    echo "<tr>
-                    <th>" . $row['이름'] . "</th>
-                    <td>" . number_format($row['잔액']) . "</td>
-                    <td>" . $row['최종 변경일'] . "</td>
-                  </tr>";
-                }
-            } ?>
+                    <tr>
+                        <th><?php echo $row['이름'] ?></th>
+                        <td><?php echo $lang['SYMBOL']['CURRENCY'] . number_format($row['잔액']) ?></td>
+                        <td><?php echo $row['최종 변경일'] ?></td>
+                    </tr>
+                <?php } ?>
+            <?php } ?>
             </tbody>
         </table>
 
