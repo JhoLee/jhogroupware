@@ -16,7 +16,6 @@ if (isset($_SESSION['member'])) {
     header('Location: ../transactionHistory/view.php');
     exit();
 } else {
-    $_SESSION['message'] = " ";
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -97,6 +96,88 @@ if (isset($_SESSION['member'])) {
         });
     </script>
 
+    <script type="text/javascript">
+        // Validation Check for 'Sign Up'
+        $('#signUp_form').ready(function () {
+
+            $('#signUp_id').blur(function () {
+                let $id = $('#signUp_id').val();
+                $.ajax({
+                    type: "POST",
+                    url: "check_signUp.php",
+                    data: {
+                        type: "id_check",
+                        id: $id
+                    },
+                    success: function (data) {
+                        $('#id2Msg').html(data);
+                    },
+                    error: function (request, status, error) {
+                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    }
+                });
+            });
+
+            $('#signUp_pw1').blur(function () {
+                let $pw1 = $('#signUp_pw1').val();
+                $.ajax({
+                    type: "POST",
+                    url: "check_signUp.php",
+                    data: {
+                        type: "pw_check",
+                        pw1: $pw1
+                    },
+                    success: function (data) {
+                        $('#pw1Msg').html(data);
+                    },
+                    error: function (request, status, error) {
+                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    }
+                });
+            });
+
+            $('#signUp_pw2').blur(function () {
+                let $pw1 = $('#signUp_pw1').val();
+                let $pw2 = $('#signUp_pw2').val();
+                $.ajax({
+                    type: "POST",
+                    url: "check_signUp.php",
+                    data: {type: "pw_differenceCheck", pw1: $pw1, pw2: $pw2},
+                    success: function (data) {
+                        $('#pw2Msg').html(data);
+                    },
+                    error: function (request, status, error) {
+                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    }
+                });
+            });
+
+            $('#signUp_button').click(function () {
+                let params = $('#signUp_form').serialize();
+
+                $.ajax({
+                    type: "POST",
+                    url: "check_signUp.php",
+                    data: {
+                        type: "sign_up",
+                        params
+                    },
+                    contentType: 'charset=UTF-8',
+                    dataType: 'html',
+                    success: function (data) {
+
+                    },
+                    error: function (request, status, error) {
+                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    }
+                });
+
+
+            })
+        });
+
+    </script>
+
 
     <script type="text/javascript">
         $('#login_form').ready(function () {
@@ -113,7 +194,8 @@ if (isset($_SESSION['member'])) {
                     $('#nameMsg').val(<?php echo $lang['MESSAGE']['ENTER_THE_NAME']; ?>);
                     event.preventDefault();
 
-                } else if (i_pw.val() === "") {
+                }
+                else if (i_pw.val() === "") {
                     i_pw.focus();
                     $('#pwMsg').val(<?php echo $lang['MESSAGE']['ENTER_THE_PW']; ?>);
                     event.preventDefault();
@@ -124,7 +206,8 @@ if (isset($_SESSION['member'])) {
 
 
             });
-        });
+        })
+        ;
     </script>
 
     <title><?php echo $lang['PAGE_TITLE']; ?></title>
@@ -158,7 +241,7 @@ if (isset($_SESSION['member'])) {
                 <label for="id_input"><?php echo $lang['ID']; ?>: </label>
 
                 <input data-clear-btn="true" name="id" id="id_input" value=""
-                       placeholder="<?php echo $lang['NAME_EXAMPLE'] ?>" type="text">
+                       placeholder="" type="text" autofocus>
                 <div id="idMsg" class="alert"><?php
                     if (isset($idMsg)) {
                         echo "&nbsp;&nbsp;" . $idMsg;
@@ -214,42 +297,69 @@ if (isset($_SESSION['member'])) {
             <?php unset($_SESSION['alert']);
         } ?>
 
-        <?php if (true) { ?>
-            <img src="../resources/images/under_construction.png">
-        <?php } else { ?>
 
-            <form id="sign_up_form" method="post" action="sign_up.php" data-ajax="false">
-                <div id="id_form_login" class="ui-field-contain">
-                    <label for="sign_up_name_input">ID: </label>
-                    <input name="sign_up_name" id="sign_up_name_input" value="" placeholder="Name" type="text">
-                </div>
-                <div id="pw_form_login" class="ui-field-contain">
-                    <label for="sign_up_pw_input">PW: </label>
-                    <input name="sign_up_pw" id="sign_up_pw_input" value="" placeholder="********" type="password">
-                </div>
-                <input data-theme="a" id="login_button" type="submit" data-icon="check" value="sign up">
-            </form><!--/form-->
+        <form id="signUp_form" method="post" action="sign_up.php" data-ajax="false">
 
-        <?php } ?>
+            <div id="signUp_id_form" class="ui-field-contain">
+                <label for="signUp_id"><?php echo $lang['ID'] ?>: </label>
+                <input name="signUp_id" id="signUp_id" value="" placeholder="ID" type="text" minlength="2"
+                       maxlength="25">
+                <div id="id2Msg" style="color:red" class="non-available">
+                    <input type="hidden" value="0" name="id_available"/></div>
+            </div>
+
+            <div id="signUp_pw1_form" class="ui-field-contain">
+                <label for="signUp_pw1"><?php echo $lang['PW'] ?>: </label>
+                <input name="signUp_pw1" id="signUp_pw1" value="" placeholder="********" type="password" minlength="5"
+                       maxlength="25">
+                <div id="pw1Msg" style="color:red" class="non_available">
+                    <input type="hidden" value="0" name="pw_length"/></div>
+            </div>
+
+            <div id="signUp_pw2_form" class="ui-field-contain">
+                <label for="signUp_pw2"><?php echo $lang['PW'] . " " . $lang['RE_ENTER'] ?>: </label>
+                <input name="signUp_pw2" id="signUp_pw2" value="" placeholder="********" type="password" minlength="5"
+                       maxlength="25">
+                <div id="pw2Msg" style="color:red" class="non_available">
+                    <input type="hidden" value="0" name="pw_same"/></div>
+            </div>
+
+            <div id="signUp_name_form" class="ui-field-contain">
+                <label for="signUp_name"><?php echo $lang['NAME'] ?>: </label>
+                <input name="signUp_name" id="signUp_name" type="text" minlength="1" maxlength="25">
+            </div>
+
+            <div id="signUp_team_form" class="ui-field-contain">
+                <label for="signUp_team"><?php echo $lang['TEAM'] ?>: </label>
+                <input name="signUp_team" id="signUp_team" value="" placeholder="" type="text" minlength="1">
+            </div>
+
+            <div id="signUp_mobile_form" class="ui-field-contain">
+                <label for="signUp_mobile"><?php echo $lang['MOBILE'] ?>: </label>
+                <input name="signUp_mobile" id="signUp_mobile" value="" placeholder="010-1234-5678" type="tel">
+            </div>
+
+            <div id="signUp_birthday_form" class="ui-field-contain">
+                <label for="signUp_birthday"><?php echo $lang['BIRTHDAY'] ?>: </label>
+                <input name="signUp_birthday" id="signUp_birthday" type="date">
+            </div>
+
+            <input data-theme="a" id="signUp_button" type="submit" data-icon="check"
+                   value="<?php echo $lang['SIGN_UP'] ?>">
+        </form><!--/form-->
 
     </div><!-- /content -->
 
-    <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-id="main_footer">
+    <div data-role="footer" id="foot" data-position="fixed" data-theme="a">
         <div data-role="navbar" data-position="fixed">
             <ul>
-                <li><a href="https://open.kakao.com/o/sZ4VgyF" data-icon="comment" data-ajax="false">contact admin<br>(KakaoTalk)</a>
-                </li>
-                <li><a href="mailto:jooho_lee@outlook.kr" data-icon="mail" data-ajax="false">contact
-                        admin<br>(e-mail)</a>
-                </li>
-
+                <li><a href="../settings/info/app_info.php" data-role="button" data-icon="info" data-ajax="false">
+                        <?php echo $lang['APP_INFO'] ?></a></li>
+                <li><a href="../settings/change/change_lang.php" data-role="button" data-theme="a"
+                       data-icon="eye">Language</a></li>
             </ul>
-        </div>
-        <a class="ui-bar" href="../settings/info/app_info.php" data-icon="info"><h6><?php echo $lang['APP_INFO'] ?></h6>
-        </a>
-    </div><!-- /footer -->
-
-
+        </div><!--/navbar-->
+    </div><!--/footer-->
 </div><!-- /page -->
 
 

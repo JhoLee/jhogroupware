@@ -12,9 +12,16 @@
  */
 session_start();
 
+error_reporting(E_ALL);
 
-require_once '../resources/php/classes/Member/Member.php';
-require_once '../resources/php/classes/Mysql/MysqlInfo.php';
+ini_set("display_errors", 1);
+
+spl_autoload_register(
+    function ($class) {
+        $class = str_replace('\\', '/', $class);
+        require_once '../resources/php/classes/' . $class . '.php';
+    });
+
 require_once '../resources/lang/get_lang.php';
 require_once '../jho.php';
 
@@ -46,7 +53,7 @@ if (empty($_SESSION['member'])) { // Not logged in
     $team = $member->getTeam();
     $name = $member->getName();
     $permission = $member->getPermission();
-    $db_conn = new \Mysql\mysqlInfo('jho_groupware');
+    $db_conn = new \Mysql\MysqlInfo('jho_groupware');
 }
 
 $sql = "
@@ -111,6 +118,10 @@ require_once '../resources/head.php';
     </div><!-- /header -->
 
     <div data-role="content">
+
+        <!-- Announce Board -->
+        <?php require_once '../announce_board/announce_view.php' ?>
+        <!-- /Announce Board -->
 
         <table data-role="table" id="transaction_summary_personal_table" data-mode="reflow"
                class="ui-responsive table-stroke">
@@ -194,10 +205,10 @@ require_once '../resources/head.php';
                 </tbody>
             </table>
             <br>
-            <!-- Announce Board -->
-            <?php include_once '../announce_board/announce_view.php'; ?>
+
         <?php } ?>
     </div><!-- /content -->
+
 
     <?php include 'view_footer.php'; ?>
 
@@ -320,7 +331,7 @@ require_once '../resources/head.php';
                         $category = "UNKNOWN";
                     }
                     echo "<td>" . $lang[$category] . "</td >
-                        <td >" . $lang['SYMBOL']['CURRENCY'] . ($row['구분'] * $row['금액']) . " </td >
+                        <td >" . $lang['SYMBOL']['CURRENCY'] . number_format($row['구분'] * $row['금액']) . " </td >
                           <td > " . $row['비고'] . " </td >
                           <td >" . $lang['SYMBOL']['CURRENCY'] . number_format($row['잔액']) . " </td >
                   </tr > ";

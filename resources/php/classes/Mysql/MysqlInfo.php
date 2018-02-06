@@ -11,7 +11,7 @@ namespace mysql;
 
 use mysqli;
 
-class mysqlInfo extends mysqli
+class MysqlInfo extends mysqli
 {
     protected $mysql_host = "";
     protected $mysql_user = "";

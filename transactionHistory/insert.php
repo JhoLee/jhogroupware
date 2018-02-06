@@ -19,7 +19,7 @@ if (empty($_SESSION['member'])) {
     header('Location:../login/login.php');
     exit();
 } else {
-    $db_conn = new \Mysql\mysqlInfo('jho_groupware');
+    $db_conn = new \Mysql\MysqlInfo('jho_groupware');
 
     $member = unserialize($_SESSION['member']);
     $team = $member->getTeam();

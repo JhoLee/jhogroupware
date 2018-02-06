@@ -10,57 +10,54 @@ session_start();
 
 require_once '../../resources/lang/get_lang.php';
 require_once '../../resources/php/classes/Member/Member.php';
-require_once '../../jho.php';
+require_once '../../resources/php/classes/Mysql/MysqlInfo.php';
+
+$db_conn = new \mysql\MysqlInfo('jho_groupware');
 
 if (empty($_SESSION['member'])) { // Not logged in
-    header('Location: ../login/login.php');
+    header('Location: ../../login/login.php');
     exit();
 } else {
 
     $member = unserialize($_SESSION['member']);
-
+    $id = $member->getId();
     $name = $member->getName();
     $team = $member->getTeam();
 }
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (empty($_POST['pw_length']) or empty($_POST['pw_same'])) {
+        $_SESSION['alert'] = 'ERROR';
 
-    $member_pw = $_POST["current_pw"];
-
-    if (!isset($_POST['change_pw1']) || !isset($_POST['change_pw2'])) {
-        $_SESSION['alert'] = 'PLZ_ENTER';
     } else {
-        if ($_POST['change_pw1'] != $_POST['change_pw2']) {
-            $_SESSION['alert'] = 'PW_NOT_SAME';
-        } else {
+
+        $current_pw = $_POST['current_pw'];
+        $change_pw = $_POST['change_pw1'];
+
+        $result = $db_conn->query("SELECT * FROM member WHERE m_id='$id'");
+        if ($result->num_rows <= 0) {
+
+            $_SESSION['alert'] = 'UNKNOWN_ERROR';
+        } else { // 일치하는 ID 존재
+            $row = $result->fetch_array(MYSQLI_ASSOC);
+            if (!password_verify($current_pw, $row['m_pw'])) {
+
+                $_SESSION['alert'] = 'PW_INCORRECT';
+            } else { // ID & PW 일치
+
+                $change_pw = password_hash($change_pw, PASSWORD_DEFAULT, ["cost" => 12]);
+
+                $sql = "UPDATE member SET m_pw = '$change_pw' WHERE m_name = '$name' AND t_team = '$team'";
+
+                $db_conn->query($sql);
+
+                $_SESSION['alert'] = 'PW_CHANGE_SUCCESS';
 
 
-            $result = $db_conn->query("SELECT * FROM member WHERE m_name='$name'");
-            if ($result->num_rows <= 0) {
-
-                $_SESSION['alert'] = 'UNKNOWN_ERROR';
-            } else { // 일치하는 ID 존재
-                $row = $result->fetch_array(MYSQLI_ASSOC);
-                if (!password_verify($member_pw, $row['m_pw'])) {
-
-                    $_SESSION['alert'] = 'PW_INCORRECT';
-                } else { // ID & PW 일치
-
-                    $change_pw = password_hash($_POST['change_pw1'], PASSWORD_DEFAULT, ["cost" => 12]);
-
-                    $sql = "UPDATE member SET m_pw = '$change_pw' WHERE m_name = '$name' AND t_team = '$team'";
-
-                    $db_conn->query($sql);
-
-                    $_SESSION['alert'] = 'PW_CHANGE_SUCCESS';
-
-                }
             }
         }
     }
-
-
 }
+?>
 
 
 ?>
@@ -78,33 +75,46 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
     <script type="text/javascript">
-        $('#change_password').ready(function () {
+        // Validation Check for 'Sign Up'
+        $('document').ready(function () {
 
-            $('#change_pw_button').click(function (event) {
-
-                var current_pw = $('#current_pw_input').val();
-                var pw1 = $('#change_pw1_input').val();
-                var pw2 = $('#change_pw2_input').val();
-
-                if (current_pw == "") {
-                    $('#current_pw_input').focus();
-                    event.preventDefault();
-
-                } else if (pw1 == "") {
-                    $('#change_pw1_input').focus();
-                    event.preventDefault();
-
-                } else if (pw1 != pw2) {
-                    $('#change_pw2_input').focus();
-                    event.preventDefault();
-
-                } else {
-                    $('#change_password_form').submit();
-                }
-
-
+            $('#change_pw1').blur(function () {
+                let $pw1 = $('#change_pw1').val();
+                $.ajax({
+                    type: "POST",
+                    url: "change_pw_check.php",
+                    data: {
+                        type: "pw_check",
+                        pw1: $pw1
+                    },
+                    success: function (data) {
+                        $('#pw1Msg').html(data);
+                    },
+                    error: function (request, status, error) {
+                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    }
+                });
             });
+
+            $('#change_pw2').blur(function () {
+                let $pw1 = $('#change_pw1').val();
+                let $pw2 = $('#change_pw2').val();
+                $.ajax({
+                    type: "POST",
+                    url: "change_pw_check.php",
+                    data: {type: "pw_differenceCheck", pw1: $pw1, pw2: $pw2},
+                    success: function (data) {
+                        $('#pw2Msg').html(data);
+                    },
+                    error: function (request, status, error) {
+                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    }
+                });
+            });
+
+
         });
+
     </script>
 
 
@@ -143,31 +153,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } ?>
 
 
-        <form id="change_password_form" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>">
+        <form id="change_password_form" method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>" data-ajxa="false">
 
-            <div id="current_pw" class="ui-field-contain">
-                <label for="current_pw_input"><?php echo $lang['CURRENT_PW'] ?>: </label>
-                <input name="current_pw" id="current_pw_input" value="" placeholder="<?php echo $lang['PW_EXAMPLE'] ?>"
+            <div id="current_pw_form" class="ui-field-contain">
+                <label for="current_pw"><?php echo $lang['CURRENT_PW'] ?>: </label>
+                <input name="current_pw" id="current_pw" value="" placeholder="<?php echo $lang['PW_EXAMPLE'] ?>"
                        type="password" minlength="5" maxlength="22">
 
             </div>
 
-            <div id="change_pw1" class="ui-field-contain">
-                <label for="change_pw1_input"><?php echo $lang['CHANGE_TO'] ?>:</label>
-                <input name="change_pw1" id="change_pw1_input" class="pw_change" value=""
+            <div id="change_pw1_form" class="ui-field-contain">
+                <label for="change_pw1"><?php echo $lang['CHANGE_TO'] ?>:</label>
+                <input name="change_pw1" id="change_pw1" class="pw_change" value=""
                        placeholder="<?php echo $lang['AT_LEAST_5CHARACTERS'] ?>"
                        type="password" minlength="5" maxlength="22">
+                <div id="pw1Msg" style="color:red" class="non_available">
+                    <input type="hidden" value="0" name="pw_length"/></div>
             </div>
-            <div id="change_pw2" class="ui-field-contain">
 
-                <label for="change_pw2_input"><?php echo $lang['RE_ENTER'] ?>:</label>
-                <input name="change_pw2" id="change_pw2_input" class="pw_change" value=""
+            <div id="change_pw2_form" class="ui-field-contain">
+
+                <label for="change_pw2"><?php echo $lang['RE_ENTER'] ?>:</label>
+                <input name="change_pw2" id="change_pw2" class="pw_change" value=""
                        placeholder="<?php echo $lang['RE_ENTER'] ?>"
                        type="password" minlength="5" maxlength="22">
-
-
+                <div id="pw2Msg" style="color:red" class="non_available">
+                    <input type="hidden" value="0" name="pw_length"/></div>
             </div>
-
 
             <input data-theme="a" id="change_pw_button" type="submit" data-icon="check"
                    value="<?php echo $lang['CHANGE'] ?>">

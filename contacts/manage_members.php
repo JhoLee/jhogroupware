@@ -29,7 +29,7 @@ if (empty($_SESSION['member'])) { // Not logged in
         } else {
             $team = $member->getTeam();
             $sql = "SELECT * FROM jho_groupware.member WHERE t_team ='$team' ORDER BY  m_permission DESC, m_name ";
-            $db_conn = new \Mysql\mysqlInfo('jho_groupware');
+            $db_conn = new \Mysql\MysqlInfo('jho_groupware');
             $result = $db_conn->query($sql);
 
             $teamMembers_info = array();
