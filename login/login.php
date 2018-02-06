@@ -11,6 +11,7 @@ session_start();
 
 require_once '../resources/lang/get_lang.php';
 require_once '../resources/php/classes/Member/Member.php';
+require_once '../resources/php/classes/Mysql/MysqlInfo.php';
 
 if (isset($_SESSION['member'])) {
     header('Location: ../transactionHistory/view.php');
@@ -34,7 +35,7 @@ if (isset($_SESSION['member'])) {
         if (isset($id) and isset($pw)) {
 
             /* Login Check */
-            require_once '../jho.php';
+            $db_conn = new \mysql\MysqlInfo('jho_groupware');
 
             $result = $db_conn->query("SELECT * FROM member WHERE m_id='$id'");
             if ($result->num_rows > 0) { // 일치하는 ID 존재

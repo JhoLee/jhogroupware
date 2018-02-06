@@ -48,6 +48,7 @@ require_once 'resources/head.php';
         <a data-rel="back" data-icon="back"><?php echo $lang['BACK_KEY'] ?></a>
     </div><!-- /header-->
 
+
     <div data-role="content">
         <?php header('Location: transactionHistory/view.php'); ?>
         <img src="resources/images/under_construction.png">
