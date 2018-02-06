@@ -7,9 +7,6 @@
  */
 session_start();
 
-error_reporting(E_ALL);
-
-ini_set("display_errors", 1);
 
 require_once '../resources/php/classes/Mysql/MysqlInfo.php';
 require_once '../resources/php/classes/Member/Member.php';
