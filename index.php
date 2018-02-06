@@ -8,61 +8,102 @@
 
 
 session_start();
-require_once 'resources/php/classes/Member/Member.php';
 
-if (empty($_SESSION['member'])) { // Not logged in
 
-    header('Location: ../login/login.php');
+spl_autoload_register(
+    function ($class) {
+        $class = str_replace('\\', '/', $class);
+        require_once 'resources/php/classes/' . $class . '.php';
+    });
 
-} else {
 
-    $member = unserialize($_SESSION['member']);
-    $team = $member->getTeam();
-    $name = $member->getName();
-    $permission = $member->getPermission();
+require_once 'resources/lang/get_lang.php';
 
+
+$member = unserialize($_SESSION['member']);
+
+if ($member->getPermission() == 0) {
+    $_SESSION['alert'] = "NO_PERMISSION_YET";
+    unset($_SESSION['member']);
+    header('../login/login.php');
+    exit();
 
 }
 
-require_once 'resources/head.php';
+$team = $member->getTeam();
+$name = $member->getName();
+$permission = $member->getPermission();
+$db_conn = new \Mysql\MysqlInfo('jho_groupware');
 
 ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- DO NOT EDIT... -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="resources/css/jquery.mobile-1.4.5.min.css">
+    <script type="text/javascript" src="resources/js/jquery.js"></script>
+    <script type="text/javascript" src=" resources/js/jquery.mobile-1.4.5.min.js"></script>
+    <!-- ...DO NOT EDIT-->
+
+    <title> <?php $lang['PAGE_TITLE'] ?></title>
+    <script type="text/javascript">
+        $('document').ready(function () {
+            $.ajax({
+                type: "POST",
+                url: "transactionHistory/view.php",
+                data: {
+                    category: "transaction",
+                    division: "personal",
+                    section: "summary"
+                },
+                success: function (data) {
+                    alert(data);
+                    $('#index').html(data);
+                },
+                error: function (request, status, error) {
+                    alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error: " + error);
+                }
+            });
+
+        });
+
+        $.on("click", "a", function (event) {
+            let link = event.target.getAttribute('href');
+            event.preventDefault();
+            alert(link.indexOf('#'));
+
+            if (link.indexOf('#') !== 0) {
+                alert(link);
+                $.ajax({
+                    type: "POST",
+                    url: event.target.getAttribute('href'),
+                    data: {
+                        category: "transaction",
+                        division: "personal_summary"
+                    },
+                    success: function (data) {
+                        $('#index').html(data)
+
+                    },
+                    error: function (request, status, error) {
+                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error: " + error);
+                    }
+                });
+            }
+
+
+
+        });
+
+    </script>
+</head>
+
 
 <body>
 <!--Start of the index page-->
 <div data-role="page" id="index" data-theme="c">
-    <div data-role="panel" id="index_menu" data-display="reveal">
-        <a href="settings/info/my_info.php" data-theme="a" data-role="button"
-           data-icon="user"><?php echo $name ?></a>
-        <ul data-role="listview" data-theme="a" data-inset="true">
-        </ul>
-        <a data-role="button" href="settings/info/app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
-        <a data-role="button" href="login/logout.php" data-theme="b"
-           data-icon="delete"><?php echo $lang['LOGOUT'] ?></a>
-    </div><!--/panel-->
 
-
-    <div data-role="header" data-theme="a" data-position="fixed">
-        <a href="#index_menu" data-icon="bars"><?php echo $lang['MENU'] ?></a>
-        <h1><?php echo $lang['INDEX'] ?></h1>
-        <a data-rel="back" data-icon="back"><?php echo $lang['BACK_KEY'] ?></a>
-    </div><!-- /header-->
-
-    <div data-role="content">
-        <?php header('Location: transactionHistory/view.php'); ?>
-        <img src="resources/images/under_construction.png">
-    </div><!-- /content-->
-
-    <div data-role="footer" id="foot" data-position="fixed" data-theme="a" data-id="transaction_footer">
-        <div data-role="navbar" data-position="fixed">
-            <ul>
-                <li><a href="transactionHistory/view.php"
-                       data-icon="bullets"><?php echo $lang['TRANSACTION'] ?></a></li>
-                <li><a href="calendar/index.php" data-icon="calendar"><?php echo $lang['CALENDAR'] ?></a></li>
-                <li>
-                    <a href="settings/index.php" data-icon="gear"><?php echo $lang['SETTINGS'] ?></a>
-                </li>
-            </ul>
-        </div>
-    </div><!-- /footer-->
 </div><!-- /page#index-->

@@ -72,224 +72,236 @@ if (isset($result)) {
     }
 }
 
-
-require_once '../resources/head.php';
-
 ?>
 
-<body>
-<!-- Start of the personal_summary page -->
-<div data-role="page" id="personal_summary" data-theme="c">
 
-    <div data-role="panel" id="personal_summary_menu" data-display="reveal">
-        <a href=" ../settings/info/my_info.php" data-theme="a" data-role="button"
-           data-icon="user"><?php echo $name; ?></a>
-        <ul data-role="listview" data-theme="a" data-inset="true">
-            <?php if ($permission >= 2) {
-                echo '<li><a href="#all_summary">';
-                echo $lang["ALL_VIEW"] . '</a></li>';
-            } ?>
-            <li><a href="#personal_summary_menu"><?php echo $lang['TRANSACTION_VIEW_PERSONAL'] ?></a></li>
-        </ul>
-        <a data-role="button" href="../settings/info/app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
-        <a data-role="button" href="../login/logout.php" data-theme="b"
-           data-icon="delete"><?php echo $lang['LOGOUT'] ?></a>
+<?php if (isset($_POST['category'])) { ?>
+    <link rel="stylesheet" href="../resources/css/jquery.mobile-1.4.5.min.css">
+    <script type="text/javascript" src="../resources/js/jquery.js"></script>
+    <script type="text/javascript" src="../resources/js/jquery.mobile-1.4.5.min.js"></script>
+    <!-- ...DO NOT EDIT-->
 
-    </div><!-- /panel#menu-->
-
-    <div data-role="header" data-theme="a" data-position="fixed" data-tab-toggle="false">
-        <a href="#personal_summary_menu" data-icon="bars"><?php echo $lang['MENU'] ?></a>
-
-        <h1><?php echo $lang['PERSONAL_VIEW'] ?>(<?php echo $lang['SUMMARY'] ?>)</h1>
-
-        <a data-rel="back" data-icon="back"><?php echo $lang['BACK_KEY'] ?></a>
-        <div data-role="navbar" id="summary_navbar">
-            <ul>
-                <li><a href="#personal_summary"><?php echo $lang['SUMMARY'] ?></a></li>
-                <li><a href="#personal_details"><?php echo $lang['DETAILS']; ?></a></li>
-                <?php if ($permission >= 2) { ?>
-                    <li><a href="insert.php"><?php echo $lang['INSERT'] ?></a></li>
-                <?PHP } ?>
-            </ul>
-        </div>
-    </div><!-- /header -->
-
-    <div data-role="content">
-
-        <!-- Announce Board -->
-        <?php require_once '../announce_board/announce_view.php' ?>
-        <!-- /Announce Board -->
-
-        <table data-role="table" id="transaction_summary_personal_table" data-mode="reflow"
-               class="ui-responsive table-stroke">
-            <thead>
-            <tr>
-                <th data-priority="persist"><?php echo $lang['NAME'] ?></th>
-                <th colspan="1"><?php echo $lang['BALANCE'] ?></th>
-                <th colspan="1"><?php echo $lang['LAST_MODIFIED_DATE'] ?></th>
-            </tr>
-            </thead>
-            <tbody>
-
-            <?php
+    <?php if ($_POST['category'] == "transaction") { ?>
+        <?php if ($_POST['division'] == "personal") { ?>
+            <?php if ($_POST['section'] == "summary") { ?>
 
 
-            $sql = "SELECT m_name AS '이름', SUM(d_category * d_ammount) AS '잔액', MAX(d_date) AS '최종 변경일'
+                <!-- Start of the personal_summary page -->
+
+                <div data-role="panel" id="personal_summary_menu" data-display="reveal">
+                    <a href=" ../settings/info/my_info.php" data-theme="a" data-role="button"
+                       data-icon="user"><?php echo $name; ?></a>
+                    <ul data-role="listview" data-theme="a" data-inset="true">
+                        <?php if ($permission >= 2) {
+                            echo '<li><a href="#all_summary">';
+                            echo $lang["ALL_VIEW"] . '</a></li>';
+                        } ?>
+                        <li><a href="#personal_summary_menu"><?php echo $lang['TRANSACTION_VIEW_PERSONAL'] ?></a>
+                        </li>
+                    </ul>
+                    <a data-role="button" href="../settings/info/app_info.php"
+                       data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
+                    <a data-role="button" href="../login/logout.php" data-theme="b"
+                       data-icon="delete"><?php echo $lang['LOGOUT'] ?></a>
+
+                </div><!-- /panel#menu-->
+
+                <div data-role="header" data-theme="a" data-position="fixed" data-tab-toggle="false">
+                    <a href="#personal_summary_menu" data-icon="bars"><?php echo $lang['MENU'] ?></a>
+
+                    <h1><?php echo $lang['PERSONAL_VIEW'] ?>(<?php echo $lang['SUMMARY'] ?>)</h1>
+
+                    <a data-rel="back" data-icon="back"><?php echo $lang['BACK_KEY'] ?></a>
+                    <div data-role="navbar" id="summary_navbar">
+                        <ul>
+                            <li><a href="#personal_summary"><?php echo $lang['SUMMARY'] ?></a></li>
+                            <li><a href="#personal_details"><?php echo $lang['DETAILS']; ?></a></li>
+                            <?php if ($permission >= 2) { ?>
+                                <li><a href="insert.php"><?php echo $lang['INSERT'] ?></a></li>
+                            <?PHP } ?>
+                        </ul>
+                    </div>
+                </div><!-- /header -->
+
+                <div data-role="content">
+
+                    <!-- Announce Board -->
+                    <?php require_once '../announce_board/announce_view.php' ?>
+                    <!-- /Announce Board -->
+
+                    <table data-role="table" id="transaction_summary_personal_table" data-mode="reflow"
+                           class="ui-responsive table-stroke">
+                        <thead>
+                        <tr>
+                            <th data-priority="persist"><?php echo $lang['NAME'] ?></th>
+                            <th colspan="1"><?php echo $lang['BALANCE'] ?></th>
+                            <th colspan="1"><?php echo $lang['LAST_MODIFIED_DATE'] ?></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <?php
+
+
+                        $sql = "SELECT m_name AS '이름', SUM(d_category * d_ammount) AS '잔액', MAX(d_date) AS '최종 변경일'
                     FROM deposit_history WHERE t_team='$team' AND m_name = '$name'";
-            $result = $db_conn->query($sql);
-            if (isset($result)) {
-                while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+                        $result = $db_conn->query($sql);
+                        if (isset($result)) {
+                            while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
 
-                    echo
-                        "<tr>
+                                echo
+                                    "<tr>
                     <th>" . $row['이름'] . "</th>
                     <td>" . $lang['SYMBOL']['CURRENCY'] . number_format($row['잔액']) . "</td>
                     <td>" . $row['최종 변경일'] . "</td>
                 </tr>";
-                }
-            } else {
-                echo "??";
-            }
-            /*
-           $sql = "SELECT m_name AS '이름', SUM(d_category * d_ammount) AS '잔액', MAX(d_date)
-           AS '최종 변경일'
-           FROM deposit_history WHERE t_team='$team' AND m_name = '공동기금'";
+                            }
+                        } else {
+                            echo "??";
+                        }
+                        /*
+                       $sql = "SELECT m_name AS '이름', SUM(d_category * d_ammount) AS '잔액', MAX(d_date)
+                       AS '최종 변경일'
+                       FROM deposit_history WHERE t_team='$team' AND m_name = '공동기금'";
 
-           $result = $db_conn->query($sql);
-           if (!empty($result)) {
-               while ($row = $result->fetch_assoc()) { ?>
-                   <tr>
-                       <th><?php echo $row['이름'] ?></th>
-                       <td><?php echo $lang['SYMBOL']['CURRENCY'] . number_format($row['잔액']) ?></td>
-                       <td><?php echo $row['최종 변경일'] ?></td>
-                   </tr>
-               <?php } ?>
-           <?php } */ ?>
+                       $result = $db_conn->query($sql);
+                       if (!empty($result)) {
+                           while ($row = $result->fetch_assoc()) { ?>
+                               <tr>
+                                   <th><?php echo $row['이름'] ?></th>
+                                   <td><?php echo $lang['SYMBOL']['CURRENCY'] . number_format($row['잔액']) ?></td>
+                                   <td><?php echo $row['최종 변경일'] ?></td>
+                               </tr>
+                           <?php } ?>
+                       <?php } */ ?>
 
-            <tr>
-                <th>계좌 전체</th>
-                <td><?php echo $lang['SYMBOL']['CURRENCY'] . $balance_sum ?></td>
-                <td></td>
-            </tr>
-            </tbody>
-        </table>
-        <br>
-        <br>
-        <?php
-        $sql = "SELECT da_depositor AS '예금주명', da_bank AS '은행', da_number AS '계좌번호'
+                        <tr>
+                            <th>계좌 전체</th>
+                            <td><?php echo $lang['SYMBOL']['CURRENCY'] . $balance_sum ?></td>
+                            <td></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                    <br>
+                    <?php
+                    $sql = "SELECT da_depositor AS '예금주명', da_bank AS '은행', da_number AS '계좌번호'
                     FROM dues_account_information WHERE t_team='$team'";
-        $result = $db_conn->query($sql);
-        if (isset($result) && $result->num_rows > 0) {
-            ?>
-            <table data-role="table" id="duesAccount_info" data-mode="reflow" class="ui-responsive table-stroke">
-                <thead>
-                <tr>
-                    <th data-priority="persist">회비 입금 계좌</th>
-                    <th colspan="1">예금주명</th>
-                    <th colspan="1">계좌 번호</th>
-                </tr>
-                </thead>
-                <tbody>
+                    $result = $db_conn->query($sql);
+                    if (isset($result) && $result->num_rows > 0) {
+                        ?>
+                        <table data-role="table" id="duesAccount_info" data-mode="reflow"
+                               class="ui-responsive table-stroke">
+                            <thead>
+                            <tr>
+                                <th data-priority="persist">회비 입금 계좌</th>
+                                <th colspan="1">예금주명</th>
+                                <th colspan="1">계좌 번호</th>
+                            </tr>
+                            </thead>
+                            <tbody>
 
-                <?php while ($row = $result->fetch_assoc()) {
-                    echo
-                        "<tr>
+                            <?php while ($row = $result->fetch_assoc()) {
+                                echo
+                                    "<tr>
             <th>" . $row['은행'] . "</th>
             <td>" . $row['예금주명'] . "</td>
             <td>" . $row['계좌번호'] . "</td>
             </tr>";
-                } ?>
-                </tbody>
-            </table>
-            <br>
+                            } ?>
+                            </tbody>
+                        </table>
+                        <br>
 
-        <?php } ?>
-    </div><!-- /content -->
-
-
-    <?php include 'view_footer.php'; ?>
-
-</div><!-- /page#personal_summary -->
-
-<!-- Start of the personal_details page -->
-<div data-role="page" id="personal_details" data-theme="c">
-
-    <div data-role="panel" id="personal_details_menu" data-display="reveal">
-        <a href="../settings/info/my_info.php" data-theme="a" data-role="button"
-           data-icon="user"><?php echo $name; ?></a>
-        <ul data-role="listview" data-theme="a" data-inset="true">
-            <?php if ($permission >= 2) {
-                echo '<li><a href="#all_summary">';
-                echo $lang["ALL_VIEW"] . '</a></li>';
-            } ?>
-            <li><a href="#personal_summary"><?php echo $lang['PERSONAL_VIEW'] ?></a></li>
-        </ul>
-        <a data-role="button" href="../settings/info/app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
-        <a data-role="button" href="../login/logout.php" data-theme="b"
-           data-icon="delete"><?php echo $lang['LOGOUT'] ?></a>
-
-    </div><!-- /panel#menu-->
-
-    <div data-role="header" data-theme="a" data-position="fixed" data-tab-toggle="false">
-        <a href="#personal_details_menu" data-icon="bars"><?php echo $lang['MENU'] ?></a>
-
-        <h1><?php echo $lang['PERSONAL_VIEW'] ?>(<?php echo $lang['DETAILS'] ?>)</h1>
-
-        <a data-rel="back" data-icon="back"><?php echo $lang['BACK_KEY'] ?></a>
-        <div data-role="navbar" id="summary_navbar">
-            <ul>
-                <li><a href="#personal_summary"><?php echo $lang['SUMMARY'] ?></a></li>
-                <li><a href="#personal_details"><?php echo $lang['DETAILS'] ?></a></li>
-                <?php if ($permission >= 2) { ?>
-                    <li><a href="insert.php"><?php echo $lang['INSERT'] ?></a></li>
-                <?php } ?>
-            </ul>
-        </div>
-    </div><!-- /header -->
-
-    <div data-role="content">
-
-        <script language="javascript">
-            /*
-
-            $(document).on("pageshow", "#dataTablesExample1", function () {
-
-                if ($.fn.DataTable.isDataTable('#example')) {
-                    $('#example').DataTable().columns.adjust();
-                    return;
-                }
-
-                $('#example').dataTable({
-                    "scrollX": true,
-                    "scrollXollapse": true,
-                    "ajax": 'assets/files/demos/jquery_mobile/datatables/dt_ajax_example.json',
-                    "pagingType": "full"
-                });
-            });
-
-            $(document).on("pageremove", function (event) {
-                $('#example').DataTable().destroy(false);
-            });
-*/
-        </script>
+                    <?php } ?>
+                </div><!-- /content -->
 
 
-        <table data-role="table" id="transaction_details_personal_table" data-mode="reflow"
-               class="ui-responsive table-stroke">
-            <thead>
-            <tr>
-                <th data-priority="persist"><?php echo $lang['DATE'] ?></th>
-                <th colspan="1">구분</th>
-                <th colspan="1"><?php echo $lang['AMOUNT_OF_MONEY'] ?></th>
-                <th colspan="1">내용</th>
-                <th colspan="1"><?php echo $lang['BALANCE'] ?></th>
-            </tr>
-            </thead>
-            <tbody>
+                <?php include 'view_footer.php'; ?>
 
-            <?php
-            $db_conn->query("SET @balance := 0;");
-            $sql = "
+                <!-- /page#personal_summary -->
+            <?php } ?>
+
+            <!-- Start of the personal_details page -->
+            <div data-role="page" id="personal_details" data-theme="c">
+
+                <div data-role="panel" id="personal_details_menu" data-display="reveal">
+                    <a href="../settings/info/my_info.php" data-theme="a" data-role="button"
+                       data-icon="user"><?php echo $name; ?></a>
+                    <ul data-role="listview" data-theme="a" data-inset="true">
+                        <?php if ($permission >= 2) {
+                            echo '<li><a href="#all_summary">';
+                            echo $lang["ALL_VIEW"] . '</a></li>';
+                        } ?>
+                        <li><a href="#personal_summary"><?php echo $lang['PERSONAL_VIEW'] ?></a></li>
+                    </ul>
+                    <a data-role="button" href="../settings/info/app_info.php"
+                       data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
+                    <a data-role="button" href="../login/logout.php" data-theme="b"
+                       data-icon="delete"><?php echo $lang['LOGOUT'] ?></a>
+
+                </div><!-- /panel#menu-->
+
+                <div data-role="header" data-theme="a" data-position="fixed" data-tab-toggle="false">
+                    <a href="#personal_details_menu" data-icon="bars"><?php echo $lang['MENU'] ?></a>
+
+                    <h1><?php echo $lang['PERSONAL_VIEW'] ?>(<?php echo $lang['DETAILS'] ?>)</h1>
+
+                    <a data-rel="back" data-icon="back"><?php echo $lang['BACK_KEY'] ?></a>
+                    <div data-role="navbar" id="summary_navbar">
+                        <ul>
+                            <li><a href="#personal_summary"><?php echo $lang['SUMMARY'] ?></a></li>
+                            <li><a href="#personal_details"><?php echo $lang['DETAILS'] ?></a></li>
+                            <?php if ($permission >= 2) { ?>
+                                <li><a href="insert.php"><?php echo $lang['INSERT'] ?></a></li>
+                            <?php } ?>
+                        </ul>
+                    </div>
+                </div><!-- /header -->
+
+                <div data-role="content">
+
+                    <script language="javascript">
+                        /*
+
+                        $(document).on("pageshow", "#dataTablesExample1", function () {
+
+                            if ($.fn.DataTable.isDataTable('#example')) {
+                                $('#example').DataTable().columns.adjust();
+                                return;
+                            }
+
+                            $('#example').dataTable({
+                                "scrollX": true,
+                                "scrollXollapse": true,
+                                "ajax": 'assets/files/demos/jquery_mobile/datatables/dt_ajax_example.json',
+                                "pagingType": "full"
+                            });
+                        });
+
+                        $(document).on("pageremove", function (event) {
+                            $('#example').DataTable().destroy(false);
+                        });
+            */
+                    </script>
+
+
+                    <table data-role="table" id="transaction_details_personal_table" data-mode="reflow"
+                           class="ui-responsive table-stroke">
+                        <thead>
+                        <tr>
+                            <th data-priority="persist"><?php echo $lang['DATE'] ?></th>
+                            <th colspan="1">구분</th>
+                            <th colspan="1"><?php echo $lang['AMOUNT_OF_MONEY'] ?></th>
+                            <th colspan="1">내용</th>
+                            <th colspan="1"><?php echo $lang['BALANCE'] ?></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <?php
+                        $db_conn->query("SET @balance := 0;");
+                        $sql = "
             SELECT
               ql.d_id,
               ql.비고,
@@ -313,92 +325,94 @@ require_once '../resources/head.php';
                GROUP BY d_id, d_date
                ORDER BY d_date, d_id) AS ql
             ORDER BY ql.날짜, ql.d_id ASC;";
-            $result = $db_conn->query($sql);
-            if (isset($result)) {
+                        $result = $db_conn->query($sql);
+                        if (isset($result)) {
 
-                while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+                            while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
 
-                    echo "<tr >
+                                echo "<tr >
                       <th>" . $row['날짜'] . "</th>";
-                    if ($row['구분'] > 0) {
-                        $category = "DEPOSIT";
-                    } else if ($row['구분'] < 0) {
-                        $category = "WITHDRAWAL";
-                    } else {
-                        $category = "UNKNOWN";
-                    }
-                    echo "<td>" . $lang[$category] . "</td >
+                                if ($row['구분'] > 0) {
+                                    $category = "DEPOSIT";
+                                } else if ($row['구분'] < 0) {
+                                    $category = "WITHDRAWAL";
+                                } else {
+                                    $category = "UNKNOWN";
+                                }
+                                echo "<td>" . $lang[$category] . "</td >
                         <td >" . $lang['SYMBOL']['CURRENCY'] . number_format($row['구분'] * $row['금액']) . " </td >
                           <td > " . $row['비고'] . " </td >
                           <td >" . $lang['SYMBOL']['CURRENCY'] . number_format($row['잔액']) . " </td >
                   </tr > ";
-                }
-            } ?>
-            </tbody>
-        </table>
-        <br>
+                            }
+                        } ?>
+                        </tbody>
+                    </table>
+                    <br>
 
-    </div><!-- /content -->
+                </div><!-- /content -->
 
-    <?php include 'view_footer.php'; ?>
+                <?php include 'view_footer.php'; ?>
 
-</div><!-- /page#personal_details -->
+            </div><!-- /page#personal_details -->
 
+        <?php } ?>
+    <?php } else { ?>
+        <!--Start of the all_summary page-->
+        <div data-role="page" id="all_summary" data-theme="c">
 
-<!--Start of the all_summary page-->
-<div data-role="page" id="all_summary" data-theme="c">
+            <div data-role="panel" id="all_summary_menu" data-display="reveal">
+                <a href=" ../settings/info/my_info.php" data-theme="a" data-role="button"
+                   data-icon="user"><?php echo $name; ?></a>
+                <ul data-role="listview" data-theme="a" data-inset="true">
+                    <?php if ($permission >= 2) {
+                        echo '<li><a href="#all_summary">';
+                        echo $lang["ALL_VIEW"] . '</a></li>';
+                    } ?>
+                    <li><a href="#personal_summary"><?php echo $lang['TRANSACTION_VIEW_PERSONAL'] ?></a></li>
+                </ul>
+                <a data-role="button" href="../settings/info/app_info.php"
+                   data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
+                <a data-role="button" href="../login/logout.php" data-theme="b"
+                   data-icon="delete"><?php echo $lang['LOGOUT'] ?></a>
 
-    <div data-role="panel" id="all_summary_menu" data-display="reveal">
-        <a href=" ../settings/info/my_info.php" data-theme="a" data-role="button"
-           data-icon="user"><?php echo $name; ?></a>
-        <ul data-role="listview" data-theme="a" data-inset="true">
-            <?php if ($permission >= 2) {
-                echo '<li><a href="#all_summary">';
-                echo $lang["ALL_VIEW"] . '</a></li>';
-            } ?>
-            <li><a href="#personal_summary"><?php echo $lang['TRANSACTION_VIEW_PERSONAL'] ?></a></li>
-        </ul>
-        <a data-role="button" href="../settings/info/app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
-        <a data-role="button" href="../login/logout.php" data-theme="b"
-           data-icon="delete"><?php echo $lang['LOGOUT'] ?></a>
+            </div><!-- /panel#menu-->
 
-    </div><!-- /panel#menu-->
+            <div data-role="header" data-theme="a" data-position="fixed" data-tab-toggle="false">
+                <a href="#all_summary_menu" data-icon="bars"><?php echo $lang['MENU'] ?></a>
 
-    <div data-role="header" data-theme="a" data-position="fixed" data-tab-toggle="false">
-        <a href="#all_summary_menu" data-icon="bars"><?php echo $lang['MENU'] ?></a>
+                <h1><?php echo $lang['ALL_VIEW'] ?>(<?php echo $lang['SUMMARY'] ?>)</h1>
 
-        <h1><?php echo $lang['ALL_VIEW'] ?>(<?php echo $lang['SUMMARY'] ?>)</h1>
+                <a data-rel="back" data-icon="back"><?php echo $lang['BACK_KEY'] ?></a>
+                <div data-role="navbar" id="summary_navbar">
+                    <ul>
+                        <li><a href="#all_summary"><?php echo $lang['SUMMARY'] ?></a></li>
+                        <li><a href="#all_details"><?php echo $lang['DETAILS'] ?></a></li>
+                        <?php if ($permission >= 2) { ?>
+                            <li><a href="insert.php"><?php echo $lang['INSERT'] ?></a></li>
+                        <?php } ?>
+                    </ul>
+                </div>
+            </div><!-- /header -->
 
-        <a data-rel="back" data-icon="back"><?php echo $lang['BACK_KEY'] ?></a>
-        <div data-role="navbar" id="summary_navbar">
-            <ul>
-                <li><a href="#all_summary"><?php echo $lang['SUMMARY'] ?></a></li>
-                <li><a href="#all_details"><?php echo $lang['DETAILS'] ?></a></li>
-                <?php if ($permission >= 2) { ?>
-                    <li><a href="insert.php"><?php echo $lang['INSERT'] ?></a></li>
-                <?php } ?>
-            </ul>
-        </div>
-    </div><!-- /header -->
+            <div data-role="content">
 
-    <div data-role="content">
-
-        <table data-role="table" id="account_summary" data-mode="reflow" class="ui-responsive table-stroke">
-            <thead>
-            <tr>
-                <th><?php echo $lang['NAME'] ?></th>
-                <th><?php echo $lang['BALANCE'] ?></th>
-                <th><?php echo $lang['LAST_MODIFIED_DATE'] ?></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <th>총계</th>
-                <td><?php echo $lang['SYMBOL']['CURRENCY'] . $balance_sum ?></td>
-                <td></td>
-            </tr>
-            <?php
-            $sql = "SELECT 
+                <table data-role="table" id="account_summary" data-mode="reflow" class="ui-responsive table-stroke">
+                    <thead>
+                    <tr>
+                        <th><?php echo $lang['NAME'] ?></th>
+                        <th><?php echo $lang['BALANCE'] ?></th>
+                        <th><?php echo $lang['LAST_MODIFIED_DATE'] ?></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th>총계</th>
+                        <td><?php echo $lang['SYMBOL']['CURRENCY'] . $balance_sum ?></td>
+                        <td></td>
+                    </tr>
+                    <?php
+                    $sql = "SELECT 
                 m_name AS '이름', 
                 SUM(d_category * d_ammount) AS '잔액', 
                 MAX(d_date) AS '최종 변경일' 
@@ -406,91 +420,92 @@ require_once '../resources/head.php';
                 WHERE `t_team` = '$team' 
                 GROUP BY m_name
             ";
-            if (isset($db_conn)) {
-                $result = $db_conn->query($sql);
-            }
+                    if (isset($db_conn)) {
+                        $result = $db_conn->query($sql);
+                    }
 
-            if (isset($result)) {
-                while ($row = $result->fetch_array(MYSQLI_ASSOC)) { ?>
+                    if (isset($result)) {
+                        while ($row = $result->fetch_array(MYSQLI_ASSOC)) { ?>
 
-                    <tr>
-                        <th><?php echo $row['이름'] ?></th>
-                        <td><?php echo $lang['SYMBOL']['CURRENCY'] . number_format($row['잔액']) ?></td>
-                        <td><?php echo $row['최종 변경일'] ?></td>
-                    </tr>
-                <?php } ?>
-            <?php } ?>
-            </tbody>
-        </table>
+                            <tr>
+                                <th><?php echo $row['이름'] ?></th>
+                                <td><?php echo $lang['SYMBOL']['CURRENCY'] . number_format($row['잔액']) ?></td>
+                                <td><?php echo $row['최종 변경일'] ?></td>
+                            </tr>
+                        <?php } ?>
+                    <?php } ?>
+                    </tbody>
+                </table>
 
 
-    </div><!-- /content-->
+            </div><!-- /content-->
 
-    <?php include 'view_footer.php'; ?>
+            <?php include 'view_footer.php'; ?>
 
-</div><!-- /page#all_summary-->
+        </div><!-- /page#all_summary-->
+    <?php } ?>
+    <!--Start of the all_details page-->
+    <div data-role="page" id="all_details" data-theme="c">
 
-<!--Start of the all_details page-->
-<div data-role="page" id="all_details" data-theme="c">
-
-    <div data-role="panel" id="all_details_menu" data-display="reveal">
-        <a href="../settings/info/my_info.php" data-theme="a" data-role="button"
-           data-icon="user"><?php echo $name; ?></a>
-        <ul data-role="listview" data-theme="a" data-inset="true">
-            <?php if ($permission >= 2) {
-                echo '<li><a href="#all_summary">';
-                echo $lang["ALL_VIEW"] . '</a></li>';
-            } ?>
-            <li><a href="#personal_summary"><?php echo $lang['TRANSACTION_VIEW_PERSONAL'] ?></a></li>
-        </ul>
-        <a data-role="button" href="../settings/info/app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
-        <a data-role="button" href="../login/logout.php" data-theme="b"
-           data-icon="delete"><?php echo $lang['LOGOUT'] ?></a>
-
-    </div><!-- /panel#menu-->
-
-    <div data-role="header" data-theme="a" data-position="fixed" data-tab-toggle="false">
-        <a href="#all_details_menu" data-icon="bars"><?php echo $lang['MENU'] ?></a>
-
-        <h1><?php echo $lang['ALL_VIEW'] ?>(<?php echo $lang['DETAILS'] ?>)</h1>
-
-        <a data-rel="back" data-icon="back"><?php echo $lang['BACK_KEY'] ?></a>
-        <div data-role="navbar" id="summary_navbar">
-            <ul>
-                <li><a href="#all_summary"><?php echo $lang['SUMMARY'] ?></a></li>
-                <li><a href="#all_details"><?php echo $lang['DETAILS'] ?></a></li>
-                <?php if ($permission >= 2) { ?>
-                    <li><a href="insert.php"><?php echo $lang['INSERT'] ?></a></li>
-                <?php } ?>
+        <div data-role="panel" id="all_details_menu" data-display="reveal">
+            <a href="../settings/info/my_info.php" data-theme="a" data-role="button"
+               data-icon="user"><?php echo $name; ?></a>
+            <ul data-role="listview" data-theme="a" data-inset="true">
+                <?php if ($permission >= 2) {
+                    echo '<li><a href="#all_summary">';
+                    echo $lang["ALL_VIEW"] . '</a></li>';
+                } ?>
+                <li><a href="#personal_summary"><?php echo $lang['TRANSACTION_VIEW_PERSONAL'] ?></a></li>
             </ul>
-        </div>
-    </div><!-- /header -->
+            <a data-role="button" href="../settings/info/app_info.php"
+               data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
+            <a data-role="button" href="../login/logout.php" data-theme="b"
+               data-icon="delete"><?php echo $lang['LOGOUT'] ?></a>
 
-    <div data-role="content">
+        </div><!-- /panel#menu-->
 
-        <?php if ($permission < 2) { ?>
+        <div data-role="header" data-theme="a" data-position="fixed" data-tab-toggle="false">
+            <a href="#all_details_menu" data-icon="bars"><?php echo $lang['MENU'] ?></a>
 
-            <img src="../resources/images/no_permission.png" width="100%">
+            <h1><?php echo $lang['ALL_VIEW'] ?>(<?php echo $lang['DETAILS'] ?>)</h1>
 
-        <?php } else { ?>
+            <a data-rel="back" data-icon="back"><?php echo $lang['BACK_KEY'] ?></a>
+            <div data-role="navbar" id="summary_navbar">
+                <ul>
+                    <li><a href="#all_summary"><?php echo $lang['SUMMARY'] ?></a></li>
+                    <li><a href="#all_details"><?php echo $lang['DETAILS'] ?></a></li>
+                    <?php if ($permission >= 2) { ?>
+                        <li><a href="insert.php"><?php echo $lang['INSERT'] ?></a></li>
+                    <?php } ?>
+                </ul>
+            </div>
+        </div><!-- /header -->
 
-            <table data-role="table" id="account_summary" data-mode="reflow" class="ui-responsive table-stroke">
-                <thead>
-                <tr>
-                    <th><?php echo $lang['DATE'] ?></th>
-                    <th><?php echo $lang['NAME'] ?></th>
-                    <th>구분</th>
-                    <th><?php echo $lang['AMOUNT_OF_MONEY'] ?></th>
-                    <th>내용</th>
-                    <th><?php echo $lang['BALANCE'] ?></th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php
+        <div data-role="content">
+
+            <?php if ($permission < 2) { ?>
+
+                <img src="../resources/images/no_permission.png" width="100%">
+
+            <?php } else { ?>
+
+                <table data-role="table" id="account_summary" data-mode="reflow" class="ui-responsive table-stroke">
+                    <thead>
+                    <tr>
+                        <th><?php echo $lang['DATE'] ?></th>
+                        <th><?php echo $lang['NAME'] ?></th>
+                        <th>구분</th>
+                        <th><?php echo $lang['AMOUNT_OF_MONEY'] ?></th>
+                        <th>내용</th>
+                        <th><?php echo $lang['BALANCE'] ?></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
 
 
-                $db_conn->query('SET @balance := 0;');
-                $sql = "
+                    $db_conn->query('SET @balance := 0;');
+                    $sql = "
 SELECT
 ql.id,
 ql.날짜,
@@ -518,40 +533,45 @@ ORDER BY 날짜, 이름) AS ql
 ORDER BY ql.날짜, ql.입력일, ql.이름  ASC;
 
 ";
-                $result = $db_conn->query($sql);
-                if (isset($result)) {
-                    while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+                    $result = $db_conn->query($sql);
+                    if (isset($result)) {
+                        while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
 
-                        echo "<tr >
+                            echo "<tr >
                     <th>" . $row['날짜'] . "</th>
                     <td>" . $row['이름'] . "</td>";
-                        if ($row['구분'] > 0) {
-                            $category = "DEPOSIT";
-                        } else if ($row['구분'] < 0) {
-                            $category = "WITHDRAWAL";
-                        } else {
-                            $category = "UNKNOWN";
-                        }
-                        echo "<td>" . $lang[$category] . "</td >
+                            if ($row['구분'] > 0) {
+                                $category = "DEPOSIT";
+                            } else if ($row['구분'] < 0) {
+                                $category = "WITHDRAWAL";
+                            } else {
+                                $category = "UNKNOWN";
+                            }
+                            echo "<td>" . $lang[$category] . "</td >
                              <td> " . $lang['SYMBOL']['CURRENCY'] . ($row['구분'] * $row['금액']) . "</td >
                             <td > " . $row['비고'] . " </td >
                             <td > " . $lang['SYMBOL']['CURRENCY'] . number_format($row['잔액']) . "</td >
                   </tr > ";
-                    }
-                } ?>
-                </tbody>
-            </table>
+                        }
+                    } ?>
+                    </tbody>
+                </table>
 
-        <?php } ?>
+            <?php } ?>
 
-    </div><!-- /content-->
+        </div><!-- /content-->
 
-    <?php include 'view_footer.php'; ?>
+        <?php include 'view_footer.php'; ?>
 
-</div><!-- /page#all_details-->
+    </div><!-- /page#all_details-->
+
+<?php } ?>
 
 
-</body>
-
-</html>
-
+<script type="text/javascript">
+    $('document').ready(function () {
+        ('a').click(function () {
+            alert('hi');
+        });
+    });
+</script>
