@@ -42,16 +42,6 @@ if (isset($_SESSION['member'])) {
                 $row = $result->fetch_assoc();
                 if (password_verify($pw, $row['m_pw'])) { // ID & PW 일치
 
-                    /*
-                    $_SESSION['member_id'] = $row['m_id'];
-                    $_SESSION['member_name'] = $row['m_name'];
-                    $_SESSION['member_team'] = $row['t_team'];
-                    $_SESSION['member_mobile'] = $row['m_mobile'];
-                    $_SESSION['member_birthday'] = $row['m_birthday'];
-                    $_SESSION['member_permission'] = $row['m_permission'];
-                    */
-
-
                     $member = new Member\Member($row['m_id'], $row['m_name'], $row['t_team'], $row['m_mobile'],
                         $row['m_birthday'], $row['m_permission']);
                     $_SESSION['member'] = serialize($member);
@@ -153,29 +143,25 @@ if (isset($_SESSION['member'])) {
                 });
             });
 
-            $('#signUp_button').click(function () {
-                let params = $('#signUp_form').serialize();
-
+            $('#signUp_team').blur(function () {
+                let $team = $('#signUp_team').val();
                 $.ajax({
                     type: "POST",
                     url: "check_signUp.php",
                     data: {
-                        type: "sign_up",
-                        params
+                        type: "team_check",
+                        team: $team
                     },
-                    contentType: 'charset=UTF-8',
-                    dataType: 'html',
                     success: function (data) {
-
+                        $('#team2Msg').html(data);
                     },
                     error: function (request, status, error) {
                         alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                     }
                 });
-
-
-            })
+            });
         });
+
 
     </script>
 
@@ -207,8 +193,7 @@ if (isset($_SESSION['member'])) {
 
 
             });
-        })
-        ;
+        });
     </script>
 
     <title><?php echo $lang['PAGE_TITLE']; ?></title>
@@ -299,8 +284,9 @@ if (isset($_SESSION['member'])) {
         } ?>
 
 
-        <form id="signUp_form" method="post" action="sign_up.php" data-ajax="false">
+        <form id="signUp_form" method="POST" action="sign_up.php" data-ajax="false">
 
+            <input type="hidden" value="sign_up" name="type"/>
             <div id="signUp_id_form" class="ui-field-contain">
                 <label for="signUp_id"><?php echo $lang['ID'] ?>: </label>
                 <input name="signUp_id" id="signUp_id" value="" placeholder="ID" type="text" minlength="2"
@@ -333,6 +319,8 @@ if (isset($_SESSION['member'])) {
             <div id="signUp_team_form" class="ui-field-contain">
                 <label for="signUp_team"><?php echo $lang['TEAM'] ?>: </label>
                 <input name="signUp_team" id="signUp_team" value="" placeholder="" type="text" minlength="1">
+                <div id="team2Msg" style="color:red" class="non_available">
+                    <input type="hidden" value="0" name="team_check"/></div>
             </div>
 
             <div id="signUp_mobile_form" class="ui-field-contain">
@@ -345,7 +333,7 @@ if (isset($_SESSION['member'])) {
                 <input name="signUp_birthday" id="signUp_birthday" type="date">
             </div>
 
-            <input data-theme="a" id="signUp_button" type="submit" data-icon="check"
+            <input type="submit" data-theme="a" id="signUp_button" data-icon="check"
                    value="<?php echo $lang['SIGN_UP'] ?>">
         </form><!--/form-->
 

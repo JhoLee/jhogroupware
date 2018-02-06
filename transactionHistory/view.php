@@ -12,12 +12,9 @@
  */
 session_start();
 
-spl_autoload_register(
-    function ($class) {
-        $class = str_replace('\\', '/', $class);
-        require_once '../resources/php/classes/' . $class . '.php';
-    });
 
+require_once '../resources/php/classes/Member/Member.php';
+require_once '../resources/php/classes/Mysql/MysqlInfo.php';
 require_once '../resources/lang/get_lang.php';
 require_once '../jho.php';
 
@@ -35,9 +32,10 @@ if (empty($_SESSION['member'])) { // Not logged in
     exit();
 
 } else {
-
     $member = unserialize($_SESSION['member']);
-
+    foreach ($member->getAllInfo() As $k => $v) {
+        $$k = $v;
+    }
     if ($member->getPermission() == 0) {
         $_SESSION['alert'] = "NO_PERMISSION_YET";
         unset($_SESSION['member']);
@@ -46,8 +44,6 @@ if (empty($_SESSION['member'])) { // Not logged in
 
     }
 
-    $team = $member->getTeam();
-    $name = $member->getName();
     $permission = $member->getPermission();
     $db_conn = new \Mysql\MysqlInfo('jho_groupware');
 }
@@ -57,12 +53,12 @@ $sql = "
               SUM(ql.잔액) AS '계좌 잔액'
             FROM
               (SELECT 
-                m_name AS '이름', 
+                m_id AS '이름', 
                 SUM(d_category * d_ammount) AS '잔액', 
                 MAX(d_date) AS '최종 변경일' 
                 FROM `deposit_history` 
                 WHERE `t_team` = '$team' 
-                GROUP BY m_name) AS ql";
+                GROUP BY m_id) AS ql";
 $result = $db_conn->query($sql);
 if (isset($result)) {
     $balance_sum = 0;
@@ -133,15 +129,15 @@ require_once '../resources/head.php';
             <?php
 
 
-            $sql = "SELECT m_name AS '이름', SUM(d_category * d_ammount) AS '잔액', MAX(d_date) AS '최종 변경일'
-                    FROM deposit_history WHERE t_team='$team' AND m_name = '$name'";
+            $sql = "SELECT m_id AS '아이디', SUM(d_category * d_ammount) AS '잔액', MAX(d_date) AS '최종 변경일'
+                    FROM deposit_history WHERE t_team='$team' AND m_id='$id'";
             $result = $db_conn->query($sql);
             if (isset($result)) {
                 while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
 
                     echo
                         "<tr>
-                    <th>" . $row['이름'] . "</th>
+                    <th>" . $row['아이디'] . "</th>
                     <td>" . $lang['SYMBOL']['CURRENCY'] . number_format($row['잔액']) . "</td>
                     <td>" . $row['최종 변경일'] . "</td>
                 </tr>";
@@ -183,9 +179,9 @@ require_once '../resources/head.php';
             <table data-role="table" id="duesAccount_info" data-mode="reflow" class="ui-responsive table-stroke">
                 <thead>
                 <tr>
-                    <th data-priority="persist">회비 입금 계좌</th>
-                    <th colspan="1">예금주명</th>
-                    <th colspan="1">계좌 번호</th>
+                    <th data-priority="persist"><?php echo $lang['DUES_DEPOSIT_ACCOUNT'] ?></th>
+                    <th colspan="1"><?php echo $lang['DEPOSITOR'] ?></th>
+                    <th colspan="1"><?php echo $lang['ACCOUNT_NUMBER'] ?></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -201,6 +197,8 @@ require_once '../resources/head.php';
                 </tbody>
             </table>
             <br>
+            <a href="add_account.php" data-role="button" data-theme="a" data-icon="edit" data-mini="true"
+               data-ajax="false"><?php echo $lang['DUES_DEPOSIT_ACCOUNT'] . " " . $lang['INSERT'] ?></a>
 
         <?php } ?>
     </div><!-- /content -->
@@ -308,7 +306,7 @@ require_once '../resources/head.php';
                  d_date           AS '날짜',
                  d_processed_date AS '입력일'
                FROM deposit_history
-               WHERE t_team = '$team' AND m_name = '$name'
+               WHERE t_team = '$team' AND m_id = '$id'
                GROUP BY d_id, d_date
                ORDER BY d_date, d_id) AS ql
             ORDER BY ql.날짜, ql.d_id ASC;";
@@ -398,12 +396,12 @@ require_once '../resources/head.php';
             </tr>
             <?php
             $sql = "SELECT 
-                m_name AS '이름', 
+                m_id AS '이름', 
                 SUM(d_category * d_ammount) AS '잔액', 
                 MAX(d_date) AS '최종 변경일' 
                 FROM `deposit_history` 
                 WHERE `t_team` = '$team' 
-                GROUP BY m_name
+                GROUP BY m_id
             ";
             if (isset($db_conn)) {
                 $result = $db_conn->query($sql);
@@ -503,7 +501,7 @@ ql.입력일
 FROM
 (SELECT
 d_id             AS 'id',
-m_name           AS '이름',
+m_id           AS '이름',
 d_category       AS '구분',
 d_ammount        AS '금액',
 d_rmks           AS '비고',

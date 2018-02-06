@@ -9,7 +9,7 @@ session_start();
 
 require_once '../../resources/lang/get_lang.php';
 require_once '../../resources/php/classes/Member/Member.php';
-require_once '../settings_head.php';
+
 
 if (!isset($_SESSION['member'])) { // Not logged in
     $_SESSION['member'] = 'guest';
@@ -21,7 +21,7 @@ if (!isset($_SESSION['member'])) { // Not logged in
     $permission = $member->getPermission();
 }
 
-
+require_once '../settings_head.php';
 ?>
 
 
@@ -71,8 +71,10 @@ if (!isset($_SESSION['member'])) { // Not logged in
                             <ul>
                                 <li><a href="../../transactionHistory/view.php"
                                        data-icon="bullets"><?php echo $lang['TRANSACTION'] ?></a></li>
-                                <li><a href="../../contacts/index.php" data-icon="user"><?php echo $lang['CONTACTS'] ?></a></li>
-                                <li><a href="../../calendar/index.php" data-icon="calendar"><?php echo $lang['CALENDAR'] ?></a></li>
+                                <li><a href="../../contacts/index.php"
+                                       data-icon="user"><?php echo $lang['CONTACTS'] ?></a></li>
+                                <li><a href="../../calendar/index.php"
+                                       data-icon="calendar"><?php echo $lang['CALENDAR'] ?></a></li>
                                 <li>
                                     <button data-theme="b" data-icon="gear"><?php echo $lang['SETTINGS'] ?></button>
                                 </li>

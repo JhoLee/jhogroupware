@@ -67,7 +67,8 @@ if (empty($_SESSION['member'])) { // Not logged in
         if ($member->getPermission() >= 2) { // admin
             $user_id = $_SESSION['user_id'];
         } else { // not admin
-            $_SESSION['user_id'] = $member->getId();
+            $_SESSION['user_id'] = $id;
+            $user_id = $_SESSION['user_id'];
         }
         $sql = "SELECT * FROM member WHERE m_id = '$user_id' AND t_team = '$team'";
 
@@ -117,71 +118,80 @@ if (empty($_SESSION['member'])) { // Not logged in
             <?php echo $lang['ALERT'] . $lang['MESSAGE'][$_SESSION['alert']]; ?>
             <?php unset($_SESSION['alert']);
         } ?>
-
-        <form id="myInfo_form" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>"
-              data-ajax="false">
-            <div id="id_info" class="ui-field-contain">
-                <label for=id"><?php echo $lang['ID'] ?>: </label>
-                <input name="id" id="id" value="<?php echo $user->getId() ?>"
-                       placeholder=""
-                       type="text" readonly>
-            </div>
-            <div id="name_info" class="ui-field-contain">
-                <label for="name"><?php echo $lang['NAME'] ?>: </label>
-                <input name="name" id="name" value="<?php echo $user->getName() ?>"
-                       placeholder=""
-                       type="text" readonly>
-            </div>
+        <?php if ($member->getId() != $user->getId() and $member->getPermission() < 2) { ?>
+            <img src="../../resources/images/no_permission.png">
+        <?php } else { ?>
 
 
-            <!--type-->
-            <?php if (
-                ($member->getId() != $user->getId() and $member->getPermission() >= 2 and $member->getPermission() > $user->getPermission()) or ($member->getId() == $user->getId())
-            ) { ?>
-                <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true" data-theme="b">
-                    <legend><?php echo $lang['TYPE'] ?></legend>
+            <form id="myInfo_form" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>"
+                  data-ajax="false">
+                <div id="id_info" class="ui-field-contain">
+                    <label for=id"><?php echo $lang['ID'] ?>: </label>
+                    <input name="id" id="id" value="<?php echo $user->getId() ?>"
+                           placeholder=""
+                           type="text" readonly>
+                </div>
+                <div id="name_info" class="ui-field-contain">
+                    <label for="name"><?php echo $lang['NAME'] ?>: </label>
+                    <input name="name" id="name" value="<?php echo $user->getName() ?>"
+                           placeholder=""
+                           type="text" readonly>
+                </div>
 
-                    <input name="rate" id="rate_0" value="0"
-                           type="radio" <?php if ($user->getPermission() == 0) { ?> checked="checked"<?php } ?>>
-                    <label for="rate_0"><?php echo $member->_getRate(0) ?></label>
-                    <input name="rate" id="rate_1" value="1"
-                           type="radio" <?php if ($user->getPermission() == 1) { ?> checked="checked"<?php } ?>>
-                    <label for="rate_1"><?php echo $member->_getRate(1) ?></label>
-                    <input name="rate" id="rate_2" value="2"
-                           type="radio" <?php if ($user->getPermission() == 2) { ?> checked="checked" <?php } ?>>
-                    <label for="rate_2"><?php echo $member->_getRate(2) ?></label>
-                    <?php if ($member->getPermission() >= 3) { ?>
-                        <input name="rate" id="rate_3" value="3"
-                               type="radio" <?php if ($user->getPermission() == 3) { ?> checked="checked" <?php } ?>>
-                        <label for="rate_3"><?php echo $member->_getRate(3) ?></label>
-                    <?php } ?>
-                </fieldset><!--type-->
+
+                <!--type-->
+                <?php if (
+                    ($member->getId() != $user->getId() and $member->getPermission() >= 2 and $member->getPermission() > $user->getPermission()) or ($member->getPermission() >= 2) and ($member->getId() == $user->getId())
+                ) { ?>
+                    <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true" data-theme="b">
+                        <legend><?php echo $lang['TYPE'] ?></legend>
+
+                        <input name="rate" id="rate_0" value="0"
+                               type="radio" <?php if ($user->getPermission() == 0) { ?> checked="checked"<?php } ?>>
+                        <label for="rate_0"><?php echo $member->_getRate(0) ?></label>
+                        <input name="rate" id="rate_1" value="1"
+                               type="radio" <?php if ($user->getPermission() == 1) { ?> checked="checked"<?php } ?>>
+                        <label for="rate_1"><?php echo $member->_getRate(1) ?></label>
+                        <input name="rate" id="rate_2" value="2"
+                               type="radio" <?php if ($user->getPermission() == 2) { ?> checked="checked" <?php } ?>>
+                        <label for="rate_2"><?php echo $member->_getRate(2) ?></label>
+                        <?php if ($member->getPermission() >= 3) { ?>
+                            <input name="rate" id="rate_3" value="3"
+                                   type="radio" <?php if ($user->getPermission() == 3) { ?> checked="checked" <?php } ?>>
+                            <label for="rate_3"><?php echo $member->_getRate(3) ?></label>
+                        <?php } ?>
+                    </fieldset><!--type-->
+                <?php } ?>
+
+                <div id="team_info" class="ui-field-contain">
+                    <label for="team"><?php echo $lang['TEAM'] ?>: </label>
+                    <input name="team" id="team" value="<?php echo $team ?>"
+                           placeholder="Input your team"
+                           type="text" readonly>
+                </div>
+
+                <div id="mobile_info" class="ui-field-contain">
+                    <label for="mobile"><?php echo $lang['MOBILE'] ?>: </label>
+                    <input name="mobile" id="mobile" value="<?php echo $user->getMobile() ?>"
+                           placeholder="<?php echo $user->getMobile() ?>" type="tel">
+                </div>
+
+                <div id="birthday_info" class="ui-field-contain">
+                    <label for="birthday"><?php echo $lang['BIRTHDAY'] ?>: </label>
+                    <input name="birthday" id="birthday" value="<?php echo $user->getBirthday() ?>"
+                           placeholder="" type="date">
+                </div>
+
+                <input data-theme="a" id="edit_button" type="submit" data-icon="check"
+                       value="<?php echo $lang['EDIT'] ?>">
+
+            </form><!--/form-->
+            <?php if ($member->getPermission() >= 2) { ?>
+                <a href="../../contacts/manage_members.php" data-role="button" data-theme="a" data-icon="edit"
+                   data-ajax="false"><?php echo $lang['MANAGE_MEMBERS'] ?></a>
             <?php } ?>
 
-            <div id="team_info" class="ui-field-contain">
-                <label for="team"><?php echo $lang['TEAM'] ?>: </label>
-                <input name="team" id="team" value="<?php echo $team ?>"
-                       placeholder="Input your team"
-                       type="text" readonly>
-            </div>
-
-            <div id="mobile_info" class="ui-field-contain">
-                <label for="mobile"><?php echo $lang['MOBILE'] ?>: </label>
-                <input name="mobile" id="mobile" value="<?php echo $user->getMobile() ?>"
-                       placeholder="<?php echo $user->getMobile() ?>" type="tel">
-            </div>
-
-            <div id="birthday_info" class="ui-field-contain">
-                <label for="birthday"><?php echo $lang['BIRTHDAY'] ?>: </label>
-                <input name="birthday" id="birthday" value="<?php echo $user->getBirthday() ?>"
-                       placeholder="" type="date">
-            </div>
-
-            <input data-theme="a" id="edit_button" type="submit" data-icon="check" value="<?php echo $lang['EDIT'] ?>">
-
-        </form><!--/form-->
-        <a href="../../contacts/manage_members.php" data-role="button" data-theme="a" data-icon="edit"
-           data-ajax="false"><?php echo $lang['MANAGE_MEMBERS'] ?></a>
+        <?php } ?>
 
     </div><!--/content-->
 

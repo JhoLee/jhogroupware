@@ -40,21 +40,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $db_conn = new mysqli('jho_groupware');
 
+        $sql = "SELECT m_id AS 'id' FROM jho_groupware.member WHERE t_team='$team' AND m_name='$name'";
 
-        $sql = "INSERT INTO deposit_history
-(m_name, t_team, d_category, d_rmks, d_ammount, d_date, d_processed_date, d_writer, d_editor) 
-VALUE 
-('$name', '$team', '$type', '$rmks', '$amount', '$date', '$now_date', '$writer', '$writer')";
-
-        if ($result = $db_conn->query($sql)) {
-            $_SESSION['alert'] = "SAVING_SUCCESS";
-        } else {
+        if (!($result = $db_conn->query($sql))) {
             $_SESSION['alert'] = "SAVING_FAILED";
+        } else {
+            $row = $result->fetch_assoc();
+            $id = $row['id'];
+
+
+            $sql = "INSERT INTO deposit_history
+(m_id, t_team, d_category, d_rmks, d_ammount, d_date, d_processed_date, d_writer, d_editor) 
+VALUE 
+('$id', '$team', '$type', '$rmks', '$amount', '$date', '$now_date', '$writer', '$writer')";
+
+            if (!($result = $db_conn->query($sql))) {
+                $_SESSION['alert'] = "SAVING_FAILED";
+            } else {
+                $_SESSION['alert'] = "SAVING_SUCCESS";
+            }
+
+
         }
-
-
-    } else {
-        $_SESSION['alert'] = "SAVING_FAILED";
     }
 }
 
@@ -88,7 +95,7 @@ VALUE
 <div data-role="page" id="insert" data-theme="c">
     <div data-role="panel" id="insert_menu" data-display="reveal">
         <a href="../settings/info/my_info.php" data-theme="a" data-role="button"
-           data-icon="user"><?php echo $_SESSION['member_name']; ?></a>
+           data-icon="user"><?php echo $member->getName() ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
             <?php if ($permission >= 2) {
                 echo '<li><a href="view.php#all_summary" data-ajax="false">' . $lang['ALL_VIEW']
