@@ -9,7 +9,6 @@ session_start();
 
 require_once '../resources/lang/get_lang.php';
 require_once '../resources/php/classes/Member/Member.php';
-require_once '../resources/head.php';
 
 if (!isset($_SESSION['member'])) { // Not logged in
     header('Location: ../login/login.php');
@@ -21,8 +20,11 @@ if (!isset($_SESSION['member'])) { // Not logged in
     $permission = $member->getPermission();
 }
 
-
 ?>
+<!DOCTYPE html>
+<html>
+<?php require_once '../resources/head.php'; ?>
+
 
 <body>
 <!--Start of the calendar page-->
@@ -30,8 +32,8 @@ if (!isset($_SESSION['member'])) { // Not logged in
     <div data-role="panel" id="menu" data-display="reveal">
         <a href="../settings/info/my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $name; ?></a>
-        <ui data-role="listview" data-theme="a" data-inset="true">
-        </ui>
+        <ul data-role="listview" data-theme="a" data-inset="true">
+        </ul>
         <a data-role="button" href="../settings/info/app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
         <a data-role="button" href="../login/logout.php" data-icon="delete" data-theme="b"
            data-ajax="false"><?php echo $lang['LOGOUT'] ?></a>
@@ -55,7 +57,7 @@ if (!isset($_SESSION['member'])) { // Not logged in
                        data-icon="bullets"><?php echo $lang['TRANSACTION'] ?></a></li>
                 <li><a href="../contacts/index.php" data-icon="user"></a><?php echo $lang['CONTACTS'] ?></li>
                 <li>
-                    <a href="calendar.php" data-theme="b"
+                    <a href="../index.php" data-theme="b"
                        data-icon="calendar"><?php echo $lang['CALENDAR'] ?></a>
                 </li>
                 <li><a href="../settings/index.php" data-icon="gear"><?php echo $lang['SETTINGS'] ?></a></li>

@@ -20,9 +20,11 @@ if (empty($_SESSION['member'])) { // Not logged in
 
     $name = $member->getName();
     $team = $member->getTeam();
-}
-require_once '../resources/head.php';
-?>
+} ?>
+<!DOCTYPE html>
+<html>
+<?php require_once '../resources/head.php'; ?>
+
 
 <body>
 <!--Start of the settings page-->
@@ -36,9 +38,8 @@ require_once '../resources/head.php';
             <li><a href="change/change_lang.php" data-role="button" data-theme="a"
                    data-icon="eye" data-ajax="false"><?php echo $lang['CHANGE_LANG'] ?></a></li>
 
-            <li><a href="change/update_my_info.php" data-role="button" data-theme="a" data-icon="edit"
-                   data-ajax="false">
-                    <?php echo $lang['UPDATE_MY_INFO'] ?></a></li>
+            <li><a href="info/my_info.php" data-theme="a" data-role="button"
+                   data-icon="user"><?php echo $lang['VIEW_MY_INFO'] ?></a></li>
             <li><a href="../contacts/manage_members.php" data-role="button" data-theme="a" data-icon="edit"
                    data-ajax="false"><?php echo $lang['MANAGE_MEMBERS'] ?></a></li>
             <li><a href="change/change_password.php" data-theme="a" data-role="button" data-icon="recycle"

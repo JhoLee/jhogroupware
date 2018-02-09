@@ -127,7 +127,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <a href="../info/my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $name ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
-            <li><a href="update_my_info.php" data-role="button" data-theme="a" data-icon="edit"
+            <li><a href="../change/update_info.php#<?php echo $member->getId() ?>" data-role="button" data-theme="a"
+                   data-icon="edit"
                    data-ajax="false"><?php echo $lang['UPDATE_MY_INFO'] ?></a></li>
             <li><a href="change_password.php" data-theme="a" data-role="button" data-icon="recycle"
                    data-ajax="false"><?php echo $lang['CHANGE_PW'] ?></a></li>

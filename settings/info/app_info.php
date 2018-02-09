@@ -20,9 +20,10 @@ if (!isset($_SESSION['member'])) { // Not logged in
     $name = $member->getName();
     $permission = $member->getPermission();
 }
-
-require_once '../settings_head.php';
 ?>
+    <!DOCTYPE html>
+    <html>
+    <?php require_once '../settings_head.php'; ?>
 
 
     <body>

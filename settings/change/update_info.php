@@ -10,7 +10,6 @@ session_start();
 require_once '../../resources/lang/get_lang.php';
 require_once '../../resources/php/classes/Mysql/MysqlInfo.php';
 require_once '../../resources/php/classes/Member/Member.php';
-require_once '../settings_head.php';
 
 if (empty($_SESSION['member'])) { // Not logged in
     header('Location: ../login/login.php');
@@ -91,11 +90,11 @@ if (empty($_SESSION['member'])) { // Not logged in
     /* */
 
 
-}
+} ?>
 
-
-?>
-
+<!DOCTYPE html>
+<html>
+<?php require_once '../settings_head.php'; ?>
 
 <body>
 

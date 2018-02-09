@@ -16,7 +16,6 @@ session_start();
 require_once '../resources/php/classes/Member/Member.php';
 require_once '../resources/php/classes/Mysql/MysqlInfo.php';
 require_once '../resources/lang/get_lang.php';
-require_once '../jho.php';
 
 
 /*
@@ -65,12 +64,11 @@ if (isset($result)) {
     while ($row = $result->fetch_assoc()) {
         $balance_sum = number_format($row['계좌 잔액']);
     }
-}
+} ?>
+<!DOCTYPE html>
+<html>
+<?php require_once '../resources/head.php'; ?>
 
-
-require_once '../resources/head.php';
-
-?>
 
 <body>
 <!-- Start of the personal_summary page -->
@@ -80,10 +78,9 @@ require_once '../resources/head.php';
         <a href=" ../settings/info/my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $name; ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
-            <?php if ($permission >= 2) {
-                echo '<li><a href="#all_summary">';
-                echo $lang["ALL_VIEW"] . '</a></li>';
-            } ?>
+            <?php if ($permission >= 2) { ?>
+            <li><a href="#all_summary"><?php echo $lang["ALL_VIEW"] . '</a></li>' ?>
+                    <?php } ?>
             <li><a href="#personal_summary_menu"><?php echo $lang['TRANSACTION_VIEW_PERSONAL'] ?></a></li>
         </ul>
         <a data-role="button" href="../settings/info/app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
@@ -215,10 +212,9 @@ require_once '../resources/head.php';
         <a href="../settings/info/my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $name; ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
-            <?php if ($permission >= 2) {
-                echo '<li><a href="#all_summary">';
-                echo $lang["ALL_VIEW"] . '</a></li>';
-            } ?>
+            <?php if ($permission >= 2) { ?>
+            <li><a href="#all_summary"><?php echo $lang["ALL_VIEW"] . '</a></li>' ?>
+                    <?php } ?>
             <li><a href="#personal_summary"><?php echo $lang['PERSONAL_VIEW'] ?></a></li>
         </ul>
         <a data-role="button" href="../settings/info/app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
@@ -349,10 +345,9 @@ require_once '../resources/head.php';
         <a href=" ../settings/info/my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $name; ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
-            <?php if ($permission >= 2) {
-                echo '<li><a href="#all_summary">';
-                echo $lang["ALL_VIEW"] . '</a></li>';
-            } ?>
+            <?php if ($permission >= 2) { ?>
+            <li><a href="#all_summary"><?php echo $lang["ALL_VIEW"] . '</a></li>' ?>
+                    <?php } ?>
             <li><a href="#personal_summary"><?php echo $lang['TRANSACTION_VIEW_PERSONAL'] ?></a></li>
         </ul>
         <a data-role="button" href="../settings/info/app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
@@ -434,10 +429,9 @@ require_once '../resources/head.php';
         <a href="../settings/info/my_info.php" data-theme="a" data-role="button"
            data-icon="user"><?php echo $name; ?></a>
         <ul data-role="listview" data-theme="a" data-inset="true">
-            <?php if ($permission >= 2) {
-                echo '<li><a href="#all_summary">';
-                echo $lang["ALL_VIEW"] . '</a></li>';
-            } ?>
+            <?php if ($permission >= 2) { ?>
+            <li><a href="#all_summary"><?php echo $lang["ALL_VIEW"] . '</a></li>' ?>
+                    <?php } ?>
             <li><a href="#personal_summary"><?php echo $lang['TRANSACTION_VIEW_PERSONAL'] ?></a></li>
         </ul>
         <a data-role="button" href="../settings/info/app_info.php" data-icon="info"><?php echo $lang['APP_INFO'] ?></a>
@@ -467,7 +461,7 @@ require_once '../resources/head.php';
 
         <?php if ($permission < 2) { ?>
 
-            <img src="../resources/images/no_permission.png" width="100%">
+            <img src="../resources/images/no_permission.png">
 
         <?php } else { ?>
 
@@ -549,6 +543,4 @@ ORDER BY ql.날짜, ql.입력일, ql.이름  ASC;
 
 
 </body>
-
-</html>
 

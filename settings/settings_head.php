@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-<html>
 <head>
     <!-- DO NOT EDIT... -->
     <meta charset="UTF-8">

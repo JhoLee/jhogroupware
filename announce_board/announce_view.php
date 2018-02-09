@@ -11,10 +11,10 @@ if (empty($_COOKIE['PHPSESSID'])) {
 }
 
 require_once '../resources/lang/get_lang.php';
-require_once '../jho.php';
+require_once '../resources/php/classes/Mysql/MysqlInfo.php';
 require_once '../resources/php/classes/Member/Member.php';
 
-
+$db_conn = new \mysql\MysqlInfo('jho_groupware');
 $sql = "SELECT a_writer AS '작성자',
 t_team AS '소속', 
 a_title AS '제목', 

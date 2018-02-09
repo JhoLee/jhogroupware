@@ -22,11 +22,11 @@ if (empty($_SESSION['member'])) { // Not logged in
     $permission = $member->getPermission();
 
 
-}
+} ?>
+<!DOCTYPE html>
+<html>
+<?php require_once 'resources/head.php'; ?>
 
-require_once 'resources/head.php';
-
-?>
 
 <body>
 <!--Start of the index page-->

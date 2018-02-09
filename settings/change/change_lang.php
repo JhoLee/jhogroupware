@@ -16,10 +16,12 @@ if (empty($_SESSION['member'])) { // Not logged in
 } else {
     $member = unserialize($_SESSION['member']);
     $name = $member->getName();
-}
-require_once '../settings_head.php';
+} ?>
+    <!DOCTYPE html>
+    <html>
+    <?php require_once '../settings_head.php'; ?>
 
-?>
+
     <body>
     <!--Start of the change_lang page-->
     <div data-role="page" id="change_lang" data-theme="c">
